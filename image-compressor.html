@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Compressor Tool</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <h1>Image Compressor</h1>
+    
+    <div class="upload-area" id="dropZone">
+      <input type="file" id="imageInput" accept="image/*">
+      <label for="imageInput">Choose or Drop an Image</label>
+      <p class="note">Drag and drop an image here</p>
+    </div>
+
+    <div class="preview-container">
+      <img id="previewImage" alt="Preview will appear here"/>
+    </div>
+
+    <div class="size-info">
+      <p><strong>Original Size:</strong> <span id="originalSize">-</span></p>
+      <p><strong>Compressed Size:</strong> <span id="compressedSize">-</span></p>
+    </div>
+
+    <div class="slider-container">
+      <label for="qualitySlider">Compression Quality: <span id="qualityValue">0.6</span></label>
+      <input type="range" id="qualitySlider" min="0.1" max="1" step="0.1" value="0.6">
+    </div>
+
+    <button id="compressBtn" disabled>Compress Image</button>
+
+    <div id="downloadArea" class="hidden">
+      <a id="downloadLink" download="compressed-image.jpg">Download Compressed Image</a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+:root {
+  --blue: #007BFF;
+  --white: #ffffff;
+  --light-gray: #f0f0f0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--light-gray);
+  color: #333;
+  padding: 20px;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  background: var(--white);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1 {
+  color: var(--blue);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.upload-area {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 2px dashed var(--blue);
+  border-radius: 10px;
+  background-color: #e8f4ff;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.upload-area.dragover {
+  background-color: #d0e9ff;
+}
+
+.upload-area input[type="file"] {
+  display: none;
+}
+
+.upload-area label {
+  display: inline-block;
+  background-color: var(--blue);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.upload-area label:hover {
+  background-color: #0056b3;
+}
+
+.upload-area .note {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 8px;
+}
+
+.preview-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.preview-container img {
+  max-width: 100%;
+  height: auto;
+  display: none;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.slider-container {
+  margin: 15px 0;
+}
+
+.slider-container input[type=range] {
+  width: 100%;
+}
+
+.size-info {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover:enabled {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #a0c8f0;
+  cursor: not-allowed;
+}
+
+#downloadArea {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#downloadLink {
+  display: inline-block;
+  background-color: var(--blue);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+#downloadLink:hover {
+  background-color: #0056b3;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+}
+const imageInput = document.getElementById('imageInput');
+const previewImage = document.getElementById('previewImage');
+const compressBtn = document.getElementById('compressBtn');
+const downloadArea = document.getElementById('downloadArea');
+const downloadLink = document.getElementById('downloadLink');
+const originalSizeText = document.getElementById('originalSize');
+const compressedSizeText = document.getElementById('compressedSize');
+const qualitySlider = document.getElementById('qualitySlider');
+const qualityValue = document.getElementById('qualityValue');
+const dropZone = document.getElementById('dropZone');
+
+let originalImage = null;
+let originalFile = null;
+
+function formatBytes(bytes) {
+  const units = ['B', 'KB', 'MB'];
+  let i = 0;
+  while (bytes >= 1024 && i < units.length - 1) {
+    bytes /= 1024;
+    i++;
+  }
+  return `${bytes.toFixed(2)} ${units[i]}`;
+}
+
+function handleImage(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+
+  originalFile = file;
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    previewImage.src = e.target.result;
+    previewImage.style.display = 'block';
+    originalImage = new Image();
+    originalImage.src = e.target.result;
+    originalImage.onload = () => {
+      compressBtn.disabled = false;
+      downloadArea.classList.add('hidden');
+      originalSizeText.textContent = formatBytes(file.size);
+      compressedSizeText.textContent = '-';
+    };
+  };
+  reader.readAsDataURL(file);
+}
+
+imageInput.addEventListener('change', function () {
+  handleImage(this.files[0]);
+});
+
+qualitySlider.addEventListener('input', () => {
+  qualityValue.textContent = qualitySlider.value;
+});
+
+compressBtn.addEventListener('click', function () {
+  if (!originalImage) return;
+
+  const canvas = document.createElement('canvas');
+  const MAX_WIDTH = 800;
+  let width = originalImage.width;
+  let height = originalImage.height;
+
+  if (width > MAX_WIDTH) {
+    height *= MAX_WIDTH / width;
+    width = MAX_WIDTH;
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(originalImage, 0, 0, width, height);
+
+  const quality = parseFloat(qualitySlider.value);
+  const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+
+  fetch(compressedDataUrl)
+    .then(res => res.blob())
+    .then(blob => {
+      const compressedSize = blob.size;
+      compressedSizeText.textContent = formatBytes(compressedSize);
+      const url = URL.createObjectURL(blob);
+      downloadLink.href = url;
+      downloadArea.classList.remove('hidden');
+    });
+});
+
+// Drag and drop functionality
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  handleImage(file);
+});
