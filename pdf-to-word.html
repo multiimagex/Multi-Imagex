@@ -30,7 +30,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       width: 100%;
-      max-width: 700px;
+      max-width: 800px;
       text-align: center;
     }
 
@@ -60,6 +60,17 @@
       display: none;
     }
 
+    textarea {
+      width: 100%;
+      height: 250px;
+      padding: 10px;
+      border: 1px solid #007BFF;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-top: 1rem;
+      resize: vertical;
+    }
+
     @media(max-width: 600px) {
       .tool-container {
         padding: 15px;
@@ -76,8 +87,11 @@
     <label for="pdfUpload">Upload a PDF file:</label>
     <input type="file" id="pdfUpload" accept="application/pdf">
     <br>
-    <button id="convertBtn" disabled>Convert to Word</button>
+    <button id="convertBtn" disabled>Convert & Preview</button>
     <div class="loading" id="loading">Processing PDF... Please wait</div>
+    <textarea id="previewText" placeholder="Extracted text will appear here..." readonly></textarea>
+    <br>
+    <button id="downloadBtn" disabled>Download as Word</button>
   </div>
 
   <!-- PDF.js -->
@@ -90,8 +104,11 @@
   <script>
     const pdfUpload = document.getElementById('pdfUpload');
     const convertBtn = document.getElementById('convertBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const previewText = document.getElementById('previewText');
     const loading = document.getElementById('loading');
     let pdfFile = null;
+    let extractedText = "";
 
     pdfUpload.addEventListener('change', (e) => {
       pdfFile = e.target.files[0];
@@ -101,40 +118,45 @@
     convertBtn.addEventListener('click', async () => {
       if (!pdfFile) return;
       loading.style.display = "block";
+      previewText.value = "";
 
       const fileReader = new FileReader();
       fileReader.onload = async function() {
         const typedarray = new Uint8Array(this.result);
         const pdf = await pdfjsLib.getDocument({ data: typedarray }).promise;
         
-        let extractedText = "";
-
+        extractedText = "";
+        // Process pages in parallel for speed
+        const pagePromises = [];
         for (let i = 1; i <= pdf.numPages; i++) {
-          const page = await pdf.getPage(i);
-          const textContent = await page.getTextContent();
-          const pageText = textContent.items.map(item => item.str).join(" ");
-          extractedText += pageText + "\n\n";
+          pagePromises.push(pdf.getPage(i).then(page => 
+            page.getTextContent().then(tc => tc.items.map(it => it.str).join(" "))
+          ));
         }
 
-        // Build Word document
-        const { Document, Packer, Paragraph } = docx;
-        const doc = new Document({
-          sections: [{
-            properties: {},
-            children: [
-              new Paragraph({
-                text: extractedText,
-              }),
-            ],
-          }],
-        });
+        const allPages = await Promise.all(pagePromises);
+        extractedText = allPages.join("\n\n");
 
-        const blob = await Packer.toBlob(doc);
-        saveAs(blob, "converted.docx");
-
+        previewText.value = extractedText;
+        downloadBtn.disabled = false;
         loading.style.display = "none";
       };
       fileReader.readAsArrayBuffer(pdfFile);
+    });
+
+    downloadBtn.addEventListener('click', async () => {
+      if (!extractedText) return;
+
+      const { Document, Packer, Paragraph } = docx;
+      const doc = new Document({
+        sections: [{
+          properties: {},
+          children: [new Paragraph({ text: extractedText })],
+        }],
+      });
+
+      const blob = await Packer.toBlob(doc);
+      saveAs(blob, pdfFile.name.replace(/\.pdf$/i, "") + ".docx");
     });
   </script>
 </body>
