@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF Compressor</title>
+  <style>
+    :root{
+      --blue:#0ea5ff; /* bright blue */
+      --blue-700:#0369a1;
+      --bg:#ffffff; --ink:#0b1220; --muted:#5b7083;
+      --card:#fff; --card-br:#e6f4ff; --radius:16px;
+      --shadow:0 10px 30px rgba(14,165,255,.15);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--ink);
+      background:linear-gradient(180deg,#f5fbff 0%,#fff 60%);
+    }
+    .wrap{max-width:820px;margin:0 auto;padding:20px;display:grid;gap:18px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:40px;height:40px;border-radius:12px;background:conic-gradient(from 210deg,var(--blue),#a0e2ff);box-shadow:var(--shadow)}
+    h1{margin:0;font-size:clamp(20px,4vw,30px)}
+    .card{background:var(--card);border:1px solid var(--card-br);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .uploader{border:2px dashed var(--blue);border-radius:var(--radius);padding:18px;text-align:center;background:#f0faff;cursor:pointer}
+    .hint{color:var(--muted);font-size:14px}
+    input[type=file]{display:none}
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .control{display:grid;grid-template-columns:1fr auto;gap:12px;background:#f8fdff;border:1px solid #e7f4ff;border-radius:14px;padding:12px 14px}
+    label strong{display:block}
+    .range{display:flex;align-items:center;gap:10px}
+    input[type=range]{width:180px}
+    .num{min-width:76px;padding:8px 10px;border:1px solid #cfeaff;border-radius:10px}
+    .btn{appearance:none;border:none;background:var(--blue);color:#fff;padding:12px 16px;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(14,165,255,.35)}
+    .btn.secondary{background:#e8f6ff;color:var(--blue-700);box-shadow:none;border:1px solid #c7eaff}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    .progress{height:10px;background:#eaf6ff;border-radius:999px;overflow:hidden}
+    .bar{height:100%;width:0;background:var(--blue);transition:width .2s}
+    .meta{color:var(--muted);font-size:13px}
+    footer{color:var(--muted);text-align:center;font-size:13px}
+    @media (max-width:600px){ .btn{width:100%} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><div class="logo" aria-hidden="true"></div><h1>PDF Compressor</h1></div>
+      <button id="resetBtn" class="btn secondary" type="button" disabled>Reset</button>
+    </header>
+
+    <section class="card">
+      <label for="pdfFile" class="uploader" id="dropzone" tabindex="0">
+        <input id="pdfFile" type="file" accept="application/pdf" />
+        <strong>Click to upload</strong> or drag & drop a PDF here
+        <div class="hint">We’ll compress it in your browser—no uploads.</div>
+      </label>
+
+      <div class="control" style="margin-top:14px">
+        <div>
+          <label><strong>Compression Settings</strong></label>
+          <div class="meta">Lower quality / DPI → smaller file</div>
+        </div>
+        <div class="row">
+          <div class="range">
+            <span class="meta">Quality</span>
+            <input id="quality" type="range" min="40" max="90" value="70"/>
+            <input id="qVal" class="num" type="number" min="40" max="90" value="70"/>%
+          </div>
+          <div class="range">
+            <span class="meta">DPI</span>
+            <input id="dpi" type="range" min="72" max="180" value="120" step="6"/>
+            <input id="dpiVal" class="num" type="number" min="72" max="180" value="120"/>dpi
+          </div>
+          <button id="compressBtn" class="btn" type="button" disabled>Compress PDF</button>
+        </div>
+      </div>
+
+      <div class="control">
+        <div>
+          <label><strong>Progress</strong></label>
+          <div id="status" class="meta">Waiting for file…</div>
+        </div>
+        <div style="min-width:220px">
+          <div class="progress"><div id="bar" class="bar"></div></div>
+        </div>
+      </div>
+
+      <div class="row" style="justify-content:space-between;margin-top:10px">
+        <div class="meta" id="fileInfo">—</div>
+        <a id="downloadBtn" class="btn" href="#" download style="display:none">Download Compressed PDF</a>
+      </div>
+    </section>
+
+    <footer>Note: This method rasterizes pages (great compression; text becomes non-selectable). Want a text-preserving variant too? I can add it.</footer>
+  </div>
+
+  <!-- pdf.js (for rendering pages) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- jsPDF (for writing compressed PDF) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const pdfInput = $('pdfFile');
+    const dropzone = $('dropzone');
+    const compressBtn = $('compressBtn');
+    const resetBtn = $('resetBtn');
+    const qRange = $('quality'), qVal = $('qVal');
+    const dpiRange = $('dpi'), dpiVal = $('dpiVal');
+    const bar = $('bar'); const status = $('status');
+    const fileInfo = $('fileInfo'); const downloadBtn = $('downloadBtn');
+
+    let pdfFile = null;
+
+    // Sync inputs
+    const sync = (a,b,min,max) => {
+      a.addEventListener('input',()=>{ b.value=a.value; });
+      b.addEventListener('input',()=>{ 
+        let v = parseInt(b.value||0,10); v = Math.min(Math.max(v,min),max);
+        b.value=v; a.value=v;
+      });
+    };
+    sync(qRange,qVal,40,90);
+    sync(dpiRange,dpiVal,72,180);
+
+    // Drag & drop
+    ['dragenter','dragover'].forEach(evt=>dropzone.addEventListener(evt,(e)=>{e.preventDefault();dropzone.style.background='#e6f6ff';}));
+    ['dragleave','drop'].forEach(evt=>dropzone.addEventListener(evt,(e)=>{e.preventDefault();dropzone.style.background='#f0faff';}));
+    dropzone.addEventListener('drop',e=>{
+      const f = e.dataTransfer.files?.[0];
+      if (f && f.type==='application/pdf'){ handleFile(f); }
+    });
+    dropzone.addEventListener('click',()=>pdfInput.click());
+    dropzone.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pdfInput.click(); }});
+    pdfInput.addEventListener('change',()=>{ const f=pdfInput.files?.[0]; if(f) handleFile(f); });
+
+    resetBtn.addEventListener('click',()=>{
+      pdfFile=null; pdfInput.value=''; status.textContent='Waiting for file…';
+      bar.style.width='0%'; downloadBtn.style.display='none'; fileInfo.textContent='—';
+      compressBtn.disabled=true; resetBtn.disabled=true;
+    });
+
+    function handleFile(f){
+      pdfFile=f;
+      compressBtn.disabled=false; resetBtn.disabled=false;
+      fileInfo.textContent = `${f.name} • ${(f.size/1024/1024).toFixed(2)} MB`;
+      status.textContent='Ready to compress';
+      bar.style.width='0%';
+    }
+
+    // Core compression: rasterize pages -> JPEG -> jsPDF
+    compressBtn.addEventListener('click', async ()=>{
+      if(!pdfFile) return;
+      compressBtn.disabled=true; resetBtn.disabled=true; downloadBtn.style.display='none';
+      status.textContent='Loading PDF…'; bar.style.width='5%';
+
+      const arrayBuf = await pdfFile.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({data:new Uint8Array(arrayBuf)}).promise;
+
+      const { jsPDF } = window.jspdf;
+      // We'll size each page exactly to the original PDF points (1/72 in)
+      const doc = new jsPDF({ unit:'pt', compress:true }); 
+      let firstPage = true;
+
+      const dpi = parseInt(dpiVal.value,10); // render DPI
+      const quality = parseInt(qVal.value,10) / 100; // JPEG quality
+
+      for(let i=1;i<=pdf.numPages;i++){
+        status.textContent=`Rendering page ${i} of ${pdf.numPages}…`;
+        const pct = Math.round((i-1)/pdf.numPages*90)+5; bar.style.width = pct+'%';
+
+        const page = await pdf.getPage(i);
+        // Page size in PDF points
+        const [ , , pageWpt, pageHpt ] = page.view;
+
+        // Render scale: pixels = points * (dpi/72)
+        const scale = dpi/72;
+        const viewport = page.getViewport({ scale });
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently:false });
+        canvas.width = Math.max(1, Math.floor(viewport.width));
+        canvas.height = Math.max(1, Math.floor(viewport.height));
+
+        await page.render({ canvasContext: ctx, viewport }).promise;
+        const imgData = canvas.toDataURL('image/jpeg', quality);
+
+        if(firstPage){
+          // Set first page size; subsequent pages we add new pages with exact size
+          doc.deletePage(1); // remove default
+          firstPage=false;
+        }
+        doc.addPage([pageWpt, pageHpt]);
+        doc.addImage(imgData, 'JPEG', 0, 0, pageWpt, pageHpt, undefined, 'FAST'); // FAST = quicker/lighter
+        // Free memory
+        canvas.width = canvas.height = 0;
+      }
+
+      status.textContent='Writing PDF…'; bar.style.width='96%';
+      const out = doc.output('blob');
+      const before = pdfFile.size;
+      const after = out.size;
+      const ratio = (after/before*100).toFixed(1);
+
+      const outName = pdfFile.name.replace(/\.pdf$/i,'') + `_compressed.pdf`;
+      const url = URL.createObjectURL(out);
+      downloadBtn.href = url; downloadBtn.download = outName; downloadBtn.style.display='inline-flex';
+      status.textContent = `Done. New size ${(after/1024/1024).toFixed(2)} MB (${ratio}% of original).`;
+      bar.style.width='100%';
+
+      compressBtn.disabled=false; resetBtn.disabled=false;
+    });
+  </script>
+</body>
+</html>
