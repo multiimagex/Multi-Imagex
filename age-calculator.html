@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Age Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f9ff;
+      color: #003366;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .calculator-container {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      color: #007BFF;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #007BFF;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .result {
+      background: #f0f7ff;
+      border: 1px solid #007BFF;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 1.1rem;
+      color: #003366;
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    .btn-container {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    button {
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    @media(max-width: 600px) {
+      h1 {
+        font-size: 1.4rem;
+      }
+      .result {
+        font-size: 1rem;
+      }
+      button {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator-container">
+    <h1>Age Calculator</h1>
+    <label for="birthdate">Select Your Birthdate:</label>
+    <input type="date" id="birthdate" />
+    <div class="result" id="result">Your live age will appear here.</div>
+    <div class="result" id="nextBirthday" style="display:none;"></div>
+
+    <div class="btn-container" id="shareBtns" style="display:none;">
+      <button onclick="copyAge()">📋 Copy Age</button>
+      <button onclick="shareWhatsApp()">📲 WhatsApp</button>
+      <button onclick="shareTwitter()">🐦 Twitter</button>
+    </div>
+  </div>
+
+  <script>
+    const birthdateInput = document.getElementById('birthdate');
+    const resultDiv = document.getElementById('result');
+    const nextBirthdayDiv = document.getElementById('nextBirthday');
+    const shareBtns = document.getElementById('shareBtns');
+    let timer = null;
+    let latestAgeText = "";
+
+    function updateAge(birthdate) {
+      const now = new Date();
+      const dob = new Date(birthdate);
+
+      let years = now.getFullYear() - dob.getFullYear();
+      let months = now.getMonth() - dob.getMonth();
+      let days = now.getDate() - dob.getDate();
+      let hours = now.getHours() - dob.getHours();
+      let minutes = now.getMinutes() - dob.getMinutes();
+      let seconds = now.getSeconds() - dob.getSeconds();
+
+      if (seconds < 0) { seconds += 60; minutes--; }
+      if (minutes < 0) { minutes += 60; hours--; }
+      if (hours < 0) { hours += 24; days--; }
+      if (days < 0) {
+        months--;
+        const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+        days += prevMonth.getDate();
+      }
+      if (months < 0) { years--; months += 12; }
+
+      const ageText = 
+        `You are ${years} years, ${months} months, ${days} days, ` +
+        `${hours} hours, ${minutes} minutes, and ${seconds} seconds old.`;
+      resultDiv.textContent = ageText;
+
+      let nextBirthday = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
+      if (nextBirthday < now) nextBirthday.setFullYear(now.getFullYear() + 1);
+      const diffTime = nextBirthday - now;
+      const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      nextBirthdayDiv.style.display = "block";
+      nextBirthdayDiv.textContent = 
+        `🎉 Your next birthday is in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}!`;
+
+      latestAgeText = `${ageText}\n${nextBirthdayDiv.textContent}`;
+    }
+
+    birthdateInput.addEventListener('input', () => {
+      const birthdate = birthdateInput.value;
+      if (birthdate) {
+        if (timer) clearInterval(timer);
+        updateAge(birthdate);
+        timer = setInterval(() => updateAge(birthdate), 1000);
+        shareBtns.style.display = "flex";
+      } else {
+        if (timer) clearInterval(timer);
+        resultDiv.textContent = "Your live age will appear here.";
+        nextBirthdayDiv.style.display = "none";
+        shareBtns.style.display = "none";
+      }
+    });
+
+    // Copy Age
+    function copyAge() {
+      navigator.clipboard.writeText(latestAgeText).then(() => {
+        alert("✅ Age copied to clipboard!");
+      });
+    }
+
+    // Share via WhatsApp
+    function shareWhatsApp() {
+      const url = `https://wa.me/?text=${encodeURIComponent(latestAgeText)}`;
+      window.open(url, "_blank");
+    }
+
+    // Share via Twitter
+    function shareTwitter() {
+      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(latestAgeText)}`;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
