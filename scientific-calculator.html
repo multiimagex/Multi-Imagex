@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scientific Calculator</title>
+  <style>
+    :root{
+      --blue:#0ea5ff; /* bright blue */
+      --blue-700:#0369a1;
+      --bg:#ffffff; --ink:#0b1220; --muted:#5b7083;
+      --card:#fff; --card-br:#e6f4ff; --radius:16px;
+      --shadow:0 10px 30px rgba(14,165,255,.15);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--ink);
+      background:linear-gradient(180deg,#f5fbff 0%,#fff 60%);
+      display:flex; align-items:center; justify-content:center; min-height:100vh; padding:16px;
+    }
+    .wrap{width:100%; max-width:880px; display:grid; gap:16px}
+    header{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{width:42px;height:42px;border-radius:12px;background:conic-gradient(from 210deg,var(--blue),#a0e2ff);box-shadow:var(--shadow)}
+    h1{margin:0;font-size:clamp(20px,4vw,30px)}
+
+    .card{background:var(--card);border:1px solid var(--card-br);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+
+    .display{
+      background:#f0faff; border:1px solid #cfeaff; border-radius:14px; padding:12px; display:grid; gap:6px;
+    }
+    .expr{font-size:clamp(16px,2.5vw,20px); color:#1b3a57; word-break:break-all; min-height:28px}
+    .result{font-weight:800; font-size:clamp(20px,4vw,28px); color:var(--blue-700)}
+
+    .topbar{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    .toggle{appearance:none; border:1px solid #c7eaff; background:#e8f6ff; color:var(--blue-700); padding:8px 12px; border-radius:12px; font-weight:700; cursor:pointer}
+    .toggle[aria-pressed="true"]{background:var(--blue); color:#fff}
+
+    .grid{display:grid; gap:10px; grid-template-columns:repeat(6,1fr)}
+    @media (max-width:720px){ .grid{grid-template-columns:repeat(4,1fr)} }
+
+    .btn{appearance:none; border:1px solid #c7eaff; background:#ffffff; color:#083a59; padding:12px; border-radius:12px; font-weight:700; cursor:pointer; box-shadow:0 4px 14px rgba(14,165,255,.08)}
+    .btn.op{background:#e8f6ff; color:var(--blue-700)}
+    .btn.eq{background:var(--blue); color:#fff; border-color:transparent; box-shadow:0 8px 20px rgba(14,165,255,.35)}
+    .btn:active{transform:translateY(1px)}
+    .btn.wide{grid-column:span 2}
+
+    .footer{color:var(--muted);font-size:13px;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand"><div class="logo" aria-hidden="true"></div><h1>Scientific Calculator</h1></div>
+      <div class="topbar">
+        <button id="degBtn" class="toggle" aria-pressed="true">DEG</button>
+        <button id="radBtn" class="toggle" aria-pressed="false">RAD</button>
+        <button id="clearBtn" class="toggle">AC</button>
+        <button id="backBtn" class="toggle">⌫</button>
+        <button id="ansBtn" class="toggle">Ans</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="display" aria-live="polite">
+        <div id="expr" class="expr"></div>
+        <div id="result" class="result">0</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="grid" id="keys">
+        <!-- scientific row -->
+        <button class="btn op" data-fn="sin">sin</button>
+        <button class="btn op" data-fn="cos">cos</button>
+        <button class="btn op" data-fn="tan">tan</button>
+        <button class="btn op" data-fn="asin">asin</button>
+        <button class="btn op" data-fn="acos">acos</button>
+        <button class="btn op" data-fn="atan">atan</button>
+
+        <button class="btn op" data-fn="sqrt">√</button>
+        <button class="btn op" data-fn="ln">ln</button>
+        <button class="btn op" data-fn="log">log</button>
+        <button class="btn op" data-fn="abs">abs</button>
+        <button class="btn op" data-op="^">x^y</button>
+        <button class="btn op" data-op="!">n!</button>
+
+        <!-- numbers & ops -->
+        <button class="btn" data-val="7">7</button>
+        <button class="btn" data-val="8">8</button>
+        <button class="btn" data-val="9">9</button>
+        <button class="btn op" data-op="/">÷</button>
+        <button class="btn op" data-op="%">%</button>
+        <button class="btn op" data-val="(">(</button>
+
+        <button class="btn" data-val="4">4</button>
+        <button class="btn" data-val="5">5</button>
+        <button class="btn" data-val="6">6</button>
+        <button class="btn op" data-op="*">×</button>
+        <button class="btn" data-val=")">)</button>
+        <button class="btn op" data-val="," disabled>,</button>
+
+        <button class="btn" data-val="1">1</button>
+        <button class="btn" data-val="2">2</button>
+        <button class="btn" data-val="3">3</button>
+        <button class="btn op" data-op="-">−</button>
+        <button class="btn" data-const="pi">π</button>
+        <button class="btn" data-const="e">e</button>
+
+        <button class="btn wide" data-val="0">0</button>
+        <button class="btn" data-val=".">.</button>
+        <button class="btn op" data-op="+">+</button>
+        <button class="btn eq" id="equals">=</button>
+      </div>
+    </section>
+
+    <div class="footer">Tip: type with your keyboard too. Enter = equals, Backspace deletes.</div>
+  </div>
+
+  <script>
+    // =============== Expression Engine (Shunting-yard + RPN) ===============
+    const DEG = 0, RAD = 1;
+    let angleMode = DEG;
+    let expr = '';
+    let lastAns = 0;
+
+    const exprEl = document.getElementById('expr');
+    const resultEl = document.getElementById('result');
+
+    function updateDisplay(){ exprEl.textContent = expr || ' '; }
+
+    function toRad(x){ return angleMode===DEG ? x*Math.PI/180 : x; }
+    function fromRad(x){ return angleMode===DEG ? x*180/Math.PI : x; }
+
+    const funcs = new Set(['sin','cos','tan','asin','acos','atan','sqrt','ln','log','abs']);
+    const precedence = { 'u-':5, '!':5, '%':5, '^':4, '*':3, '/':3, '+':2, '-':2 };
+    const rightAssoc = new Set(['^','u-']);
+    const unaryOps = new Set(['u-']);
+    const postfixOps = new Set(['!','%']);
+
+    function tokenize(s){
+      const tokens=[]; let i=0; let prevType='start';
+      while(i<s.length){
+        const ch = s[i];
+        if(/\s/.test(ch)){ i++; continue; }
+        if(/[0-9.]/.test(ch)){
+          // number (no scientific notation for simplicity)
+          let j=i; while(j<s.length && /[0-9.]/.test(s[j])) j++;
+          tokens.push({type:'num', val: parseFloat(s.slice(i,j))}); i=j; prevType='num'; continue;
+        }
+        // constants
+        if(ch==='π'){ tokens.push({type:'num', val: Math.PI}); i++; prevType='num'; continue; }
+        if(ch==='e'){
+          // treat as constant only if not part of identifier
+          tokens.push({type:'num', val: Math.E}); i++; prevType='num'; continue;
+        }
+        // identifiers (functions)
+        if(/[a-z]/i.test(ch)){
+          let j=i; while(j<s.length && /[a-z]/i.test(s[j])) j++;
+          const name = s.slice(i,j).toLowerCase();
+          if(name==='ans'){ tokens.push({type:'num', val:lastAns}); }
+          else if(funcs.has(name)){ tokens.push({type:'fn', val:name}); }
+          else { throw new Error('Unknown token: '+name); }
+          i=j; prevType='fn'; continue;
+        }
+        // parentheses
+        if(ch==='('||ch===')'){ tokens.push({type:ch}); i++; prevType=ch; continue; }
+        // operators and postfix
+        if(ch==='+'||ch==='*'||ch==='/'||ch==='^'){
+          tokens.push({type:'op', val:ch}); i++; prevType='op'; continue;
+        }
+        if(ch==='-'){
+          // unary or binary
+          const isUnary = (prevType==='start' || prevType==='op' || prevType==='(' || prevType==='fn');
+          tokens.push({type:'op', val: isUnary ? 'u-' : '-'}); i++; prevType='op'; continue;
+        }
+        if(ch==='!'||ch==='%' ){
+          tokens.push({type:'op', val:ch}); i++; prevType='op'; continue;
+        }
+        throw new Error('Invalid character: '+ch);
+      }
+      return tokens;
+    }
+
+    function toRPN(tokens){
+      const out=[]; const ops=[]; // ops is stack
+      for(const t of tokens){
+        if(t.type==='num'){ out.push(t); }
+        else if(t.type==='fn'){ ops.push(t); }
+        else if(t.type==='op'){
+          const o1 = t.val;
+          if(postfixOps.has(o1)) { out.push({type:'op', val:o1}); continue; }
+          while(ops.length){
+            const top = ops[ops.length-1];
+            if(top.type==='fn') { out.push(ops.pop()); continue; }
+            if(top.type==='op'){
+              const o2 = top.val;
+              if((!rightAssoc.has(o1) && precedence[o1] <= precedence[o2]) ||
+                 ( rightAssoc.has(o1) && precedence[o1] <  precedence[o2])){
+                out.push(ops.pop()); continue;
+              }
+            }
+            break;
+          }
+          ops.push(t);
+        }
+        else if(t.type==='('){ ops.push(t); }
+        else if(t.type===')'){
+          let found=false;
+          while(ops.length){
+            const x = ops.pop();
+            if(x.type==='('){ found=true; break; }
+            out.push(x);
+          }
+          if(!found) throw new Error('Mismatched parentheses');
+          if(ops.length && ops[ops.length-1].type==='fn') out.push(ops.pop());
+        }
+      }
+      while(ops.length){
+        const x = ops.pop();
+        if(x.type==='('||x.type===')') throw new Error('Mismatched parentheses');
+        out.push(x);
+      }
+      return out;
+    }
+
+    function fact(n){
+      if(!Number.isFinite(n) || n<0 || Math.floor(n)!==n) throw new Error('n! expects non-negative integer');
+      if(n>170) return Infinity; // prevent overflow
+      let r=1; for(let i=2;i<=n;i++) r*=i; return r;
+    }
+
+    function evalRPN(rpn){
+      const st=[];
+      for(const t of rpn){
+        if(t.type==='num'){ st.push(t.val); continue; }
+        if(t.type==='fn'){
+          const a = st.pop(); if(a===undefined) throw new Error('Arg missing');
+          switch(t.val){
+            case 'sin': st.push(Math.sin(toRad(a))); break;
+            case 'cos': st.push(Math.cos(toRad(a))); break;
+            case 'tan': st.push(Math.tan(toRad(a))); break;
+            case 'asin': st.push(fromRad(Math.asin(a))); break;
+            case 'acos': st.push(fromRad(Math.acos(a))); break;
+            case 'atan': st.push(fromRad(Math.atan(a))); break;
+            case 'sqrt': st.push(Math.sqrt(a)); break;
+            case 'ln': st.push(Math.log(a)); break;
+            case 'log': st.push(Math.log10(a)); break;
+            case 'abs': st.push(Math.abs(a)); break;
+            default: throw new Error('Unknown fn');
+          }
+          continue;
+        }
+        if(t.type==='op'){
+          const op=t.val;
+          if(op==='u-'){ const a=st.pop(); if(a===undefined) throw new Error('Arg missing'); st.push(-a); continue; }
+          if(op==='!'){ const a=st.pop(); st.push(fact(a)); continue; }
+          if(op==='%'){ const a=st.pop(); st.push(a/100); continue; }
+          // binary
+          const b=st.pop(); const a=st.pop(); if(a===undefined||b===undefined) throw new Error('Operand missing');
+          switch(op){
+            case '+': st.push(a+b); break;
+            case '-': st.push(a-b); break;
+            case '*': st.push(a*b); break;
+            case '/': st.push(a/b); break;
+            case '^': st.push(Math.pow(a,b)); break;
+            default: throw new Error('Unknown op');
+          }
+          continue;
+        }
+      }
+      if(st.length!==1) throw new Error('Invalid expression');
+      return st[0];
+    }
+
+    function safeEval(s){
+      const tokens = tokenize(s);
+      const rpn = toRPN(tokens);
+      return evalRPN(rpn);
+    }
+
+    function tryCompute(){
+      if(!expr.trim()){ resultEl.textContent = '0'; return; }
+      try{
+        const val = safeEval(expr);
+        const out = Number.isFinite(val) ? val : '∞';
+        resultEl.textContent = String(out);
+        return val;
+      }catch(err){
+        resultEl.textContent = 'Error';
+        return null;
+      }
+    }
+
+    // =============== UI Handling ===============
+    const keys = document.getElementById('keys');
+    const equals = document.getElementById('equals');
+    const clearBtn = document.getElementById('clearBtn');
+    const backBtn = document.getElementById('backBtn');
+    const degBtn = document.getElementById('degBtn');
+    const radBtn = document.getElementById('radBtn');
+    const ansBtn = document.getElementById('ansBtn');
+
+    function insert(txt){ expr += txt; updateDisplay(); tryCompute(); }
+
+    keys.addEventListener('click', (e)=>{
+      const b = e.target.closest('button'); if(!b) return;
+      if(b.dataset.val){ insert(b.dataset.val); return; }
+      if(b.dataset.op){ insert(b.dataset.op); return; }
+      if(b.dataset.fn){ insert(b.dataset.fn+'('); return; }
+      if(b.dataset.const==='pi'){ insert('π'); return; }
+      if(b.dataset.const==='e'){ insert('e'); return; }
+    });
+
+    equals.addEventListener('click', ()=>{
+      const val = tryCompute();
+      if(val===null) return; lastAns = val; expr = String(val); updateDisplay();
+    });
+
+    clearBtn.addEventListener('click', ()=>{ expr=''; updateDisplay(); tryCompute(); });
+    backBtn.addEventListener('click', ()=>{ expr = expr.slice(0,-1); updateDisplay(); tryCompute(); });
+    ansBtn.addEventListener('click', ()=> insert('Ans'));
+
+    degBtn.addEventListener('click', ()=>{ angleMode=DEG; degBtn.setAttribute('aria-pressed','true'); radBtn.setAttribute('aria-pressed','false'); tryCompute(); });
+    radBtn.addEventListener('click', ()=>{ angleMode=RAD; radBtn.setAttribute('aria-pressed','true'); degBtn.setAttribute('aria-pressed','false'); tryCompute(); });
+
+    // Keyboard support
+    document.addEventListener('keydown', (e)=>{
+      const k=e.key;
+      if((k>='0'&&k<='9') || k==='.' || k==='(' || k===')'){ insert(k); return; }
+      if(k==='+'||k==='-'||k==='*'||k==='/'||k==='^'){ insert(k); return; }
+      if(k==='Enter' || k==='='){ e.preventDefault(); equals.click(); return; }
+      if(k==='Backspace'){ backBtn.click(); return; }
+      if(k==='Escape'){ clearBtn.click(); return; }
+    });
+
+    updateDisplay();
+  </script>
+</body>
+</html>
