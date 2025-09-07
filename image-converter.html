@@ -1,364 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <link rel="icon" href="a-vector-illustration-of-a-modern-logo-f_KXCFgQtvSKCe9H_ht-OhCA_c_SgDqUTTD-BGq0rJC4qqw.jpeg" type="image/x-icon">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Image Converter • Bright Blue</title>
+  <meta charset="UTF-8">
+  <title>Free Online Image Converter - JPG, PNG, WebP, PDF | multiimagex</title>
+  <meta name="description" content="Convert images online for free with multiimagex. Transform JPG to PNG, PNG to JPG, WebP, PDF, and more formats. Fast, secure, mobile-friendly image converter designed to simplify your work.">
+  <meta name="keywords" content="image converter, free online image converter, jpg to png, png to jpg, image to webp, image to pdf, convert pictures online, secure image conversion">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="http://www.multiimagex.online/tools/image-converter/">
+  <meta property="og:title" content="Free Online Image Converter - multiimagex">
+  <meta property="og:description" content="Convert images online for free — JPG, PNG, WebP, PDF & more. Fast, secure, mobile-friendly image converter at multiimagex.">
+  <meta property="og:url" content="http://www.multiimagex.online/tools/image-converter/">
+  <meta property="og:site_name" content="multiimagex">
+  <meta property="og:type" content="website">
   <style>
-    :root{
-      --blue:#0ea5ff;           /* bright blue */
-      --blue-600:#0284c7;
-      --blue-700:#0369a1;
-      --bg:#ffffff;             /* white */
-      --text:#0b1220;           /* dark text */
-      --muted:#6b7280;          /* gray */
-      --ring: rgba(14,165,255,.35);
-      --card:#ffffff;
-    }
-
-    *{ box-sizing:border-box; }
-    html, body{
-      height:100%;
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color:var(--text);
-      background:linear-gradient(180deg, #f8fbff 0%, #ffffff 40%);
-    }
-
-    .container{
-      max-width:1000px;
-      margin:0 auto;
-      padding:clamp(16px, 3vw, 32px);
-    }
-
-    header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:20px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-    }
-    .logo{
-      width:44px; height:44px; border-radius:14px;
-      background: radial-gradient(100% 100% at 30% 20%, #67e8f9 0%, var(--blue) 40%, var(--blue-700) 100%);
-      box-shadow: 0 8px 24px rgba(14,165,255,.35), inset 0 0 12px rgba(255,255,255,.6);
-    }
-    h1{
-      font-size: clamp(20px, 3.2vw, 28px);
-      margin:0;
-      letter-spacing:.2px;
-    }
-    .subtitle{ color:var(--muted); font-size:14px; margin-top:2px; }
-
-    .card{
-      background: var(--card);
-      border-radius: 18px;
-      padding: clamp(14px, 3vw, 22px);
-      box-shadow: 0 12px 30px rgba(2,132,199,.10);
-      border: 1px solid rgba(14,165,255,.15);
-    }
-
-    .grid{
-      display:grid; gap:16px; grid-template-columns: 1fr 1fr;
-    }
-    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } }
-
-    /* Upload */
-    .dropzone{
-      position:relative;
-      border:2px dashed var(--blue-600);
-      border-radius:16px;
-      padding:24px;
-      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
-      background: #f0f9ff;
-      cursor:pointer;
-      transition:.2s ease;
-    }
-    .dropzone:hover{ background:#e0f2ff; }
-    .dropzone input{ display:none; }
-    .dz-title{ font-weight:600; }
-    .dz-hint{ color:var(--muted); font-size:13px; }
-
-    /* Controls */
-    .controls{ display:grid; gap:14px; grid-template-columns: 1fr 1fr; align-items:center; }
-    .controls .full{ grid-column: 1 / -1; }
-    @media (max-width: 520px){ .controls{ grid-template-columns: 1fr; } }
-
-    label{ font-size:14px; color:#0f172a; font-weight:600; }
-    select, input[type="range"], button{
-      width:100%;
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid rgba(2,132,199,.35);
-      background:#ffffff;
-      outline:none;
-      transition:border-color .15s ease, box-shadow .15s ease, transform .02s ease;
-    }
-    select:focus, input[type="range"]:focus, button:focus{
-      border-color: var(--blue);
-      box-shadow: 0 0 0 4px var(--ring);
-    }
-
-    .range-wrap{ display:grid; grid-template-columns: 1fr auto; gap:10px; align-items:center; }
-    .pill{ font-size:12px; padding:6px 10px; border-radius:999px; background:#eff6ff; border:1px solid rgba(2,132,199,.25); }
-
-    button.primary{
-      background:linear-gradient(180deg, var(--blue) 0%, var(--blue-600) 100%);
-      color:#fff; border:none; font-weight:700;
-    }
-    button.primary:active{ transform: translateY(1px); }
-    button.secondary{ background:#f8fbff; }
-    .actions{ display:flex; gap:10px; }
-    @media (max-width: 520px){ .actions{ flex-direction:column; } }
-
-    /* Preview */
-    .preview{
-      background:#ffffff;
-      border-radius:16px; border:1px solid rgba(2,132,199,.20);
-      min-height:260px;
-      display:flex; align-items:center; justify-content:center; overflow:hidden;
-      position:relative;
-    }
-    .preview img{ max-width:100%; height:auto; display:block; }
-    .meta{
-      position:absolute; left:10px; bottom:10px;
-      display:flex; gap:8px; flex-wrap:wrap;
-    }
-    .chip{ font-size:12px; padding:6px 10px; border-radius:999px; background:#ffffff; border:1px solid rgba(2,132,199,.25); box-shadow: 0 4px 10px rgba(2,132,199,.12); }
-
-    .footer-note{ margin-top:16px; color:var(--muted); font-size:12px; text-align:center; }
+    body { font-family: 'Inter', sans-serif; margin:0; padding:0; background:#fff; color:#222; line-height:1.6;}
+    header { background:#6c63ff; padding:1rem; text-align:center; color:#fff; }
+    header a { color:#fff; text-decoration:none; margin:0 1rem; font-weight:600; }
+    .container { max-width:900px; margin:2rem auto; padding:1rem; }
+    h1 { color:#6c63ff; font-size:2rem; }
+    h2 { color:#333; margin-top:2rem; }
+    p { margin-bottom:1rem; }
+    form { margin:2rem 0; padding:1rem; border:1px solid #eee; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.05);}
+    input, select, button { margin:.5rem 0; padding:.75rem; width:100%; border:1px solid #ccc; border-radius:6px; }
+    button { background:#6c63ff; color:#fff; font-weight:600; cursor:pointer; }
+    button:hover { background:#5848d9; }
+    .faq { margin-top:2rem; }
+    .faq h3 { color:#6c63ff; }
+    footer { background:#fafafa; padding:1.5rem; text-align:center; margin-top:3rem; border-top:1px solid #eee; }
+    footer a { color:#6c63ff; text-decoration:none; }
   </style>
 </head>
 <body>
+  <header>
+    <h1>multiimagex</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/#tools">Tools</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+    </nav>
+  </header>
+
   <div class="container">
-    <header>
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <h1>Image Converter</h1>
-          <div class="subtitle">Convert formats • Compress • Mobile‑friendly</div>
-        </div>
-      </div>
-    </header>
+    <h1>Free Online Image Converter</h1>
+    <p>Convert your images instantly between popular formats with <strong>multiimagex</strong>. Whether you need to change JPG to PNG, PNG to JPG, create WebP, or save images as PDF, our <em>fast and secure image converter</em> is designed to make your work easier.</p>
 
-    <div class="card">
-      <div class="grid">
-        <!-- Left: Uploader & Controls -->
-        <div>
-          <label for="file">Upload image</label>
-          <label class="dropzone" id="dropzone">
-            <input id="file" type="file" accept="image/*" />
-            <div class="dz-title">Drop an image here or tap to browse</div>
-            <div class="dz-hint">PNG • JPG • WebP • GIF • etc.</div>
-          </label>
+    <form id="converter-form">
+      <label>Select an image:</label>
+      <input type="file" id="imageInput" accept="image/*" required>
+      <label>Choose output format:</label>
+      <select id="formatSelect">
+        <option value="image/png">Convert to PNG</option>
+        <option value="image/jpeg">Convert to JPG</option>
+        <option value="image/webp">Convert to WebP</option>
+        <option value="pdf">Convert to PDF</option>
+      </select>
+      <button type="submit">Convert</button>
+    </form>
 
-          <div style="height:14px"></div>
+    <div id="result"></div>
 
-          <div class="controls">
-            <div>
-              <label for="format">Output format</label>
-              <select id="format">
-                <option value="image/webp">WebP (recommended)</option>
-                <option value="image/jpeg">JPEG</option>
-                <option value="image/png">PNG</option>
-                <option value="image/avif">AVIF (if supported)</option>
-              </select>
-            </div>
+    <h2>Why use our Image Converter?</h2>
+    <ul>
+      <li>✔ 100% free and secure — no sign-up required</li>
+      <li>✔ Supports JPG, PNG, WebP, and PDF formats</li>
+      <li>✔ Works on desktop, tablet, and mobile devices</li>
+      <li>✔ Lightning-fast conversion directly in your browser</li>
+    </ul>
 
-            <div>
-              <label for="quality">Quality</label>
-              <div class="range-wrap">
-                <input id="quality" type="range" min="0.1" max="1" step="0.05" value="0.8" />
-                <span class="pill" id="qualityValue">80%</span>
-              </div>
-            </div>
+    <h2>How to Use?</h2>
+    <ol>
+      <li>Upload your image</li>
+      <li>Select the output format (JPG, PNG, WebP, PDF)</li>
+      <li>Click “Convert” and download your file instantly</li>
+    </ol>
 
-            <div class="full actions">
-              <button class="secondary" id="resetBtn" disabled>Reset</button>
-              <button class="primary" id="convertBtn" disabled>Convert & Download</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: Preview -->
-        <div>
-          <div class="preview" id="preview">
-            <span class="dz-hint">Your preview will appear here</span>
-            <div class="meta" id="meta" hidden>
-              <span class="chip" id="dims">—</span>
-              <span class="chip" id="origSize">—</span>
-              <span class="chip" id="outSize">—</span>
-              <span class="chip" id="note">—</span>
-            </div>
-          </div>
-          <div class="footer-note">Transparency becomes white when exporting to JPEG.</div>
-        </div>
-      </div>
-
-      <!-- Hidden working canvas -->
-      <canvas id="canvas" style="display:none"></canvas>
+    <div class="faq">
+      <h2>Frequently Asked Questions</h2>
+      <h3>Is it free?</h3>
+      <p>Yes, multiimagex image converter is completely free.</p>
+      <h3>Do you store my files?</h3>
+      <p>No, your images remain private and are processed securely in your browser.</p>
+      <h3>Which formats are supported?</h3>
+      <p>You can convert JPG, PNG, WebP, and save images as PDF.</p>
     </div>
   </div>
 
+  <footer>
+    <p>© 2025 <a href="http://www.multiimagex.online/">multiimagex</a> | <a href="/privacy/">Privacy Policy</a> | <a href="/terms/">Terms of Use</a></p>
+  </footer>
+
   <script>
-    const fileInput = document.getElementById('file');
-    const dropzone = document.getElementById('dropzone');
-    const formatSel = document.getElementById('format');
-    const qualityRange = document.getElementById('quality');
-    const qualityValue = document.getElementById('qualityValue');
-    const convertBtn = document.getElementById('convertBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const preview = document.getElementById('preview');
-    const meta = document.getElementById('meta');
-    const dimsEl = document.getElementById('dims');
-    const origSizeEl = document.getElementById('origSize');
-    const outSizeEl = document.getElementById('outSize');
-    const noteEl = document.getElementById('note');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    document.getElementById('converter-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('imageInput');
+      const format = document.getElementById('formatSelect').value;
+      const resultDiv = document.getElementById('result');
+      if (!fileInput.files.length) return;
 
-    let originalFile = null;
-    let imgEl = null;
-    let originalBytes = 0;
+      const file = fileInput.files[0];
+      const reader = new FileReader();
 
-    // Feature detection for AVIF/WebP; remove unsupported options
-    (async function detectFormats(){
-      const test = (type) => new Promise(res => {
-        const c = document.createElement('canvas');
-        c.width = c.height = 2;
-        c.toBlob(b => res(!!b), type);
-      });
-      const avifOK = await test('image/avif');
-      if(!avifOK){
-        [...formatSel.options].forEach(o=>{ if(o.value==='image/avif') o.textContent+=' (unsupported)'; });
-      }
-      const webpOK = await test('image/webp');
-      if(!webpOK){
-        [...formatSel.options].forEach(o=>{ if(o.value==='image/webp') o.textContent+=' (unsupported)'; });
-      }
-    })();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
 
-    // Helper: format bytes
-    const fmtBytes = (n) => {
-      if(!n && n!==0) return '—';
-      const units=['B','KB','MB'];
-      let i=0; let v=n;
-      while(v>=1024 && i<units.length-1){ v/=1024; i++; }
-      return `${v.toFixed(v<10?2:1)} ${units[i]}`;
-    };
-
-    // Update quality pill
-    const updateQualityPill = () => {
-      qualityValue.textContent = Math.round(parseFloat(qualityRange.value)*100) + '%';
-    };
-    qualityRange.addEventListener('input', updateQualityPill);
-    updateQualityPill();
-
-    // Drag & drop
-    ;['dragenter','dragover'].forEach(ev=> dropzone.addEventListener(ev, e=>{ e.preventDefault(); dropzone.style.background='#e0f2ff'; }));
-    ;['dragleave','drop'].forEach(ev=> dropzone.addEventListener(ev, e=>{ e.preventDefault(); dropzone.style.background='#f0f9ff'; }));
-    dropzone.addEventListener('drop', (e)=>{
-      const f = e.dataTransfer.files?.[0];
-      if(f) handleFile(f);
-    });
-
-    dropzone.addEventListener('click', ()=> fileInput.click());
-    fileInput.addEventListener('change', (e)=>{
-      const f = e.target.files?.[0];
-      if(f) handleFile(f);
-    });
-
-    function resetUI(){
-      originalFile = null;
-      originalBytes = 0;
-      if(imgEl){ URL.revokeObjectURL(imgEl.src); }
-      preview.innerHTML = '<span class="dz-hint">Your preview will appear here</span>';
-      meta.hidden = true;
-      convertBtn.disabled = true;
-      resetBtn.disabled = true;
-      outSizeEl.textContent = '—';
-    }
-
-    resetBtn.addEventListener('click', resetUI);
-
-    async function handleFile(file){
-      if(!file.type.startsWith('image/')){
-        alert('Please upload an image file.');
-        return;
-      }
-      originalFile = file;
-      originalBytes = file.size;
-
-      // Show preview image
-      if(imgEl){ URL.revokeObjectURL(imgEl.src); }
-      imgEl = new Image();
-      imgEl.loading = 'eager';
-      imgEl.decoding = 'async';
-      imgEl.alt = 'Preview';
-      imgEl.src = URL.createObjectURL(file);
-      imgEl.onload = ()=>{
-        // Show in preview box
-        preview.innerHTML = '';
-        preview.appendChild(imgEl);
-        meta.hidden = false;
-        dimsEl.textContent = `${imgEl.naturalWidth} × ${imgEl.naturalHeight}px`;
-        origSizeEl.textContent = `Original: ${fmtBytes(originalBytes)}`;
-        outSizeEl.textContent = 'Converted: —';
-        noteEl.textContent = file.type || 'Unknown';
-        convertBtn.disabled = false;
-        resetBtn.disabled = false;
+          if (format === 'pdf') {
+            // PDF export via jsPDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            pdf.addImage(imgData, 'JPEG', 10, 10, 180, 160);
+            pdf.save('converted.pdf');
+          } else {
+            canvas.toBlob(function(blob) {
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = 'converted.' + format.split('/')[1];
+              link.textContent = 'Download Converted Image';
+              resultDiv.innerHTML = '';
+              resultDiv.appendChild(link);
+            }, format, 1.0);
+          }
+        };
+        img.src = event.target.result;
       };
-    }
-
-    async function convert(){
-      if(!originalFile || !imgEl) return;
-      const type = formatSel.value;
-      const q = parseFloat(qualityRange.value);
-
-      // Size canvas to image
-      canvas.width = imgEl.naturalWidth;
-      canvas.height = imgEl.naturalHeight;
-
-      // If exporting to JPEG (no transparency), fill white background
-      if(type === 'image/jpeg'){
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0,0,canvas.width, canvas.height);
-      } else {
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-      }
-      ctx.drawImage(imgEl, 0, 0);
-
-      // Convert via canvas.toBlob
-      canvas.toBlob(async (blob)=>{
-        if(!blob){
-          alert('This format may not be supported in your browser. Try a different one.');
-          return;
-        }
-        // Update UI with size
-        outSizeEl.textContent = `Converted: ${fmtBytes(blob.size)}`;
-        noteEl.textContent = type.replace('image/','').toUpperCase() + ` • Q${Math.round(q*100)}`;
-
-        // Download
-        const ext = {
-          'image/jpeg':'jpg', 'image/png':'png', 'image/webp':'webp', 'image/avif':'avif'
-        }[type] || 'img';
-        const base = (originalFile.name.split('.').slice(0,-1).join('.') || 'image');
-        const outName = `${base}.${ext}`;
-
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url; a.download = outName; document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(()=> URL.revokeObjectURL(url), 1000);
-      }, type, ['image/png'].includes(type) ? undefined : q);
-    }
-
-    convertBtn.addEventListener('click', convert);
+      reader.readAsDataURL(file);
+    });
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
-   <script async="async" data-cfasync="false" src="//porchadvertise.com/d34df16bf090b8a15724f203a04aa921/invoke.js"></script>
-<div id="container-d34df16bf090b8a15724f203a04aa921"></div>
 </html>
