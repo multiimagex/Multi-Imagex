@@ -1,285 +1,101 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>multiimagex — Your daily-life tools all in one place</title>
-
-  <!-- Primary SEO -->
-  <meta name="description" content="Convert, calculate, compress, and simplify your everyday tasks — fast and free. Image tools, PDF tools, calculators and more at multiimagex." />
-  <meta name="keywords" content="image converter, image compressor, image resizer, image crop, image OCR, image to text, pdf to word, word to pdf, pdf compressor, pdf merger, pdf splitter, scientific calculator, age calculator, online tools, free tools" />
+  <meta name="description" content="multiimagex offers free online tools to convert images, compress PDFs, resize photos, extract text with OCR, merge & split documents, and use calculators — all in one place. Fast, secure and mobile-friendly." />
+  <meta name="keywords" content="image converter, image compressor, image resizer, image crop, OCR, image to text, pdf to word, word to pdf, pdf compressor, pdf merger, pdf splitter, scientific calculator, age calculator, online tools, free tools" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#6c63ff" />
   <link rel="canonical" href="http://www.multiimagex.online/" />
-
-  <!-- Open Graph -->
-  <meta property="og:site_name" content="multiimagex" />
-  <meta property="og:title" content="multiimagex — Your daily-life tools all in one place" />
-  <meta property="og:description" content="Convert, calculate, compress, and simplify your everyday tasks — fast and free." />
-  <meta property="og:url" content="http://www.multiimagex.online/" />
-  <meta property="og:type" content="website" />
-
-  <!-- Structured data (WebSite + SoftwareApplication snippets for SEO) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "multiimagex",
-    "url": "http://www.multiimagex.online/",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "http://www.multiimagex.online/?s={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --velvet:#3b0f4f;
-      --velvet-2:#5b1a6b;
-      --accent:#ffb3d6;
-      --muted:#9b86a1;
-      --card:#ffffff;
-      --bg:#0b0710;
-      --glass: rgba(255,255,255,0.04);
-      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#14061a);color:#f6f2f8}
-    a{color:var(--accent);text-decoration:none}
-    header{backdrop-filter: blur(6px);position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,0.03)}
-    .container{max-width:1100px;margin:0 auto;padding:24px}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{display:inline-flex;align-items:center;gap:10px}
-    .logo svg{width:46px;height:46px}
-    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
-    .btn{padding:8px 14px;border-radius:10px;background:linear-gradient(180deg,var(--velvet-2),var(--velvet));border:none;color:white;font-weight:600}
-
-    .hero{padding:48px 0;display:grid;grid-template-columns:1fr;gap:20px}
-    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:28px;border-radius:16px;box-shadow:0 6px 30px rgba(11,7,16,0.6)}
-    h1{font-size:32px;margin:0 0 8px 0;line-height:1.05}
-    p.lead{margin:0;color:var(--muted)}
-
-    .searchbar{display:flex;gap:12px;margin-top:18px}
-    .searchbar input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;font-size:16px}
-    .searchbar button{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-
-    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
-    .tool-card{background:var(--card);color:#1b1220;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;min-height:86px}
-    .tool-card h3{margin:0;font-size:16px}
-    .tool-card p{margin:4px 0 0 0;font-size:13px;color:#564557}
-    .status{margin-left:auto;font-weight:700;font-size:12px}
-
-    footer{padding:28px 0;margin-top:36px;color:var(--muted)}
-    .small{font-size:13px}
-
-    /* responsive tweaks */
-    @media(min-width:800px){
-      .hero{grid-template-columns:1fr 420px}
-      h1{font-size:40px}
-    }
+    body{margin:0;font-family:'Inter',sans-serif;background:#fff;color:#222;line-height:1.6}
+    header{background:#6c63ff;padding:1rem;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+    header h1{margin:0;font-size:1.8rem;color:#fff}
+    nav{margin-top:.5rem}
+    nav a{color:#fff;text-decoration:none;margin:0 1rem;font-weight:600;transition:.3s}
+    nav a:hover{color:#f9f9f9;text-decoration:underline}
+    .hero{text-align:center;padding:3rem 1rem;background:#f9f9ff}
+    .hero h2{font-size:2rem;margin:0 0 1rem;color:#333}
+    .hero p{font-size:1.1rem;color:#555;margin-bottom:1.5rem}
+    .search-bar{max-width:500px;margin:0 auto;display:flex;box-shadow:0 2px 6px rgba(0,0,0,.1);border-radius:10px;overflow:hidden}
+    .search-bar input{flex:1;padding:.75rem;border:none;outline:none}
+    .search-bar button{padding:.75rem 1rem;border:none;background:#6c63ff;color:#fff;font-weight:600;cursor:pointer}
+    .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;padding:2rem}
+    .tool-card{background:#fff;border:1px solid #eee;padding:1.5rem;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.05);transition:.3s}
+    .tool-card:hover{transform:translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.1)}
+    .tool-card h3{margin-top:0;color:#6c63ff}
+    .tool-card p{color:#555}
+    .footer{background:#fafafa;padding:2rem;text-align:center;color:#666;font-size:.9rem;border-top:1px solid #eee}
+    .footer a{color:#6c63ff;text-decoration:none;margin:0 .5rem}
+    .footer a:hover{text-decoration:underline}
   </style>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org","@type":"WebSite","name":"multiimagex","url":"http://www.multiimagex.online/",
+    "potentialAction":{"@type":"SearchAction","target":"http://www.multiimagex.online/?s={search_term}","query-input":"required name=search_term"}
+  }</script>
 </head>
 <body>
   <header>
-    <div class="container nav">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <!-- simple velvet SVG logo -->
-          <svg viewBox="0 0 120 120">
-            <defs>
-              <linearGradient id="g" x1="0" x2="1">
-                <stop offset="0" stop-color="#7f2b7f" />
-                <stop offset="1" stop-color="#3b0f4f" />
-              </linearGradient>
-            </defs>
-            <rect x="0" y="0" width="120" height="120" rx="18" fill="url(#g)" />
-            <text x="60" y="70" font-size="46" font-family="Inter, Arial" font-weight="700" text-anchor="middle" fill="#fff">M</text>
-          </svg>
-        </div>
-        <div>
-          <div style="font-weight:700">multiimagex</div>
-          <div style="font-size:12px;color:var(--muted)">all-in-one daily tools</div>
-        </div>
-      </div>
-
-      <nav>
-        <ul>
-          <li><a href="http://www.multiimagex.online/">Home</a></li>
-          <li><a href="http://www.multiimagex.online/tools/">Tools</a></li>
-          <li><a href="mailto:multiimegex@gmail.com">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
+    <h1>multiimagex</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="#tools">Tools</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Use</a>
+      <a href="mailto:multiimegex@gmail.com">Contact</a>
+    </nav>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="hero-card">
-        <h1>your daily-life tools — all in one place.</h1>
-        <p class="lead">convert, calculate, compress, and simplify your everyday tasks — fast and free</p>
+  <section class="hero">
+    <h2>Your daily-life tools all in one place</h2>
+    <p>Convert, calculate, compress, and simplify your everyday tasks — fast and free.</p>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search tools..." aria-label="Search tools">
+      <button onclick="searchTools()">Search</button>
+    </div>
+  </section>
 
-        <div class="searchbar" role="search" aria-label="Search tools">
-          <input id="toolSearch" placeholder="Search tools — e.g. image converter, pdf, calculator..." aria-label="Search tools" />
-          <button id="clearBtn" title="Clear">✕</button>
-        </div>
+  <section id="tools" class="tools"></section>
 
-        <div style="margin-top:14px;font-size:13px;color:var(--muted)">Tip: type a tool name to filter. When you add a tool file at <code>/tools/&lt;tool-slug&gt;/index.html</code> it will automatically appear here if your server returns 200 for that URL.</div>
-      </div>
-
-      <aside class="hero-card" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
-        <div style="display:flex;align-items:center;gap:12px;width:100%">
-          <div style="width:72px;height:72px;border-radius:10px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-weight:700">B</div>
-          <div>
-            <div style="font-weight:700">Banner / Logo</div>
-            <div class="small">A modern velvet-themed banner sits here. You can replace the SVG in the header for a custom logo.</div>
-          </div>
-        </div>
-
-        <div style="width:100%">
-          <div style="font-weight:700;margin-bottom:8px">Quick links</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <a class="btn" href="http://www.multiimagex.online/tools/image-converter/">Image Converter</a>
-            <a class="btn" href="http://www.multiimagex.online/tools/pdf-compressor/">PDF Compressor</a>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <section>
-      <h2 style="margin:10px 0 6px 0">All tools</h2>
-      <p class="small" style="margin:0 0 14px 0;color:var(--muted)">Click a tool to open. New tool files placed in <code>/tools/&lt;slug&gt;/index.html</code> will be detected and linked automatically.</p>
-
-      <div id="toolsGrid" class="tools-grid" aria-live="polite"></div>
-    </section>
-
-    <footer>
-      <div class="small">Contact: <a href="mailto:multiimegex@gmail.com">multiimegex@gmail.com</a></div>
-      <div class="small" style="margin-top:8px">© <strong>multiimagex</strong> — <a href="http://www.multiimagex.online/">http://www.multiimagex.online/</a></div>
-    </footer>
-  </main>
+  <footer class="footer">
+    <p>© 2025 multiimagex | <a href="/privacy/">Privacy Policy</a> | <a href="/terms/">Terms of Use</a></p>
+  </footer>
 
   <script>
-    // List of tools and slugs used for filenames and URLs
-    const tools = [
-      {title:'Image converter', slug:'image-converter', desc:'Convert images between formats (png, jpg, webp, avif).'},
-      {title:'Image compressor', slug:'image-compressor', desc:'Lossy & lossless compression for images.'},
-      {title:'Image resizer', slug:'image-resizer', desc:'Resize images by pixels or percent.'},
-      {title:'Image crop', slug:'image-crop', desc:'Crop images with an easy UI.'},
-      {title:'Image to text (OCR)', slug:'image-ocr', desc:'Extract text from images using OCR.'},
-      {title:'Image rotator/flipper', slug:'image-rotate-flip', desc:'Rotate or flip images.'},
-      {title:'PDF to Word / Word to PDF', slug:'pdf-word', desc:'Convert PDF ↔ Word (docx).'},
-      {title:'PDF compressor', slug:'pdf-compressor', desc:'Compress PDF files to smaller sizes.'},
-      {title:'PDF merger and splitter', slug:'pdf-merge-split', desc:'Merge multiple PDFs or split one into many.'},
-      {title:'Scientific calculator', slug:'scientific-calculator', desc:'Advanced calculator with trig, logs, etc.'},
-      {title:'Age calculator', slug:'age-calculator', desc:'Calculate exact age from DOB.'}
+    const tools=[
+      {name:"Image Converter",slug:"image-converter"},
+      {name:"Image Compressor",slug:"image-compressor"},
+      {name:"Image Resizer",slug:"image-resizer"},
+      {name:"Image Crop",slug:"image-crop"},
+      {name:"Image to Text (OCR)",slug:"image-ocr"},
+      {name:"Image Rotator/Flipper",slug:"image-rotate-flip"},
+      {name:"PDF to Word / Word to PDF",slug:"pdf-word"},
+      {name:"PDF Compressor",slug:"pdf-compressor"},
+      {name:"PDF Merger & Splitter",slug:"pdf-merge-split"},
+      {name:"Scientific Calculator",slug:"scientific-calculator"},
+      {name:"Age Calculator",slug:"age-calculator"}
     ];
 
-    const domainBase = 'http://www.multiimagex.online';
+    const toolsContainer=document.getElementById("tools");
+    tools.forEach(t=>{
+      const card=document.createElement("div");
+      card.className="tool-card";
+      card.innerHTML=`<h3>${t.name}</h3><p>Use the ${t.name} tool instantly online.</p><a href="/tools/${t.slug}/">Open</a>`;
+      toolsContainer.appendChild(card);
+    });
 
-    const grid = document.getElementById('toolsGrid');
-    const search = document.getElementById('toolSearch');
-    const clearBtn = document.getElementById('clearBtn');
-
-    function makeCard(t){
-      const card = document.createElement('article');
-      card.className = 'tool-card';
-      card.setAttribute('data-slug', t.slug);
-
-      const left = document.createElement('div');
-      left.style.display='flex';left.style.flexDirection='column';
-      left.innerHTML = `<h3>${t.title}</h3><p>${t.desc}</p>`;
-
-      const status = document.createElement('div');
-      status.className='status';
-      status.textContent='Checking...';
-
-      card.appendChild(left);
-      card.appendChild(status);
-
-      // default link target
-      card.addEventListener('click', (e)=>{
-        if(status.dataset.available === 'true'){
-          window.location.href = domainBase + '/tools/' + t.slug + '/';
-        } else {
-          alert(t.title + ' — coming soon. Add file at /tools/' + t.slug + '/index.html to enable.');
-        }
-      })
-
-      return {card,status};
+    function searchTools(){
+      const query=document.getElementById("searchInput").value.toLowerCase();
+      document.querySelectorAll(".tool-card").forEach(card=>{
+        card.style.display=card.innerText.toLowerCase().includes(query)?"block":"none";
+      });
     }
-
-    // attempt to probe each tool URL; if the hosting environment prevents HEAD requests you can instead maintain a tools.json manifest.
-    async function probeTools(){
-      grid.innerHTML='';
-      const items = tools.map(makeCard);
-      items.forEach(i=>grid.appendChild(i.card));
-
-      // probe sequentially to be gentle
-      for(let i=0;i<tools.length;i++){
-        const t = tools[i];
-        const {status,card} = items[i];
-        const url = domainBase + '/tools/' + t.slug + '/index.html';
-        try{
-          const resp = await fetch(url, {method:'HEAD'});
-          if(resp.ok){
-            status.textContent = 'Open';
-            status.style.color = 'green';
-            status.dataset.available = 'true';
-            card.style.cursor='pointer';
-          } else {
-            status.textContent = 'Coming soon';
-            status.style.color = '#b08fa6';
-            status.dataset.available = 'false';
-            card.style.opacity=0.95;
-          }
-        }catch(err){
-          // network errors or blocked HEAD -> fallback to try GET with range or label coming soon
-          try{
-            const r = await fetch(url, {method:'GET'});
-            if(r.ok){
-              status.textContent = 'Open';
-              status.style.color = 'green';
-              status.dataset.available = 'true';
-              card.style.cursor='pointer';
-            } else {
-              status.textContent = 'Coming soon';
-              status.style.color = '#b08fa6';
-              status.dataset.available = 'false';
-            }
-          }catch(e){
-            status.textContent = 'Coming soon';
-            status.style.color = '#b08fa6';
-            status.dataset.available = 'false';
-          }
-        }
-      }
-    }
-
-    function filterTools(q){
-      q = (q||'').trim().toLowerCase();
-      document.querySelectorAll('.tool-card').forEach(card=>{
-        const title = card.querySelector('h3').textContent.toLowerCase();
-        const desc = card.querySelector('p').textContent.toLowerCase();
-        if(!q || title.includes(q) || desc.includes(q) || card.dataset.slug.includes(q)){
-          card.style.display='flex';
-        } else card.style.display='none';
-      })
-    }
-
-    search.addEventListener('input', (e)=>filterTools(e.target.value));
-    clearBtn.addEventListener('click', ()=>{search.value=''; filterTools('');});
-
-    // init
-    probeTools();
-
-    // Optional: if you prefer a manifest approach, create /tools/tools.json containing an array of published slugs and their metadata;
-    // then fetch that JSON and render dynamically. This is more reliable for static hosts that disallow directory probing.
-
-    // Accessibility: allow search via query param ?s=term
-    const urlParams = new URLSearchParams(location.search);
-    const q = urlParams.get('s');
-    if(q){ search.value = q; filterTools(q); }
   </script>
 </body>
 </html>
