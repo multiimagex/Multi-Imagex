@@ -1,808 +1,285 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-	<!-- Primary Meta Tags -->
-<title>MultiImageX - Free Online Tools (Image, PDF, Text, Calculator)</title>
-<meta name="title" content="MultiImageX - Free Online Tools (Image, PDF, Text, Calculator)">
-<meta name="description" content="Use MultiImageX free online tools: image compressor, image to PDF, PDF to image, age calculator, image to text, scientific calculator & more.">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>multiimagex — Your daily-life tools all in one place</title>
 
-<!-- Keywords (Optional but useful for some search engines) -->
-<meta name="keywords" content="image compressor, image to pdf, pdf to image, age calculator, image to text, text to image, image converter, image resizer, image enhancer, image editor, image upscaler, scientific calculator, pdf to text, pdf compressor, pdf merger, pdf splitter, pdf to word, word to pdf, free online tools, multitool website">
+  <!-- Primary SEO -->
+  <meta name="description" content="Convert, calculate, compress, and simplify your everyday tasks — fast and free. Image tools, PDF tools, calculators and more at multiimagex." />
+  <meta name="keywords" content="image converter, image compressor, image resizer, image crop, image OCR, image to text, pdf to word, word to pdf, pdf compressor, pdf merger, pdf splitter, scientific calculator, age calculator, online tools, free tools" />
+  <link rel="canonical" href="http://www.multiimagex.online/" />
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.multiimagex.com/">
-<meta property="og:title" content="MultiImageX - Free Online Tools (Image, PDF, Text, Calculator)">
-<meta property="og:description" content="All-in-one free online tools for images, PDFs, text, and calculations. Compress, convert, edit, and calculate instantly.">
-<meta property="og:image" content="https://www.multiimagex.com/logo.png">
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="multiimagex" />
+  <meta property="og:title" content="multiimagex — Your daily-life tools all in one place" />
+  <meta property="og:description" content="Convert, calculate, compress, and simplify your everyday tasks — fast and free." />
+  <meta property="og:url" content="http://www.multiimagex.online/" />
+  <meta property="og:type" content="website" />
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://www.multiimagex.com/">
-<meta property="twitter:title" content="MultiImageX - Free Online Tools (Image, PDF, Text, Calculator)">
-<meta property="twitter:description" content="Use MultiImageX free online tools: image compressor, PDF tools, text tools, calculators & more.">
-<meta property="twitter:image" content="https://www.multiimagex.com/logo.png">
+  <!-- Structured data (WebSite + SoftwareApplication snippets for SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "multiimagex",
+    "url": "http://www.multiimagex.online/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "http://www.multiimagex.online/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 
-    <link rel="icon" href="a-vector-illustration-of-a-modern-logo-f_KXCFgQtvSKCe9H_ht-OhCA_c_SgDqUTTD-BGq0rJC4qqw.jpeg" type="image/x-icon">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi Imagex - Your Daily Tools, All in One Place</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-blue: #2563eb;
-            --secondary-blue: #3b82f6;
-            --light-blue: #dbeafe;
-            --dark-blue: #1e40af;
-            --text-dark: #1f2937;
-            --text-light: #6b7280;
-            --bg-light: #f9fafb;
-            --card-bg: #ffffff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header Styles */
-        header {
-            background-color: var(--card-bg);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo i {
-            margin-right: 8px;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-        
-        nav a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        
-        nav a:hover {
-            color: var(--primary-blue);
-        }
-        
-        .contact-mail {
-            display: flex;
-            align-items: center;
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        
-        .contact-mail i {
-            margin-right: 5px;
-            color: var(--primary-blue);
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--primary-blue);
-            cursor: pointer;
-        }
-        
-        /* Hero Section */
-        .hero {
-            padding: 80px 0;
-            background: linear-gradient(135deg, var(--light-blue) 0%, var(--card-bg) 100%);
-            text-align: center;
-        }
-        
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            color: var(--text-dark);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin-bottom: 30px;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-        
-        .cta-button:hover {
-            background-color: var(--dark-blue);
-            transform: translateY(-3px);
-        }
-        
-        .tool-icons {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 50px;
-            flex-wrap: wrap;
-        }
-        
-        .tool-icon {
-            background-color: var(--card-bg);
-            width: 80px;
-            height: 80px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-            color: var(--primary-blue);
-            font-size: 2rem;
-        }
-        
-        /* Search Section */
-        .search-section {
-            padding: 40px 0;
-            background-color: var(--card-bg);
-        }
-        
-        .search-container {
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-        }
-        
-        .search-bar {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid #e5e7eb;
-            border-radius: 50px;
-            font-size: 1rem;
-            outline: none;
-            transition: var(--transition);
-        }
-        
-        .search-bar:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-        }
-        
-        .search-button {
-            position: absolute;
-            right: 5px;
-            top: 5px;
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 11px 25px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .search-button:hover {
-            background-color: var(--dark-blue);
-        }
-        
-        /* Tools Sections */
-        .tools-section {
-            padding: 60px 0;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-        }
-        
-        .section-subtitle {
-            color: var(--text-light);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-        
-        .tool-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .tool-icon-small {
-            background-color: var(--light-blue);
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-blue);
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .tool-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--text-dark);
-        }
-        
-        .tool-desc {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            flex-grow: 1;
-            margin-bottom: 20px;
-        }
-        
-        .tool-button {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-            text-decoration: none;
-        }
-        
-        .tool-button:hover {
-            background-color: var(--dark-blue);
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--text-dark);
-            color: white;
-            padding: 60px 0 30px;
-        }
-        
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 15px;
-            display: block;
-        }
-        
-        .footer-tagline {
-            color: #d1d5db;
-            max-width: 300px;
-        }
-        
-        .footer-contact {
-            color: #d1d5db;
-        }
-        
-        .footer-contact a {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-        
-        .footer-contact i {
-            margin-right: 8px;
-            color: var(--secondary-blue);
-        }
-        
-        .footer-links {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .footer-links a {
-            color: #d1d5db;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .footer-bottom {
-            border-top: 1px solid #374151;
-            padding-top: 20px;
-            text-align: center;
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.3rem;
-            }
-            
-            .tool-icon {
-                width: 70px;
-                height: 70px;
-                font-size: 1.7rem;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header-content {
-                padding: 15px 0;
-            }
-            
-            nav ul {
-                display: none;
-            }
-            
-            .contact-mail {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .mobile-nav {
-                display: flex;
-                flex-direction: column;
-                background-color: var(--card-bg);
-                padding: 20px;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                z-index: 99;
-            }
-            
-            .mobile-nav.active {
-                display: flex;
-            }
-            
-            .mobile-nav a {
-                padding: 12px 0;
-                border-bottom: 1px solid #f3f4f6;
-            }
-            
-            .hero {
-                padding: 60px 0;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .tool-icons {
-                gap: 15px;
-            }
-            
-            .tool-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
-            }
-            
-            .footer-links {
-                flex-wrap: wrap;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .section-title {
-                font-size: 1.7rem;
-            }
-            
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tool-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.3rem;
-            }
-        }
-    </style>
+  <style>
+    :root{
+      --velvet:#3b0f4f;
+      --velvet-2:#5b1a6b;
+      --accent:#ffb3d6;
+      --muted:#9b86a1;
+      --card:#ffffff;
+      --bg:#0b0710;
+      --glass: rgba(255,255,255,0.04);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#14061a);color:#f6f2f8}
+    a{color:var(--accent);text-decoration:none}
+    header{backdrop-filter: blur(6px);position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{display:inline-flex;align-items:center;gap:10px}
+    .logo svg{width:46px;height:46px}
+    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0}
+    .btn{padding:8px 14px;border-radius:10px;background:linear-gradient(180deg,var(--velvet-2),var(--velvet));border:none;color:white;font-weight:600}
+
+    .hero{padding:48px 0;display:grid;grid-template-columns:1fr;gap:20px}
+    .hero-card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:28px;border-radius:16px;box-shadow:0 6px 30px rgba(11,7,16,0.6)}
+    h1{font-size:32px;margin:0 0 8px 0;line-height:1.05}
+    p.lead{margin:0;color:var(--muted)}
+
+    .searchbar{display:flex;gap:12px;margin-top:18px}
+    .searchbar input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;font-size:16px}
+    .searchbar button{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+    .tool-card{background:var(--card);color:#1b1220;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;min-height:86px}
+    .tool-card h3{margin:0;font-size:16px}
+    .tool-card p{margin:4px 0 0 0;font-size:13px;color:#564557}
+    .status{margin-left:auto;font-weight:700;font-size:12px}
+
+    footer{padding:28px 0;margin-top:36px;color:var(--muted)}
+    .small{font-size:13px}
+
+    /* responsive tweaks */
+    @media(min-width:800px){
+      .hero{grid-template-columns:1fr 420px}
+      h1{font-size:40px}
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="#" class="logo">
-                    <i class="fas fa-cubes"></i>
-                    Multi Imagex
-                </a>
-                
-                <nav>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#tools">Tools</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
-                
-                <a href="mailto:multiimagex@gmail.com" class="contact-mail">
-                    <i class="far fa-envelope"></i>
-                    multiimagex@gmail.com
-                </a>
-                
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-            
-            <div class="mobile-nav" id="mobileNav">
-                <a href="#">Home</a>
-                <a href="#tools">Tools</a>
-                <a href="#contact">Contact</a>
-                <a href="mailto:multiimagex@gmail.com">
-                    <i class="far fa-envelope"></i>
-                    multiimagex@gmail.com
-                </a>
-            </div>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- simple velvet SVG logo -->
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <linearGradient id="g" x1="0" x2="1">
+                <stop offset="0" stop-color="#7f2b7f" />
+                <stop offset="1" stop-color="#3b0f4f" />
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="120" height="120" rx="18" fill="url(#g)" />
+            <text x="60" y="70" font-size="46" font-family="Inter, Arial" font-weight="700" text-anchor="middle" fill="#fff">M</text>
+          </svg>
         </div>
-    </header>
+        <div>
+          <div style="font-weight:700">multiimagex</div>
+          <div style="font-size:12px;color:var(--muted)">all-in-one daily tools</div>
+        </div>
+      </div>
 
-    <!-- Hero Section -->
+      <nav>
+        <ul>
+          <li><a href="http://www.multiimagex.online/">Home</a></li>
+          <li><a href="http://www.multiimagex.online/tools/">Tools</a></li>
+          <li><a href="mailto:multiimegex@gmail.com">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
     <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Your Daily Tools, All in One Place</h1>
-                <p>Convert, calculate, compress, and simplify your everyday tasks — fast and free.</p>
-                <a href="#tools" class="cta-button">Explore Tools</a>
-                
-                <div class="tool-icons">
-                    <div class="tool-icon">
-                        <i class="fas fa-image"></i>
-                    </div>
-                    <div class="tool-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="tool-icon">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <div class="tool-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="tool-icon">
-                        <i class="fas fa-video"></i>
-                    </div>
-                </div>
-            </div>
+      <div class="hero-card">
+        <h1>your daily-life tools — all in one place.</h1>
+        <p class="lead">convert, calculate, compress, and simplify your everyday tasks — fast and free</p>
+
+        <div class="searchbar" role="search" aria-label="Search tools">
+          <input id="toolSearch" placeholder="Search tools — e.g. image converter, pdf, calculator..." aria-label="Search tools" />
+          <button id="clearBtn" title="Clear">✕</button>
         </div>
+
+        <div style="margin-top:14px;font-size:13px;color:var(--muted)">Tip: type a tool name to filter. When you add a tool file at <code>/tools/&lt;tool-slug&gt;/index.html</code> it will automatically appear here if your server returns 200 for that URL.</div>
+      </div>
+
+      <aside class="hero-card" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+        <div style="display:flex;align-items:center;gap:12px;width:100%">
+          <div style="width:72px;height:72px;border-radius:10px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-weight:700">B</div>
+          <div>
+            <div style="font-weight:700">Banner / Logo</div>
+            <div class="small">A modern velvet-themed banner sits here. You can replace the SVG in the header for a custom logo.</div>
+          </div>
+        </div>
+
+        <div style="width:100%">
+          <div style="font-weight:700;margin-bottom:8px">Quick links</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a class="btn" href="http://www.multiimagex.online/tools/image-converter/">Image Converter</a>
+            <a class="btn" href="http://www.multiimagex.online/tools/pdf-compressor/">PDF Compressor</a>
+          </div>
+        </div>
+      </aside>
     </section>
 
-    <!-- Search Section -->
-    <section class="search-section">
-        <div class="container">
-            <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search a tool..." id="toolSearch">
-                <button class="search-button">Search</button>
-            </div>
-        </div>
+    <section>
+      <h2 style="margin:10px 0 6px 0">All tools</h2>
+      <p class="small" style="margin:0 0 14px 0;color:var(--muted)">Click a tool to open. New tool files placed in <code>/tools/&lt;slug&gt;/index.html</code> will be detected and linked automatically.</p>
+
+      <div id="toolsGrid" class="tools-grid" aria-live="polite"></div>
     </section>
 
-    <!-- Tools Sections -->
-    <main id="tools">
-        <!-- Image Tools -->
-        <section class="tools-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">🖼 Image Tools</h2>
-                    <p class="section-subtitle">Edit, convert and optimize your images with our powerful tools</p>
-                </div>
-                
-                <div class="tools-grid">
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
-                        <h3 class="tool-name">Image Converter</h3>
-                        <p class="tool-desc">Convert images between different formats with ease.</p>
-                        <a href="image-converter.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-compress-arrows-alt"></i>
-                        </div>
-                        <h3 class="tool-name">Image Compressor</h3>
-                        <p class="tool-desc">Reduce image file size without losing quality.</p>
-                        <a href="image-compressor.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-expand-alt"></i>
-                        </div>
-                        <h3 class="tool-name">Image Resizer</h3>
-                        <p class="tool-desc">Resize your images to any dimension quickly.</p>
-                        <a href="image-resizer.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-crop-alt"></i>
-                        </div>
-                        <h3 class="tool-name">Image Crop</h3>
-                        <p class="tool-desc">Crop images to remove unwanted areas.</p>
-                        <a href="image-crop.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-font"></i>
-                        </div>
-                        <h3 class="tool-name">Image to Text (OCR)</h3>
-                        <p class="tool-desc">Extract text from images accurately.</p>
-                        <a href="image-to-text.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-sync"></i>
-                        </div>
-                        <h3 class="tool-name">Image Rotator/Flipper</h3>
-                        <p class="tool-desc">Rotate or flip images in any direction.</p>
-                        <a href="image-rotator-and-flipper.html" class="tool-button">Use Tool</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Document Tools -->
-        <section class="tools-section" style="background-color: #f0f7ff;">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">📄 Document Tools</h2>
-                    <p class="section-subtitle">Manage and convert your documents with ease</p>
-                </div>
-                
-                <div class="tools-grid">
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
-                        <h3 class="tool-name">PDF to Word / Word to PDF</h3>
-                        <p class="tool-desc">Convert between PDF and Word documents.</p>
-                        <a href="pdf-to-word.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-file-archive"></i>
-                        </div>
-                        <h3 class="tool-name">PDF Compressor</h3>
-                        <p class="tool-desc">Reduce PDF file size while maintaining quality.</p>
-                        <a href="pdf-compressor.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-object-group"></i>
-                        </div>
-                        <h3 class="tool-name">PDF Merger & Splitter</h3>
-                        <p class="tool-desc">Combine or split PDF files as needed.</p>
-                        <a href="pdf-merger-&-splitter.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <!-- Additional document tools would go here -->
-                </div>
-            </div>
-        </section>
-        
-        <!-- Calculator Tools -->
-        <section class="tools-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">🧮 Calculator Tools</h2>
-                    <p class="section-subtitle">Perform various calculations for your needs</p>
-                </div>
-                
-                <div class="tools-grid">
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-calculator"></i>
-                        </div>
-                        <h3 class="tool-name">Scientific Calculator</h3>
-                        <p class="tool-desc">Advanced calculator for complex calculations.</p>
-                        <a href="scientific-calculator.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon-small">
-                            <i class="fas fa-birthday-cake"></i>
-                        </div>
-                        <h3 class="tool-name">Age Calculator</h3>
-                        <p class="tool-desc">Calculate age from birth date to current date.</p>
-                        <a href="age-calculator.html" class="tool-button">Use Tool</a>
-                    </div>
-                    
-                    <!-- Additional calculator tools would go here -->
-                </div>
-            </div>
-        </section>
-        
-        <!-- Additional tool sections would follow the same pattern -->
-        
-    </main>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div>
-                    <a href="#" class="footer-logo">Multi Imagex</a>
-                    <p class="footer-tagline">Simplifying your digital lifestyle.</p>
-                </div>
-                
-                <div class="footer-contact">
-                    <p>Get in touch with us:</p>
-                    <a href="mailto:multiimagex@gmail.com">
-                        <i class="far fa-envelope"></i>
-                        multiimagex@gmail.com
-                    </a>
-                </div>
-                
-                <div class="footer-links">
-                    <a href="privacy-policy.html">Privacy Policy</a>
-                    <a href="terms-and-conditions.html">Terms of Use</a>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2023 Multi Imagex. All rights reserved.</p>
-            </div>
-        </div>
+    <footer>
+      <div class="small">Contact: <a href="mailto:multiimegex@gmail.com">multiimegex@gmail.com</a></div>
+      <div class="small" style="margin-top:8px">© <strong>multiimagex</strong> — <a href="http://www.multiimagex.online/">http://www.multiimagex.online/</a></div>
     </footer>
+  </main>
 
-    <script>
-        // Mobile menu functionality
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileNav = document.getElementById('mobileNav');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileNav.classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!mobileNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                mobileNav.classList.remove('active');
+  <script>
+    // List of tools and slugs used for filenames and URLs
+    const tools = [
+      {title:'Image converter', slug:'image-converter', desc:'Convert images between formats (png, jpg, webp, avif).'},
+      {title:'Image compressor', slug:'image-compressor', desc:'Lossy & lossless compression for images.'},
+      {title:'Image resizer', slug:'image-resizer', desc:'Resize images by pixels or percent.'},
+      {title:'Image crop', slug:'image-crop', desc:'Crop images with an easy UI.'},
+      {title:'Image to text (OCR)', slug:'image-ocr', desc:'Extract text from images using OCR.'},
+      {title:'Image rotator/flipper', slug:'image-rotate-flip', desc:'Rotate or flip images.'},
+      {title:'PDF to Word / Word to PDF', slug:'pdf-word', desc:'Convert PDF ↔ Word (docx).'},
+      {title:'PDF compressor', slug:'pdf-compressor', desc:'Compress PDF files to smaller sizes.'},
+      {title:'PDF merger and splitter', slug:'pdf-merge-split', desc:'Merge multiple PDFs or split one into many.'},
+      {title:'Scientific calculator', slug:'scientific-calculator', desc:'Advanced calculator with trig, logs, etc.'},
+      {title:'Age calculator', slug:'age-calculator', desc:'Calculate exact age from DOB.'}
+    ];
+
+    const domainBase = 'http://www.multiimagex.online';
+
+    const grid = document.getElementById('toolsGrid');
+    const search = document.getElementById('toolSearch');
+    const clearBtn = document.getElementById('clearBtn');
+
+    function makeCard(t){
+      const card = document.createElement('article');
+      card.className = 'tool-card';
+      card.setAttribute('data-slug', t.slug);
+
+      const left = document.createElement('div');
+      left.style.display='flex';left.style.flexDirection='column';
+      left.innerHTML = `<h3>${t.title}</h3><p>${t.desc}</p>`;
+
+      const status = document.createElement('div');
+      status.className='status';
+      status.textContent='Checking...';
+
+      card.appendChild(left);
+      card.appendChild(status);
+
+      // default link target
+      card.addEventListener('click', (e)=>{
+        if(status.dataset.available === 'true'){
+          window.location.href = domainBase + '/tools/' + t.slug + '/';
+        } else {
+          alert(t.title + ' — coming soon. Add file at /tools/' + t.slug + '/index.html to enable.');
+        }
+      })
+
+      return {card,status};
+    }
+
+    // attempt to probe each tool URL; if the hosting environment prevents HEAD requests you can instead maintain a tools.json manifest.
+    async function probeTools(){
+      grid.innerHTML='';
+      const items = tools.map(makeCard);
+      items.forEach(i=>grid.appendChild(i.card));
+
+      // probe sequentially to be gentle
+      for(let i=0;i<tools.length;i++){
+        const t = tools[i];
+        const {status,card} = items[i];
+        const url = domainBase + '/tools/' + t.slug + '/index.html';
+        try{
+          const resp = await fetch(url, {method:'HEAD'});
+          if(resp.ok){
+            status.textContent = 'Open';
+            status.style.color = 'green';
+            status.dataset.available = 'true';
+            card.style.cursor='pointer';
+          } else {
+            status.textContent = 'Coming soon';
+            status.style.color = '#b08fa6';
+            status.dataset.available = 'false';
+            card.style.opacity=0.95;
+          }
+        }catch(err){
+          // network errors or blocked HEAD -> fallback to try GET with range or label coming soon
+          try{
+            const r = await fetch(url, {method:'GET'});
+            if(r.ok){
+              status.textContent = 'Open';
+              status.style.color = 'green';
+              status.dataset.available = 'true';
+              card.style.cursor='pointer';
+            } else {
+              status.textContent = 'Coming soon';
+              status.style.color = '#b08fa6';
+              status.dataset.available = 'false';
             }
-        });
-        
-        // Tool search functionality
-        const toolSearch = document.getElementById('toolSearch');
-        const toolCards = document.querySelectorAll('.tool-card');
-        
-        toolSearch.addEventListener('input', () => {
-            const searchTerm = toolSearch.value.toLowerCase();
-            
-            toolCards.forEach(card => {
-                const toolName = card.querySelector('.tool-name').textContent.toLowerCase();
-                const toolDesc = card.querySelector('.tool-desc').textContent.toLowerCase();
-                
-                if (toolName.includes(searchTerm) || toolDesc.includes(searchTerm)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    </script>
-    <script type="text/javascript">
-	atOptions = {
-		'key' : '98cecc8dc13bfd1091f41d573247c6b2',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript">
-	atOptions = {
-		'key' : '98cecc8dc13bfd1091f41d573247c6b2',
-		'format' : 'iframe',
-		'height' : 90,
-		'width' : 728,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//www.highperformanceformat.com/98cecc8dc13bfd1091f41d573247c6b2/invoke.js"></script>
+          }catch(e){
+            status.textContent = 'Coming soon';
+            status.style.color = '#b08fa6';
+            status.dataset.available = 'false';
+          }
+        }
+      }
+    }
+
+    function filterTools(q){
+      q = (q||'').trim().toLowerCase();
+      document.querySelectorAll('.tool-card').forEach(card=>{
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const desc = card.querySelector('p').textContent.toLowerCase();
+        if(!q || title.includes(q) || desc.includes(q) || card.dataset.slug.includes(q)){
+          card.style.display='flex';
+        } else card.style.display='none';
+      })
+    }
+
+    search.addEventListener('input', (e)=>filterTools(e.target.value));
+    clearBtn.addEventListener('click', ()=>{search.value=''; filterTools('');});
+
+    // init
+    probeTools();
+
+    // Optional: if you prefer a manifest approach, create /tools/tools.json containing an array of published slugs and their metadata;
+    // then fetch that JSON and render dynamically. This is more reliable for static hosts that disallow directory probing.
+
+    // Accessibility: allow search via query param ?s=term
+    const urlParams = new URLSearchParams(location.search);
+    const q = urlParams.get('s');
+    if(q){ search.value = q; filterTools(q); }
+  </script>
 </body>
 </html>
