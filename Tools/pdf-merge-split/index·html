@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PDF Merger & Splitter — Combine or Split PDFs | multiimagex</title>
+  <meta name="description" content="Merge multiple PDFs into one or split a PDF into separate pages. Use client-side PDF tools — preview and download results.">
+  <meta name="keywords" content="merge pdf, split pdf, combine pdf files, pdf merger, pdf splitter">
+  <link rel="canonical" href="http://www.multiimagex.online/tools/pdf-merge-split/" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>body{font-family:Inter,Arial;margin:0;color:#222}header{background:#6c63ff;color:#fff;padding:14px;text-align:center}.container{max-width:900px;margin:18px auto;padding:16px} .muted{color:#666}</style>
+</head>
+<body>
+  <header><h1>multiimagex — PDF Merger & Splitter</h1></header>
+  <main class="container">
+    <h2>Merge multiple PDFs or split into pages</h2>
+    <p class="muted">Upload PDFs below. Merge creates a single combined PDF. Split will extract each page as a separate PDF file.</p>
+
+    <section>
+      <h3>Merge PDFs</h3>
+      <input id="mergeFiles" type="file" accept="application/pdf" multiple><br><button id="mergeBtn">Merge & Download</button>
+      <div id="mergeStatus"></div>
+    </section>
+
+    <section style="margin-top:14px">
+      <h3>Split PDF</h3>
+      <input id="splitFile" type="file" accept="application/pdf"><br><button id="splitBtn">Split into Pages</button>
+      <div id="splitStatus"></div>
+    </section>
+  </main>
+  <footer style="text-align:center;padding:16px;border-top:1px solid #eee">© 2025 <a href="http://www.multiimagex.online/">multiimagex</a></footer>
+
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script>
+    document.getElementById('mergeBtn').addEventListener('click', async ()=>{
+      const files = document.getElementById('mergeFiles').files; if(!files.length){alert('Select PDFs');return}
+      const newPdf = await PDFLib.PDFDocument.create();
+      for(const f of files){ const bytes = await f.arrayBuffer(); const doc = await PDFLib.PDFDocument.load(bytes); const pages = await newPdf.copyPages(doc, doc.getPageIndices()); pages.forEach(p=>newPdf.addPage(p)); }
+      const out = await newPdf.save(); const blob=new Blob([out],{type:'application/pdf'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='merged.pdf'; a.click();
+    });
+
+    document.getElementById('splitBtn').addEventListener('click', async ()=>{
+      const f = document.getElementById('splitFile').files[0]; if(!f){alert('Select a PDF');return}
+      const bytes = await f.arrayBuffer(); const doc = await PDFLib.PDFDocument.load(bytes); const n = doc.getPageCount();
+      for(let i=0;i<n;i++){ const newDoc = await PDFLib.PDFDocument.create(); const [p] = await newDoc.copyPages(doc,[i]); newDoc.addPage(p); const out = await newDoc.save(); const blob = new Blob([out],{type:'application/pdf'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`page-${i+1}.pdf`; a.click(); }
+    });
+  </script>
+</body>
+</html>
