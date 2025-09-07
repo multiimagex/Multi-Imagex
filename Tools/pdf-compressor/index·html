@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PDF Compressor — Reduce PDF File Size | multiimagex</title>
+  <meta name="description" content="Compress PDF files online. Reduce file size for easier sharing while keeping readable quality. Use browser-based compression or integrate server-side for best results.">
+  <meta name="keywords" content="pdf compressor, compress pdf online, reduce pdf size, pdf optimizer">
+  <link rel="canonical" href="http://www.multiimagex.online/tools/pdf-compressor/" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>body{font-family:Inter,Arial;margin:0;color:#222}header{background:#6c63ff;color:#fff;padding:14px;text-align:center}.container{max-width:900px;margin:18px auto;padding:16px}.muted{color:#666}</style>
+</head>
+<body>
+  <header><h1>multiimagex — PDF Compressor</h1></header>
+  <main class="container">
+    <h2>Compress PDF files</h2>
+    <p class="muted">Client-side compression may be limited — for robust compression (optimize embedded images and fonts) server-side processing is recommended. This tool attempts to re-encode pages for lighter size when possible.</p>
+
+    <input id="pdfFile" type="file" accept="application/pdf"><br><br>
+    <button id="compressBtn">Compress (browser)</button>
+    <div id="status"></div>
+  </main>
+  <footer style="text-align:center;padding:16px;border-top:1px solid #eee">© 2025 <a href="http://www.multiimagex.online/">multiimagex</a></footer>
+
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script>
+    const fileEl=document.getElementById('pdfFile'); const status=document.getElementById('status');
+    document.getElementById('compressBtn').addEventListener('click', async()=>{
+      if(!fileEl.files.length){alert('Choose a PDF');return}
+      status.textContent='Processing...';
+      try{
+        const bytes = await fileEl.files[0].arrayBuffer();
+        const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+        // Re-create PDF pages into new doc (may reduce size in some cases)
+        const newPdf = await PDFLib.PDFDocument.create();
+        const copied = await newPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+        copied.forEach(p=>newPdf.addPage(p));
+        const out = await newPdf.save();
+        const blob = new Blob([out], {type:'application/pdf'});
+        const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='compressed.pdf'; a.textContent='Download compressed PDF'; status.innerHTML='Done: '; status.appendChild(a);
+      }catch(e){ status.textContent='Compression failed (browser limitation). Consider server-side.' }
+    });
+  </script>
+</body>
+</html>
