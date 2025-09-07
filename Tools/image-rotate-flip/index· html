@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Rotate & Flip Images — Online Tool | multiimagex</title>
+  <meta name="description" content="Rotate and flip images in your browser. Preview changes and download the edited image. Fast, private and free — no upload required.">
+  <meta name="keywords" content="rotate image online, flip image, turn photo, image rotate, mirror image">
+  <link rel="canonical" href="http://www.multiimagex.online/tools/image-rotate-flip/" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>body{font-family:Inter,Arial;margin:0;color:#222;background:#fff} header{background:#6c63ff;color:#fff;padding:14px;text-align:center} .container{max-width:900px;margin:18px auto;padding:16px} button{padding:8px 10px;margin:6px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer} .btn-primary{background:#6c63ff;color:#fff;border:none}</style>
+</head>
+<body>
+  <header><h1>multiimagex — Rotate / Flip</h1></header>
+  <main class="container">
+    <p>Upload and apply rotate/flip operations. Preview and download the result.</p>
+    <input id="file" type="file" accept="image/*"><br><br>
+    <div>
+      <button id="rot90" class="btn-primary">Rotate 90°</button>
+      <button id="rot180">Rotate 180°</button>
+      <button id="flipH">Flip Horizontal</button>
+      <button id="flipV">Flip Vertical</button>
+      <button id="download" style="display:none">Download</button>
+    </div>
+    <div id="preview" style="margin-top:12px"></div>
+  </main>
+  <footer style="text-align:center;padding:16px;border-top:1px solid #eee">© 2025 <a href="http://www.multiimagex.online/">multiimagex</a></footer>
+
+  <script>
+    const fileEl=document.getElementById('file'); const preview=document.getElementById('preview'); const downloadBtn=document.getElementById('download'); let img=null, currCanvas=null;
+
+    fileEl.addEventListener('change', async()=>{ const data=await readFile(fileEl.files[0]); img=new Image(); img.onload=()=>{ render(img); }; img.src=data; });
+
+    function render(image){ const c=document.createElement('canvas'); c.width=image.width; c.height=image.height; const ctx=c.getContext('2d'); ctx.drawImage(image,0,0); preview.innerHTML=''; preview.appendChild(c); currCanvas=c; downloadBtn.style.display='inline-block'; }
+
+    document.getElementById('rot90').addEventListener('click', ()=>transform(90));
+    document.getElementById('rot180').addEventListener('click', ()=>transform(180));
+    document.getElementById('flipH').addEventListener('click', ()=>flip(true,false));
+    document.getElementById('flipV').addEventListener('click', ()=>flip(false,true));
+
+    downloadBtn.addEventListener('click', ()=>{ if(!currCanvas) return; const a=document.createElement('a'); currCanvas.toBlob(b=>{ a.href=URL.createObjectURL(b); a.download='edited.png'; a.click(); }); });
+
+    function transform(angle){ if(!currCanvas) return; const old=currCanvas; const newC=document.createElement('canvas'); if(angle%180!==0){ newC.width=old.height; newC.height=old.width;} else { newC.width=old.width; newC.height=old.height;} const ctx=newC.getContext('2d'); ctx.translate(newC.width/2,newC.height/2); ctx.rotate(angle*Math.PI/180); ctx.drawImage(old, -old.width/2, -old.height/2); preview.innerHTML=''; preview.appendChild(newC); currCanvas=newC; }
+    function flip(h,v){ if(!currCanvas) return; const old=currCanvas; const c=document.createElement('canvas'); c.width=old.width; c.height=old.height; const ctx=c.getContext('2d'); ctx.translate(h?old.width:0, v?old.height:0); ctx.scale(h?-1:1, v?-1:1); ctx.drawImage(old,0,0); preview.innerHTML=''; preview.appendChild(c); currCanvas=c; }
+
+    function readFile(f){return new Promise(res=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(f);});}
+  </script>
+</body>
+</html>
