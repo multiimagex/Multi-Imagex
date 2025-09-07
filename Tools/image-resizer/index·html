@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Free Image Resizer — Resize Photos Online | multiimagex</title>
+  <meta name="description" content="Resize images online for free with multiimagex. Change dimensions, maintain aspect ratio, preview and download high-quality resized images. Mobile-friendly and secure (browser-only processing).">
+  <meta name="keywords" content="image resizer, resize image online, change image dimensions, image scale, resize photo mobile, free image resizer">
+  <link rel="canonical" href="http://www.multiimagex.online/tools/image-resizer/" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body{font-family:Inter,system-ui,Arial;margin:0;color:#222;background:#fff}
+    header{background:#6c63ff;color:#fff;padding:14px;text-align:center}
+    .container{max-width:900px;margin:20px auto;padding:16px}
+    form{border:1px solid #eee;padding:14px;border-radius:10px}
+    input,button,select{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ccc}
+    .row{display:flex;gap:10px}
+    .row .col{flex:1}
+    img{max-width:100%;border-radius:8px}
+  </style>
+</head>
+<body>
+  <header><h1>multiimagex — Image Resizer</h1></header>
+  <main class="container">
+    <h2>Resize images online — keep quality</h2>
+    <p>Upload an image, set width or height (pixels) or scale percent, preview the result and download the resized image. Processing happens in your browser.</p>
+
+    <form id="resizerForm">
+      <label>Choose image</label>
+      <input id="file" type="file" accept="image/*" required>
+
+      <div class="row">
+        <div class="col">
+          <label>Width (px)</label>
+          <input id="width" type="number" placeholder="auto">
+        </div>
+        <div class="col">
+          <label>Height (px)</label>
+          <input id="height" type="number" placeholder="auto">
+        </div>
+      </div>
+
+      <label>Or scale (%)</label>
+      <input id="scale" type="number" min="1" max="500" placeholder="100">
+
+      <label>Output format</label>
+      <select id="outFormat">
+        <option value="image/jpeg">JPG</option>
+        <option value="image/png">PNG</option>
+        <option value="image/webp">WebP</option>
+      </select>
+
+      <button type="button" id="resizeBtn">Resize & Preview</button>
+      <button type="button" id="downloadBtn" style="display:none">Download Resized</button>
+    </form>
+
+    <div id="preview" style="margin-top:12px"></div>
+  </main>
+  <footer style="text-align:center;padding:16px;border-top:1px solid #eee">© 2025 <a href="http://www.multiimagex.online/">multiimagex</a></footer>
+
+  <script>
+    const fileEl = document.getElementById('file');
+    const widthEl = document.getElementById('width');
+    const heightEl = document.getElementById('height');
+    const scaleEl = document.getElementById('scale');
+    const outFormatEl = document.getElementById('outFormat');
+    const resizeBtn = document.getElementById('resizeBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const preview = document.getElementById('preview');
+
+    let resultBlob = null;
+
+    function readFile(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});}
+    function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src;});}
+
+    resizeBtn.addEventListener('click', async()=>{
+      if(!fileEl.files.length){alert('Choose an image');return}
+      const file = fileEl.files[0];
+      const data = await readFile(file);
+      const img = await loadImg(data);
+
+      let targetW = parseInt(widthEl.value) || null;
+      let targetH = parseInt(heightEl.value) || null;
+      const scale = parseFloat(scaleEl.value) || null;
+
+      if(!targetW && !targetH && !scale){ targetW = img.width; targetH = img.height; }
+
+      if(scale){ targetW = Math.round(img.width * (scale/100)); targetH = Math.round(img.height * (scale/100)); }
+      else if(targetW && !targetH){ targetH = Math.round((targetW / img.width) * img.height); }
+      else if(targetH && !targetW){ targetW = Math.round((targetH / img.height) * img.width); }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = targetW; canvas.height = targetH;
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img,0,0,targetW,targetH);
+
+      const mime = outFormatEl.value;
+      const blob = await new Promise(res => canvas.toBlob(res, mime, 0.92));
+      resultBlob = blob;
+
+      preview.innerHTML = `<div style="display:flex;gap:12px;flex-wrap:wrap"><div><div style="font-weight:700">Preview</div><img src="${URL.createObjectURL(blob)}" alt="resized"></div><div style="min-width:160px"><div style="font-weight:700">Original</div><img src="${data}" style="max-width:160px"></div></div><div style="margin-top:8px">Result size: ${formatBytes(blob.size)}</div>`;
+      downloadBtn.style.display='inline-block';
+    });
+
+    downloadBtn.addEventListener('click', ()=>{ if(!resultBlob)return; const a=document.createElement('a'); a.href=URL.createObjectURL(resultBlob); a.download='resized.' + outFormatEl.value.split('/')[1]; a.click(); });
+
+    function formatBytes(b){if(b===0)return '0 B';const k=1024,s=['B','KB','MB','GB'],i=Math.floor(Math.log(b)/Math.log(k));return (b/Math.pow(k,i)).toFixed(2)+' '+s[i];}
+  </script>
+</body>
+</html>
