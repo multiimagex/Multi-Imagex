@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Age Calculator — Calculate Exact Age | multiimagex</title>
+  <meta name="description" content="Calculate exact age from date of birth with multiimagex Age Calculator. Shows years, months, days, and next birthday countdown. Mobile-friendly and fast.">
+  <meta name="keywords" content="age calculator, calculate age, age from dob, years months days, next birthday countdown">
+  <link rel="canonical" href="http://www.multiimagex.online/tools/age-calculator/" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>body{font-family:Inter,Arial;margin:0;color:#222}header{background:#6c63ff;color:#fff;padding:14px;text-align:center}.container{max-width:720px;margin:18px auto;padding:16px} label,input,button{display:block;width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc} .result{margin-top:12px;padding:12px;border-radius:8px;background:#f9f9ff;border:1px solid #eee}</style>
+</head>
+<body>
+  <header><h1>multiimagex — Age Calculator</h1></header>
+  <main class="container">
+    <h2>Calculate exact age from Date of Birth</h2>
+    <p>Enter a date of birth to get precise age in years, months, and days. Also shows days until next birthday.</p>
+    <label for="dob">Date of Birth</label>
+    <input id="dob" type="date">
+    <button id="calcBtn">Calculate Age</button>
+    <div id="result" class="result" style="display:none"></div>
+  </main>
+  <footer style="text-align:center;padding:16px;border-top:1px solid #eee">© 2025 <a href="http://www.multiimagex.online/">multiimagex</a></footer>
+
+  <script>
+    document.getElementById('calcBtn').addEventListener('click', ()=>{
+      const dob=document.getElementById('dob').value; if(!dob){alert('Choose Date of Birth');return}
+      const birth=new Date(dob); const today=new Date(); if(birth>today){alert('DOB is in future');return}
+      let years=today.getFullYear()-birth.getFullYear(); let months=today.getMonth()-birth.getMonth(); let days=today.getDate()-birth.getDate();
+      if(days<0){ months--; const prevMonth=new Date(today.getFullYear(), today.getMonth(), 0); days += prevMonth.getDate(); }
+      if(months<0){ years--; months += 12; }
+      const nextBirthday = new Date(today.getFullYear(), birth.getMonth(), birth.getDate()); if(nextBirthday < today) nextBirthday.setFullYear(nextBirthday.getFullYear()+1);
+      const diffDays = Math.ceil((nextBirthday - today)/(1000*60*60*24));
+      const res = `Age: ${years} years, ${months} months, ${days} days.<br>Days until next birthday: ${diffDays}`;
+      const out=document.getElementById('result'); out.innerHTML = res; out.style.display='block';
+    });
+  </script>
+</body>
+</html>
