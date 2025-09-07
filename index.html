@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>multiimagex — Your daily-life tools all in one place</title>
-  <meta name="description" content="multiimagex offers free online tools to convert images, compress PDFs, resize photos, extract text with OCR, merge & split documents, and use calculators — all in one place. Fast, secure and mobile-friendly." />
-  <meta name="keywords" content="image converter, image compressor, image resizer, image crop, OCR, image to text, pdf to word, word to pdf, pdf compressor, pdf merger, pdf splitter, scientific calculator, age calculator, online tools, free tools" />
+  <title>multiimagex — Free Online Tools for Images, PDFs & Calculators</title>
+  <meta name="description" content="multiimagex is your all-in-one free online toolkit — convert, resize, crop and rotate images, extract text with OCR, compress and merge PDFs, convert PDF to Word, split documents, and use calculators. Fast, secure, SEO-optimized, mobile-friendly tools to simplify your daily work with images, documents, and calculations." />
+  <meta name="keywords" content="image converter, image compressor, image resizer, image crop, OCR, image to text, image rotator, pdf to word, word to pdf, pdf compressor, pdf merger, pdf splitter, scientific calculator, age calculator, online tools, free tools, fast image converter, secure pdf tools" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#6c63ff" />
   <link rel="canonical" href="http://www.multiimagex.online/" />
@@ -15,30 +15,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body{margin:0;font-family:'Inter',sans-serif;background:#fff;color:#222;line-height:1.6}
-    header{background:#6c63ff;padding:1rem;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+    header{background:#6c63ff;padding:1rem;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.2);position:sticky;top:0;z-index:1000}
     header h1{margin:0;font-size:1.8rem;color:#fff}
     nav{margin-top:.5rem}
     nav a{color:#fff;text-decoration:none;margin:0 1rem;font-weight:600;transition:.3s}
     nav a:hover{color:#f9f9f9;text-decoration:underline}
-    .hero{text-align:center;padding:3rem 1rem;background:#f9f9ff}
+    .hero{text-align:center;padding:3rem 1rem;background:#f9f9ff;animation:fadeIn 1.2s ease-in-out}
     .hero h2{font-size:2rem;margin:0 0 1rem;color:#333}
     .hero p{font-size:1.1rem;color:#555;margin-bottom:1.5rem}
     .search-bar{max-width:500px;margin:0 auto;display:flex;box-shadow:0 2px 6px rgba(0,0,0,.1);border-radius:10px;overflow:hidden}
     .search-bar input{flex:1;padding:.75rem;border:none;outline:none}
     .search-bar button{padding:.75rem 1rem;border:none;background:#6c63ff;color:#fff;font-weight:600;cursor:pointer}
     .tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;padding:2rem}
-    .tool-card{background:#fff;border:1px solid #eee;padding:1.5rem;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.05);transition:.3s}
+    .tool-card{background:#fff;border:1px solid #eee;padding:1.5rem;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.05);transition:.3s;text-align:center}
     .tool-card:hover{transform:translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.1)}
     .tool-card h3{margin-top:0;color:#6c63ff}
     .tool-card p{color:#555}
     .footer{background:#fafafa;padding:2rem;text-align:center;color:#666;font-size:.9rem;border-top:1px solid #eee}
     .footer a{color:#6c63ff;text-decoration:none;margin:0 .5rem}
     .footer a:hover{text-decoration:underline}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   </style>
   <script type="application/ld+json">{
     "@context":"https://schema.org","@type":"WebSite","name":"multiimagex","url":"http://www.multiimagex.online/",
-    "potentialAction":{"@type":"SearchAction","target":"http://www.multiimagex.online/?s={search_term}","query-input":"required name=search_term"}
-  }</script>
+    "potentialAction":{"@type":"SearchAction","target":"http://www.multiimagex.online/?s={search_term}","query-input":"required name=search_term"}}
+  </script>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org","@type":"Organization","name":"multiimagex","url":"http://www.multiimagex.online/","logo":"http://www.multiimagex.online/logo.png"}
+  </script>
 </head>
 <body>
   <header>
@@ -86,7 +90,7 @@
     tools.forEach(t=>{
       const card=document.createElement("div");
       card.className="tool-card";
-      card.innerHTML=`<h3>${t.name}</h3><p>Use the ${t.name} tool instantly online.</p><a href="/tools/${t.slug}/">Open</a>`;
+      card.innerHTML=`<h3>${t.name}</h3><p>Use the ${t.name} tool instantly online for free.</p><a href="/tools/${t.slug}/">Open</a>`;
       toolsContainer.appendChild(card);
     });
 
