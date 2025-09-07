@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Scientific Calculator — Online Calculator | multiimagex</title>
+  <meta name="description" content="Use multiimagex scientific calculator for arithmetic, trigonometry, logarithms, powers and more. Fast, mobile-friendly online calculator with keyboard support.">
+  <meta name="keywords" content="scientific calculator, online calculator, sin cos tan, log, calculator online">
+  <link rel="canonical" href="http://www.multiimagex.online/tools/scientific-calculator/" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>body{font-family:Inter,Arial;margin:0;color:#222}header{background:#6c63ff;color:#fff;padding:14px;text-align:center}.calculator{max-width:360px;margin:18px auto;padding:12px;border-radius:8px;border:1px solid #eee} input{width:100%;padding:10px;margin-bottom:8px;border-radius:6px;border:1px solid #ccc;font-size:18px}</style>
+</head>
+<body>
+  <header><h1>multiimagex — Scientific Calculator</h1></header>
+  <main>
+    <div class="calculator">
+      <input type="text" id="display" readonly />
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+        <button class="btn">7</button><button class="btn">8</button><button class="btn">9</button><button class="btn">/</button>
+        <button class="btn">4</button><button class="btn">5</button><button class="btn">6</button><button class="btn">*</button>
+        <button class="btn">1</button><button class="btn">2</button><button class="btn">3</button><button class="btn">-</button>
+        <button class="btn">0</button><button class="btn">.</button><button class="btn">=</button><button class="btn">+</button>
+        <button class="btn">sin</button><button class="btn">cos</button><button class="btn">tan</button><button class="btn">log</button>
+        <button class="btn">^</button><button class="btn">(</button><button class="btn">)</button><button class="btn">C</button>
+      </div>
+    </div>
+  </main>
+  <footer style="text-align:center;padding:16px;border-top:1px solid #eee">© 2025 <a href="http://www.multiimagex.online/">multiimagex</a></footer>
+
+  <script>
+    const display=document.getElementById('display');
+    document.querySelectorAll('.btn').forEach(b=>b.addEventListener('click',()=>onBtn(b.textContent)));
+    let expr='';
+    function onBtn(v){ if(v==='C'){ expr=''; display.value=''; return } if(v==='='){ try{ const res = evaluateExpression(expr); display.value=res; expr = String(res);}catch(e){display.value='Error';} return } if(['sin','cos','tan','log','^'].includes(v)){ expr += mapFunc(v)+'('; return } expr += v; display.value=expr; }
+    function mapFunc(f){ if(f==='^') return '**'; return f; }
+    function evaluateExpression(e){ // basic safe eval replacement
+      // replace functions
+      const safe = e.replace(/sin\(/g,'Math.sin(').replace(/cos\(/g,'Math.cos(').replace(/tan\(/g,'Math.tan(').replace(/log\(/g,'Math.log(').replace(/\^/g,'**');
+      return Function('return '+safe)();
+    }
+  </script>
+</body>
+</html>
