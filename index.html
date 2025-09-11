@@ -1,12 +1,18 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <title>Multiimagex | Free Online Tools - Images, PDFs & Calculators</title>
+
+  <!-- Google verification meta tag -->
+  <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_TOKEN" />
+
   <meta name="description" content="Multiimagex is your all-in-one free online toolkit to convert, resize, compress, crop, rotate images, extract text (OCR), handle PDFs (merge, split, compress, convert), and use calculators instantly. Fast, mobile-friendly, secure, and SEO-optimized for your everyday tasks.">
   <meta name="keywords" content="image converter, pdf tools, image compressor, resize image, crop image, image rotate, OCR, pdf to word, word to pdf, pdf compressor, pdf merger, pdf splitter, scientific calculator, age calculator, online tools free, multiimagex">
   <link rel="canonical" href="http://www.multiimagex.online/" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
     body {margin:0;font-family:Inter,Arial,sans-serif;background:#fff;color:#222;line-height:1.6}
     header {background:#6c63ff;color:#fff;padding:20px;text-align:center}
@@ -25,7 +31,9 @@
     footer {background:#f1f1f9;text-align:center;padding:20px;font-size:0.9rem;margin-top:30px}
     footer a {color:#6c63ff;text-decoration:none;margin:0 10px}
   </style>
+
   <script>
+    // Search bar filter
     function searchTools(){
       let input = document.getElementById('search').value.toLowerCase();
       let cards = document.getElementsByClassName('tool-card');
@@ -34,46 +42,57 @@
         cards[i].style.display = text.includes(input) ? "block" : "none";
       }
     }
+
+    // Dynamic auto-link generator
+    document.addEventListener("DOMContentLoaded", function(){
+      const toolsContainer = document.getElementById('tools-container');
+      const toolsList = [
+        {name:"Image Converter", path:"/tools/image-converter/index.html", desc:"Convert images to PNG, JPG, WebP, PDF quickly."},
+        {name:"Image Resizer", path:"/tools/image-resizer/index.html", desc:"Resize images online easily."},
+        {name:"Image Compressor", path:"/tools/image-compressor/index.html", desc:"Compress images fast without losing quality."},
+        {name:"Image OCR", path:"/tools/image-ocr/index.html", desc:"Extract text from images online."},
+        {name:"Image Crop", path:"/tools/image-crop/index.html", desc:"Crop images to any size."},
+        {name:"Image Rotate/Flip", path:"/tools/image-rotate-flip/index.html", desc:"Rotate or flip images."},
+        {name:"PDF to Word/Word to PDF", path:"/tools/pdf-to-word/index.html", desc:"Convert PDF to Word and vice versa."},
+        {name:"PDF Compressor", path:"/tools/pdf-compressor/index.html", desc:"Compress PDF files easily."},
+        {name:"PDF Merger & Splitter", path:"/tools/pdf-merger-splitter/index.html", desc:"Merge or split PDF files."},
+        {name:"Scientific Calculator", path:"/tools/scientific-calculator/index.html", desc:"Use scientific calculator online."},
+        {name:"Age Calculator", path:"/tools/age-calculator/index.html", desc:"Calculate age from date of birth."}
+      ];
+
+      toolsList.forEach(tool => {
+        let card = document.createElement('div');
+        card.className = 'tool-card';
+        card.innerHTML = `<h3>${tool.name}</h3><p>${tool.desc}</p><a href="${tool.path}">Open Tool</a>`;
+        toolsContainer.appendChild(card);
+      });
+    });
   </script>
 </head>
 <body>
   <header>
-    <h1>multiimagex</h1>
+    <h1>Multiimagex</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="#tools">Tools</a>
-      <a href="mailto:multiimegex@gmail.com">Contact</a>
-      <a href="privacy-policy/index.html">Privacy Policy</a>
-      <a href="terms/index.html">Terms of Use</a>
+      <a href="/index.html">Home</a>
+      <a href="/tools/">Tools</a>
+      <a href="/contact.html">Contact</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h2>Your Daily Life Tools — All in One Place</h2>
-    <p>Convert, calculate, compress, and simplify your everyday tasks — fast, free, and accessible on any device. Multiimagex gives you high-quality results instantly.</p>
+    <h2>Your Daily Life Tools All in One Place</h2>
+    <p>Convert, calculate, compress, and simplify your everyday tasks - fast and free</p>
     <div class="search-box">
-      <input id="search" onkeyup="searchTools()" placeholder="Search for a tool...">
+      <input type="text" id="search" placeholder="Search tools..." onkeyup="searchTools()">
     </div>
   </section>
 
-  <section class="tools" id="tools">
-    <div class="tool-card"><a href="tools/image-converter/index.html">Image Converter</a></div>
-    <div class="tool-card"><a href="tools/image-resizer/index.html">Image Resizer</a></div>
-    <div class="tool-card"><a href="tools/image-compressor/index.html">Image Compressor</a></div>
-    <div class="tool-card"><a href="tools/image-ocr/index.html">Image to Text (OCR)</a></div>
-    <div class="tool-card"><a href="tools/image-crop/index.html">Image Crop</a></div>
-    <div class="tool-card"><a href="tools/image-rotate-flip/index.html">Image Rotate & Flip</a></div>
-    <div class="tool-card"><a href="tools/pdf-to-word/index.html">PDF to Word / Word to PDF</a></div>
-    <div class="tool-card"><a href="tools/pdf-compressor/index.html">PDF Compressor</a></div>
-    <div class="tool-card"><a href="tools/pdf-merger-splitter/index.html">PDF Merger & Splitter</a></div>
-    <div class="tool-card"><a href="tools/scientific-calculator/index.html">Scientific Calculator</a></div>
-    <div class="tool-card"><a href="tools/age-calculator/index.html">Age Calculator</a></div>
+  <section class="tools" id="tools-container">
+    <!-- Dynamic JS will populate tool cards here -->
   </section>
 
   <footer>
-    © 2025 <a href="http://www.multiimagex.online/">multiimagex</a>. All rights reserved.
-    <br>
-    <a href="privacy-policy/index.html">Privacy Policy</a> | <a href="terms/index.html">Terms of Use</a>
+    &copy; 2025 Multiimagex | <a href="/privacy.html">Privacy Policy</a> | <a href="/terms.html">Terms of Use</a>
   </footer>
 </body>
 </html>
