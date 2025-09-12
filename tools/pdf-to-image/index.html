@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Online PDF to Image Converter | Convert PDF to JPG, PNG - Multiimagex</title>
+
+  <!-- ✅ SEO Meta Description -->
+  <meta name="description" content="Convert PDF to Image online free. Extract high-quality JPG, PNG, and WebP images from PDF files instantly. Multiimagex offers fast, secure, and free PDF to image converter online." />
+
+  <!-- ✅ SEO Keywords -->
+  <meta name="keywords" content="pdf to image, convert pdf to jpg, pdf to png, extract images from pdf, free pdf to image converter, online pdf to jpg, pdf to png high quality, pdf to photo converter, multiimagex pdf to image" />
+
+  <!-- ✅ Canonical -->
+  <link rel="canonical" href="https://multiimagex.online/tools/pdf-to-image/" />
+
+  <!-- ✅ Open Graph -->
+  <meta property="og:title" content="Free Online PDF to Image Converter | Multiimagex" />
+  <meta property="og:description" content="Convert PDF to JPG, PNG images online instantly. Free, secure and high-quality PDF to Image tool at Multiimagex." />
+  <meta property="og:url" content="https://multiimagex.online/tools/pdf-to-image/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Multiimagex" />
+
+  <!-- ✅ Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "PDF to Image Converter",
+    "url": "https://multiimagex.online/tools/pdf-to-image/",
+    "applicationCategory": "Utility",
+    "operatingSystem": "All",
+    "description": "Free PDF to Image converter online. Convert PDF to JPG, PNG, and WebP easily. Extract images from PDF with Multiimagex fast and securely.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Multiimagex",
+      "url": "https://multiimagex.online/"
+    }
+  }
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #fdfdfd;
+      color: #222;
+    }
+    header {
+      background: #0096c7;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+    }
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      text-align: center;
+    }
+    input[type="file"] {
+      margin: 1rem 0;
+    }
+    .preview {
+      margin: 1rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .preview img {
+      max-width: 150px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 4px;
+    }
+    button {
+      background: #0096c7;
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+    button:hover {
+      background: #0077b6;
+    }
+    footer {
+      background: #f1f1f1;
+      padding: 1rem;
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #0096c7;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Free Online PDF to Image Converter</h1>
+    <p>Convert PDF to JPG, PNG or WebP instantly - Free & Secure</p>
+  </header>
+
+  <main>
+    <h2>Upload Your PDF</h2>
+    <input type="file" id="pdfInput" accept="application/pdf" />
+    <div class="preview" id="preview"></div>
+    <button id="convertBtn">Convert to Images</button>
+  </main>
+
+  <footer>
+    <p>© 2025 Multiimagex | <a href="/privacy-policy/index.html">Privacy Policy</a> | <a href="/terms-of-use/index.html">Terms of Use</a></p>
+  </footer>
+
+  <!-- ✅ JS Library: PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+  <script>
+    const input = document.getElementById("pdfInput");
+    const preview = document.getElementById("preview");
+    const convertBtn = document.getElementById("convertBtn");
+    let pdfFile = null;
+
+    input.addEventListener("change", (e) => {
+      pdfFile = e.target.files[0];
+      preview.innerHTML = pdfFile ? `<p>Selected: ${pdfFile.name}</p>` : "";
+    });
+
+    convertBtn.addEventListener("click", () => {
+      if (!pdfFile) {
+        alert("Please select a PDF file first.");
+        return;
+      }
+
+      const fileReader = new FileReader();
+      fileReader.onload = function() {
+        const typedarray = new Uint8Array(this.result);
+
+        pdfjsLib.getDocument(typedarray).promise.then(pdf => {
+          preview.innerHTML = "";
+          for (let i = 1; i <= pdf.numPages; i++) {
+            pdf.getPage(i).then(page => {
+              const viewport = page.getViewport({ scale: 1.5 });
+              const canvas = document.createElement("canvas");
+              const context = canvas.getContext("2d");
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+
+              page.render({ canvasContext: context, viewport }).promise.then(() => {
+                const img = document.createElement("img");
+                img.src = canvas.toDataURL("image/png");
+                preview.appendChild(img);
+
+                // Download each image
+                const link = document.createElement("a");
+                link.href = canvas.toDataURL("image/png");
+                link.download = `page-${i}.png`;
+                link.textContent = `Download Page ${i}`;
+                link.style.display = "block";
+                link.style.margin = "10px auto";
+                preview.appendChild(link);
+              });
+            });
+          }
+        });
+      };
+      fileReader.readAsArrayBuffer(pdfFile);
+    });
+  </script>
+</body>
+</html>
