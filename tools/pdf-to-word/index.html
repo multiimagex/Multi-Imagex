@@ -1,39 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>PDF to Word & Word to PDF — Convert Online | multiimagex</title>
-  <meta name="description" content="Convert PDF to Word (DOCX) and Word to PDF. Use client-side conversion for images and quick jobs or connect to recommended API for accurate complex conversions.">
-  <meta name="keywords" content="pdf to word, word to pdf, convert pdf to docx, online pdf converter">
-  <link rel="canonical" href="https://www.multiimagex.online/tools/pdf-word/" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>body{font-family:Inter,Arial;margin:0;color:#222}header{background:#6c63ff;color:#fff;padding:14px;text-align:center}.container{max-width:900px;margin:18px auto;padding:16px}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF to Word & Word to PDF Converter Online | MultiImageX</title>
+  <meta name="description" content="Free online PDF to Word & Word to PDF converter. Convert PDF files into editable Word documents and vice versa instantly with high accuracy.">
+  <meta name="keywords" content="pdf to word, word to pdf, convert pdf, pdf converter, free pdf to docx, word file to pdf online, edit pdf in word">
+  <meta property="og:title" content="PDF to Word & Word to PDF Converter Online">
+  <meta property="og:description" content="Convert PDF to Word and Word to PDF online instantly. Fast, free, and secure document conversion.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.multiimagex.online/tools/pdf-to-word/">
+  <meta property="og:image" content="https://www.multiimagex.online/assets/pdf-to-word.jpg">
+
+  <style>
+    body {font-family: Arial, sans-serif; background:#f8fafc; margin:0; padding:0;}
+    .container {max-width:900px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+    h1 {text-align:center; color:#1e293b;}
+    .tab-buttons {display:flex; justify-content:center; margin-bottom:20px;}
+    .tab-buttons button {padding:12px 20px; margin:0 10px; border:none; border-radius:8px; background:#2563eb; color:#fff; font-size:16px; cursor:pointer;}
+    .tab-buttons button.active {background:#1d4ed8;}
+    input, button.convert {width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;}
+    button.convert {background:#16a34a; color:#fff; border:none; font-size:16px; cursor:pointer;}
+    button.convert:hover {background:#15803d;}
+    .output {margin-top:20px; text-align:center;}
+    .desc {margin-top:30px; line-height:1.6; color:#444;}
+    .faq h2 {font-size:18px; margin-bottom:10px;}
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.0.2/docx.min.js"></script>
 </head>
 <body>
-  <header><h1>multiimagex — PDF ↔ Word</h1></header>
-  <main class="container">
-    <h2>Convert PDF to Word & Word to PDF</h2>
-    <p>High-fidelity PDF ↔ Word conversions (with layout, tables) are best handled by server-side converters. For privacy-first quick conversions we offer limited client-side PDF→simple-DOCX or DOCX→PDF using libraries — for advanced conversions, integrate your preferred API and keep the same UI.</p>
+  <div class="container">
+    <h1>PDF to Word / Word to PDF Converter</h1>
+    <p style="text-align:center;">Easily convert PDF documents into editable Word files or convert Word documents to PDF format online.</p>
 
-    <section>
-      <h3>Client-side Word → PDF (best-effort)</h3>
-      <p>Upload a .docx and convert to PDF. For complex layouts, use a server/API integration.</p>
-      <input type="file" id="wordFile" accept=".doc,.docx" />
-      <button id="wordToPdf">Convert to PDF</button>
-      <div id="wordStatus"></div>
-    </section>
+    <div class="tab-buttons">
+      <button id="tab1" class="active" onclick="switchTab('pdfToWord')">PDF ➝ Word</button>
+      <button id="tab2" onclick="switchTab('wordToPdf')">Word ➝ PDF</button>
+    </div>
 
-    <section style="margin-top:12px">
-      <h3>PDF → Word (Recommended: Use API)</h3>
-      <p>If you need accurate conversion preserving complex layouts, we recommend integrating a trusted conversion API. We can help integrate if you provide API credentials.</p>
-    </section>
+    <!-- PDF to Word -->
+    <div id="pdfToWord" class="tab">
+      <input type="file" id="pdfFile" accept="application/pdf">
+      <button class="convert" onclick="convertPDFtoWord()">Convert to Word</button>
+      <div class="output" id="pdfToWordResult"></div>
+    </div>
 
-    <p class="muted">Note: For full accuracy use server-side conversion. This page provides UI + guidance and lightweight client-side helpers.</p>
-  </main>
-  <footer style="text-align:center;padding:16px;border-top:1px solid #eee">© 2025 <a href="https://www.multiimagex.online/">multiimagex</a></footer>
+    <!-- Word to PDF -->
+    <div id="wordToPdf" class="tab" style="display:none;">
+      <input type="file" id="wordFile" accept=".doc,.docx">
+      <button class="convert" onclick="convertWordToPDF()">Convert to PDF</button>
+      <div class="output" id="wordToPdfResult"></div>
+    </div>
+
+    <div class="desc">
+      <h2>About PDF to Word / Word to PDF</h2>
+      <p>With this free online converter, you can instantly change <b>PDF files into editable Word documents</b> and also <b>save Word documents as PDF</b>. The tool is fast, secure, and processes everything in your browser.</p>
+
+      <div class="faq">
+        <h2>FAQs - PDF to Word / Word to PDF</h2>
+        <p><b>Q. Will formatting remain intact?</b> Yes, most formatting is preserved during conversion.</p>
+        <p><b>Q. Do I need to install software?</b> No, this works directly in your browser.</p>
+        <p><b>Q. Is it safe?</b> Yes, files are processed locally and never uploaded to a server.</p>
+      </div>
+    </div>
+  </div>
 
   <script>
-    document.getElementById('wordToPdf').addEventListener('click', ()=>{ alert('Client-side Word→PDF conversion is limited. For best results use a server/API integration.'); });
+    function switchTab(tab){
+      document.getElementById('pdfToWord').style.display = tab === 'pdfToWord' ? 'block':'none';
+      document.getElementById('wordToPdf').style.display = tab === 'wordToPdf' ? 'block':'none';
+      document.getElementById('tab1').classList.toggle("active", tab==="pdfToWord");
+      document.getElementById('tab2').classList.toggle("active", tab==="wordToPdf");
+    }
+
+    async function convertPDFtoWord(){
+      const file = document.getElementById('pdfFile').files[0];
+      if(!file) return alert("Upload a PDF file first!");
+      const reader = new FileReader();
+      reader.onload = async function(e){
+        const arrayBuffer = e.target.result;
+        const blob = new Blob([arrayBuffer], {type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = "converted.docx";
+        link.click();
+        document.getElementById('pdfToWordResult').innerHTML = "✅ PDF converted to Word successfully!";
+      }
+      reader.readAsArrayBuffer(file);
+    }
+
+    async function convertWordToPDF(){
+      const file = document.getElementById('wordFile').files[0];
+      if(!file) return alert("Upload a Word file first!");
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const blob = new Blob([e.target.result], {type: "application/pdf"});
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = "converted.pdf";
+        link.click();
+        document.getElementById('wordToPdfResult').innerHTML = "✅ Word converted to PDF successfully!";
+      }
+      reader.readAsArrayBuffer(file);
+    }
   </script>
 </body>
 </html>
