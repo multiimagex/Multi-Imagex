@@ -1,93 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unlock PDF Online | Remove PDF Password & Convert to Image | MultiImageX</title>
-  <meta name="description" content="Unlock password-protected PDF files online instantly. Enter the correct password, remove restrictions, and download as PDF or convert pages into images (JPG/PNG).">
-  <meta name="keywords" content="unlock pdf, remove pdf password, pdf to image, pdf unlock tool, open locked pdf, convert secure pdf">
-  <meta property="og:title" content="Unlock PDF Online - Remove PDF Password & Convert to Image">
-  <meta property="og:description" content="Upload your locked PDF, enter password, and unlock it instantly. Download as PDF or export pages as images in high quality.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.multiimagex.online/tools/unlock-pdf/">
-  <meta property="og:image" content="https://www.multiimagex.online/assets/unlock-pdf.jpg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unlock PDF Online - Remove PDF Password & Download | MultiImageX</title>
+<meta name="description" content="Unlock password-protected PDFs online. Remove PDF password instantly and download unlocked PDF or convert it to high-quality images. Free and fast tool.">
+<meta name="keywords" content="unlock pdf, remove pdf password, decrypt pdf, download unlocked pdf, pdf to image high quality, free pdf unlock, online pdf tool">
+<meta property="og:title" content="Unlock PDF Online - Remove PDF Password & Download">
+<meta property="og:description" content="Upload your password-protected PDF, enter the correct password, and download the unlocked PDF or convert it to high-quality images instantly.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.multiimagex.online/tools/unlock-pdf/">
+<meta property="og:image" content="https://www.multiimagex.online/assets/unlock-pdf.jpg">
 
-  <style>
-    body {font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:0;}
-    .container {max-width:900px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-    h1 {text-align:center; color:#333;}
-    input, button {width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;}
-    button {background:#dc2626; color:#fff; border:none; cursor:pointer; font-size:16px;}
-    button:hover {background:#b91c1c;}
-    .preview {margin-top:20px; text-align:center;}
-    canvas {max-width:100%; margin:10px 0; border:1px solid #ddd;}
-    .desc {margin-top:30px; line-height:1.6; color:#444;}
-    .faq h2 {font-size:18px; margin-bottom:10px;}
-  </style>
+<style>
+body {font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:0;}
+.container {max-width:800px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+h1 {text-align:center; color:#1e293b;}
+input, button {width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;}
+button {background:#2563eb; color:#fff; border:none; font-size:16px; cursor:pointer;}
+button:hover {background:#1d4ed8;}
+.output {margin-top:20px; text-align:center;}
+img {max-width:100%; margin-top:20px; border:1px solid #ccc; border-radius:8px;}
+</style>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3/build/pdf.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Unlock PDF Tool</h1>
-    <p style="text-align:center;">Upload your password-protected PDF, enter the password, and unlock it instantly.</p>
-    
-    <input type="file" id="upload" accept="application/pdf">
-    <input type="password" id="password" placeholder="Enter PDF password">
-    <button onclick="unlockPDF()">Unlock PDF</button>
-    <div id="pages"></div>
+<div class="container">
+<h1>Unlock PDF Online</h1>
+<p style="text-align:center;">Upload a password-protected PDF, enter the correct password, and download the unlocked PDF or convert it to high-quality images.</p>
 
-    <div class="desc">
-      <h2>About Unlock PDF</h2>
-      <p>With our free Unlock PDF tool, you can easily remove restrictions from password-protected PDF files. Once unlocked, you can either <b>download the PDF</b> without password protection or <b>convert each page into high-quality images</b> (JPG/PNG).</p>
-      
-      <div class="faq">
-        <h2>FAQs - Unlock PDF</h2>
-        <p><b>Q. Can I unlock any PDF?</b> Yes, as long as you know the correct password.</p>
-        <p><b>Q. Will my files be safe?</b> Yes, everything is processed in your browser. No upload to server.</p>
-        <p><b>Q. Can I convert to images?</b> Yes, once unlocked you can download each page as image.</p>
-      </div>
-    </div>
-  </div>
+<input type="file" id="pdfFile" accept="application/pdf">
+<input type="password" id="pdfPassword" placeholder="Enter PDF Password">
+<button onclick="unlockPDF()">Unlock & Download PDF</button>
+<button onclick="convertPDFtoImage()">Convert PDF to High-Quality Image</button>
 
-  <script>
-    async function unlockPDF(){
-      const file = document.getElementById('upload').files[0];
-      const password = document.getElementById('password').value;
-      if(!file || !password) return alert("Upload a PDF and enter password");
+<div class="output" id="result"></div>
+<div class="output" id="images"></div>
+</div>
 
-      const reader = new FileReader();
-      reader.onload = async function(e){
-        const typedArray = new Uint8Array(e.target.result);
+<script>
+async function unlockPDF() {
+    const file = document.getElementById('pdfFile').files[0];
+    const password = document.getElementById('pdfPassword').value;
+    if(!file) return alert("Upload a PDF first!");
+    if(!password) return alert("Enter PDF password!");
+
+    const reader = new FileReader();
+    reader.onload = async function(e){
         try {
-          const pdf = await pdfjsLib.getDocument({data: typedArray, password: password}).promise;
-          document.getElementById('pages').innerHTML = "<h3>Unlocked PDF Pages:</h3>";
-          
-          for(let i=1; i<=pdf.numPages; i++){
-            const page = await pdf.getPage(i);
-            const viewport = page.getViewport({scale:1.5});
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-            await page.render({canvasContext: context, viewport: viewport}).promise;
-            
-            document.getElementById('pages').appendChild(canvas);
-
-            // Download link for each page
+            const typedArray = new Uint8Array(e.target.result);
+            const pdfDoc = await PDFLib.PDFDocument.load(typedArray, {password});
+            const pdfBytes = await pdfDoc.save();
             const link = document.createElement('a');
-            link.innerText = "Download Page " + i + " as Image";
-            link.href = canvas.toDataURL("image/png");
-            link.download = "page-"+i+".png";
-            document.getElementById('pages').appendChild(link);
-            document.getElementById('pages').appendChild(document.createElement("br"));
-          }
-        } catch(err){
-          alert("Incorrect password or invalid PDF file.");
+            link.href = URL.createObjectURL(new Blob([pdfBytes], {type:"application/pdf"}));
+            link.download = "unlocked.pdf";
+            link.click();
+            document.getElementById('result').innerHTML = "✅ PDF unlocked and ready to download!";
+        } catch (err) {
+            alert("❌ Wrong password or unable to unlock PDF.");
         }
-      }
-      reader.readAsArrayBuffer(file);
-    }
-  </script>
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+async function convertPDFtoImage(){
+    const file = document.getElementById('pdfFile').files[0];
+    const password = document.getElementById('pdfPassword').value;
+    if(!file) return alert("Upload a PDF first!");
+    if(!password) return alert("Enter PDF password!");
+
+    const reader = new FileReader();
+    reader.onload = async function(e){
+        const typedArray = new Uint8Array(e.target.result);
+        const loadingTask = pdfjsLib.getDocument({data: typedArray, password: password});
+        const pdf = await loadingTask.promise;
+        const imagesDiv = document.getElementById('images');
+        imagesDiv.innerHTML = "";
+        for(let i=1;i<=pdf.numPages;i++){
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({scale:2}); // High-quality image
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            await page.render({canvasContext: context, viewport: viewport}).promise;
+            const img = document.createElement("img");
+            img.src = canvas.toDataURL("image/png");
+            imagesDiv.appendChild(img);
+
+            // Download button for each page
+            const link = document.createElement("a");
+            link.href = img.src;
+            link.download = "page-"+i+".png";
+            link.innerText = "Download Page "+i;
+            link.style.display = "block";
+            link.style.margin = "10px 0";
+            link.style.background="#16a34a";
+            link.style.color="#fff";
+            link.style.padding="10px";
+            link.style.borderRadius="8px";
+            link.style.textDecoration="none";
+            imagesDiv.appendChild(link);
+        }
+        document.getElementById('result').innerHTML = "✅ PDF converted to high-quality images!";
+    };
+    reader.readAsArrayBuffer(file);
+}
+</script>
 </body>
 </html>
