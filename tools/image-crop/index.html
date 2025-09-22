@@ -1,81 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Image Crop Tool — Crop Photos Online | multiimagex</title>
-  <meta name="description" content="Crop images online easily with multiimagex. Select crop area, preview and download cropped high-quality image. Works in browser without uploads.">
-  <meta name="keywords" content="image crop, crop photo online, crop picture, crop image tool">
-  <link rel="canonical" href="https://www.multiimagex.online/tools/image-crop/" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Online Image Cropper | MultiImageX</title>
+  <meta name="description" content="Crop images online easily with our free image cropper. Adjust aspect ratio, resize, and download high-quality cropped images instantly.">
+  <meta name="keywords" content="image crop, photo crop online, crop jpg, crop png, crop image free, crop tool online, resize and crop photo">
+  <meta property="og:title" content="Free Online Image Cropper Tool">
+  <meta property="og:description" content="Easily crop JPG, PNG, and WebP images online. Adjust aspect ratio and download cropped image in high quality.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.multiimagex.online/tools/image-crop/">
+  <meta property="og:image" content="https://www.multiimagex.online/assets/image-crop.jpg">
+
   <style>
-    body{font-family:Inter,Arial;margin:0;color:#222;background:#fff}
-    header{background:#6c63ff;color:#fff;padding:14px;text-align:center}
-    .container{max-width:900px;margin:18px auto;padding:16px}
-    canvas{max-width:100%;border:1px solid #eee;border-radius:6px}
-    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    button{padding:10px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer}
-    .btn-primary{background:#6c63ff;color:#fff;border:none}
+    body {font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:0;}
+    .container {max-width:900px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+    h1 {text-align:center; color:#333;}
+    input, button {width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;}
+    button {background:#2563eb; color:#fff; border:none; cursor:pointer; font-size:16px;}
+    button:hover {background:#1e40af;}
+    .preview {margin-top:20px; text-align:center;}
+    canvas {max-width:100%; border:1px solid #ddd; border-radius:8px;}
+    .desc {margin-top:30px; line-height:1.6; color:#444;}
+    .faq h2 {font-size:18px; margin-bottom:10px;}
   </style>
 </head>
 <body>
-  <header><h1>multiimagex — Image Crop</h1></header>
-  <main class="container">
-    <h2>Crop images online — precise & fast</h2>
-    <p>Upload an image, drag to select crop area, preview and download the cropped image. Touch and keyboard friendly.</p>
-
-    <input id="file" type="file" accept="image/*"><br>
-    <div style="position:relative;margin-top:12px">
+  <div class="container">
+    <h1>Image Cropper Tool</h1>
+    <p style="text-align:center;">Upload your image, crop any area, and download instantly in high quality.</p>
+    
+    <input type="file" id="upload" accept="image/*">
+    <button onclick="downloadCropped()">Download Cropped Image</button>
+    
+    <div class="preview">
       <canvas id="canvas"></canvas>
     </div>
 
-    <div class="controls">
-      <button id="cropBtn" class="btn-primary">Crop & Preview</button>
-      <button id="downloadBtn" style="display:none">Download Crop</button>
-      <button id="resetBtn">Reset</button>
+    <div class="desc">
+      <h2>About Image Cropper</h2>
+      <p>Our free online Image Cropper lets you crop photos to the perfect size and aspect ratio. Whether you want to crop profile pictures, product photos, or documents, this tool works instantly on desktop and mobile.</p>
+      
+      <div class="faq">
+        <h2>FAQs - Image Cropper</h2>
+        <p><b>Q. Can I crop JPG, PNG, and WebP images?</b> Yes, it supports all popular formats.</p>
+        <p><b>Q. Is my image quality preserved?</b> Yes, the cropped image is downloaded in high quality.</p>
+        <p><b>Q. Do I need to install software?</b> No, it works directly in your browser.</p>
+      </div>
     </div>
-
-    <div id="preview" style="margin-top:12px"></div>
-
-    <section style="margin-top:18px">
-      <h3>How it works</h3>
-      <p class="muted">Crop is performed using an on-screen selection drawn on a canvas. No upload — everything runs in your browser for privacy and speed.</p>
-    </section>
-  </main>
-  <footer style="text-align:center;padding:16px;border-top:1px solid #eee">© 2025 <a href="https://www.multiimagex.online/">multiimagex</a></footer>
+  </div>
 
   <script>
-    const fileEl=document.getElementById('file');
-    const canvas=document.getElementById('canvas');
-    const ctx=canvas.getContext('2d');
-    const preview=document.getElementById('preview');
-    const cropBtn=document.getElementById('cropBtn');
-    const downloadBtn=document.getElementById('downloadBtn');
-    const resetBtn=document.getElementById('resetBtn');
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+    let img = new Image();
+    let startX, startY, isDrawing = false;
 
-    let img=null; let startX, startY, endX, endY, dragging=false;
-
-    fileEl.addEventListener('change', async()=>{
-      if(!fileEl.files.length) return; const data=await readFile(fileEl.files[0]); img=new Image(); img.src=data; img.onload=()=>{ canvas.width=img.width; canvas.height=img.height; ctx.drawImage(img,0,0); }
+    document.getElementById('upload').addEventListener('change', function(e){
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt){
+        img.onload = function(){
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        }
+        img.src = evt.target.result;
+      }
+      reader.readAsDataURL(file);
     });
 
-    canvas.addEventListener('mousedown', e=>{ if(!img) return; const r=canvas.getBoundingClientRect(); startX=e.clientX - r.left; startY=e.clientY - r.top; dragging=true; });
-    canvas.addEventListener('mousemove', e=>{ if(!dragging||!img) return; const r=canvas.getBoundingClientRect(); endX=e.clientX - r.left; endY=e.clientY - r.top; redraw(); drawRect(); });
-    window.addEventListener('mouseup', ()=>{ dragging=false; });
-
-    function redraw(){ if(!img) return; ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0); }
-    function drawRect(){ if(startX==null||endX==null) return; ctx.save(); ctx.strokeStyle='rgba(108,99,255,0.9)'; ctx.lineWidth=2; ctx.setLineDash([6,4]); const x=Math.min(startX,endX), y=Math.min(startY,endY), w=Math.abs(endX-startX), h=Math.abs(endY-startY); ctx.strokeRect(x,y,w,h); ctx.restore(); }
-
-    cropBtn.addEventListener('click', ()=>{
-      if(!img||startX==null||endX==null){ alert('Select an area by dragging on the image.'); return; }
-      const x=Math.round(Math.min(startX,endX)), y=Math.round(Math.min(startY,endY)), w=Math.round(Math.abs(endX-startX)), h=Math.round(Math.abs(endY-startY));
-      const c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,x,y,w,h,0,0,w,h);
-      c.toBlob(blob=>{ const url=URL.createObjectURL(blob); preview.innerHTML=`<div><strong>Cropped</strong><br><img src="${url}" style="max-width:320px"><div>Size: ${formatBytes(blob.size)}</div></div>`; downloadBtn.style.display='inline-block'; downloadBtn.onclick=()=>{ const a=document.createElement('a'); a.href=url; a.download='cropped.png'; a.click(); }; }, 'image/png');
+    canvas.addEventListener('mousedown', function(e){
+      startX = e.offsetX;
+      startY = e.offsetY;
+      isDrawing = true;
     });
 
-    resetBtn.addEventListener('click', ()=>{ preview.innerHTML=''; downloadBtn.style.display='none'; ctx.clearRect(0,0,canvas.width,canvas.height); img=null; fileEl.value=''; startX=startY=endX=endY=null; });
+    canvas.addEventListener('mouseup', function(e){
+      if (!isDrawing) return;
+      isDrawing = false;
+      let width = e.offsetX - startX;
+      let height = e.offsetY - startY;
+      let cropped = ctx.getImageData(startX, startY, width, height);
+      canvas.width = width;
+      canvas.height = height;
+      ctx.putImageData(cropped, 0, 0);
+    });
 
-    function readFile(f){return new Promise((res)=>{const r=new FileReader();r.onload=()=>res(r.result);r.readAsDataURL(f);});}
-    function formatBytes(b){if(b===0)return'0 B';const k=1024,s=['B','KB','MB','GB'],i=Math.floor(Math.log(b)/Math.log(k));return (b/Math.pow(k,i)).toFixed(2)+' '+s[i];}
+    function downloadCropped(){
+      const link = document.createElement('a');
+      link.download = 'cropped-image.png';
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
   </script>
 </body>
 </html>
