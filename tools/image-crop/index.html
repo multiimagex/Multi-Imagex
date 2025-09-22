@@ -3,97 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Online Image Cropper | MultiImageX</title>
-  <meta name="description" content="Crop images online easily with our free image cropper. Adjust aspect ratio, resize, and download high-quality cropped images instantly.">
-  <meta name="keywords" content="image crop, photo crop online, crop jpg, crop png, crop image free, crop tool online, resize and crop photo">
-  <meta property="og:title" content="Free Online Image Cropper Tool">
-  <meta property="og:description" content="Easily crop JPG, PNG, and WebP images online. Adjust aspect ratio and download cropped image in high quality.">
+  <title>Image Crop Online - Crop Images Free | MultiImageX</title>
+  <meta name="description" content="Crop images online for free. Select any area of your image and download the cropped portion. Fast and easy image crop tool.">
+  <meta name="keywords" content="image crop, crop image online, free image crop tool, select image area, download cropped image, resize image">
+  <meta property="og:title" content="Image Crop Online - Crop Images Easily">
+  <meta property="og:description" content="Upload your image, select area to crop and download cropped image instantly. Free online tool.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.multiimagex.online/tools/image-crop/">
   <meta property="og:image" content="https://www.multiimagex.online/assets/image-crop.jpg">
 
+  <!-- Cropper.js CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet"/>
+
   <style>
     body {font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:0;}
-    .container {max-width:900px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-    h1 {text-align:center; color:#333;}
+    .container {max-width:800px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+    h1 {text-align:center; color:#1e293b;}
     input, button {width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;}
-    button {background:#2563eb; color:#fff; border:none; cursor:pointer; font-size:16px;}
-    button:hover {background:#1e40af;}
-    .preview {margin-top:20px; text-align:center;}
-    canvas {max-width:100%; border:1px solid #ddd; border-radius:8px;}
-    .desc {margin-top:30px; line-height:1.6; color:#444;}
-    .faq h2 {font-size:18px; margin-bottom:10px;}
+    button {background:#2563eb; color:#fff; border:none; font-size:16px; cursor:pointer;}
+    button:hover {background:#1d4ed8;}
+    img {max-width:100%; display:block; margin:20px auto;}
+    .output {margin-top:20px; text-align:center;}
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Image Cropper Tool</h1>
-    <p style="text-align:center;">Upload your image, crop any area, and download instantly in high quality.</p>
-    
-    <input type="file" id="upload" accept="image/*">
-    <button onclick="downloadCropped()">Download Cropped Image</button>
-    
-    <div class="preview">
-      <canvas id="canvas"></canvas>
-    </div>
+    <h1>Image Crop Tool Online</h1>
+    <p style="text-align:center;">Upload your image, select the area to crop, and download the cropped image.</p>
 
-    <div class="desc">
-      <h2>About Image Cropper</h2>
-      <p>Our free online Image Cropper lets you crop photos to the perfect size and aspect ratio. Whether you want to crop profile pictures, product photos, or documents, this tool works instantly on desktop and mobile.</p>
-      
-      <div class="faq">
-        <h2>FAQs - Image Cropper</h2>
-        <p><b>Q. Can I crop JPG, PNG, and WebP images?</b> Yes, it supports all popular formats.</p>
-        <p><b>Q. Is my image quality preserved?</b> Yes, the cropped image is downloaded in high quality.</p>
-        <p><b>Q. Do I need to install software?</b> No, it works directly in your browser.</p>
-      </div>
+    <input type="file" id="imageInput" accept="image/*">
+    <button id="cropBtn">Crop & Download</button>
+
+    <div class="output">
+      <img id="image" style="display:none;">
     </div>
   </div>
 
+  <!-- Cropper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
   <script>
-    let canvas = document.getElementById('canvas');
-    let ctx = canvas.getContext('2d');
-    let img = new Image();
-    let startX, startY, isDrawing = false;
+    let cropper;
+    const image = document.getElementById('image');
+    const input = document.getElementById('imageInput');
+    const cropBtn = document.getElementById('cropBtn');
 
-    document.getElementById('upload').addEventListener('change', function(e){
+    input.addEventListener('change', (e) => {
       const file = e.target.files[0];
-      if (!file) return;
+      if(!file) return;
       const reader = new FileReader();
-      reader.onload = function(evt){
-        img.onload = function(){
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
-        }
-        img.src = evt.target.result;
-      }
+      reader.onload = () => {
+        image.src = reader.result;
+        image.style.display = 'block';
+
+        // Destroy old cropper if exists
+        if(cropper) cropper.destroy();
+        cropper = new Cropper(image, {
+          aspectRatio: NaN,
+          viewMode: 1,
+          movable: true,
+          zoomable: true,
+          rotatable: false,
+          scalable: false,
+          autoCropArea: 0.8
+        });
+      };
       reader.readAsDataURL(file);
     });
 
-    canvas.addEventListener('mousedown', function(e){
-      startX = e.offsetX;
-      startY = e.offsetY;
-      isDrawing = true;
-    });
-
-    canvas.addEventListener('mouseup', function(e){
-      if (!isDrawing) return;
-      isDrawing = false;
-      let width = e.offsetX - startX;
-      let height = e.offsetY - startY;
-      let cropped = ctx.getImageData(startX, startY, width, height);
-      canvas.width = width;
-      canvas.height = height;
-      ctx.putImageData(cropped, 0, 0);
-    });
-
-    function downloadCropped(){
+    cropBtn.addEventListener('click', () => {
+      if(!cropper) return alert("Please upload and select area to crop!");
+      const canvas = cropper.getCroppedCanvas();
       const link = document.createElement('a');
-      link.download = 'cropped-image.png';
       link.href = canvas.toDataURL("image/png");
+      link.download = "cropped-image.png";
       link.click();
-    }
+    });
   </script>
 </body>
 </html>
