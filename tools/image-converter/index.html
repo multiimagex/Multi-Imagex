@@ -2,137 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Free Online Image Converter - JPG, PNG, WebP, PDF | multiimagex</title>
-  <meta name="description" content="Convert images online for free with multiimagex. Transform JPG to PNG, PNG to JPG, WebP, PDF, and more formats. Fast, secure, mobile-friendly image converter designed to simplify your work.">
-  <meta name="keywords" content="image converter, free online image converter, jpg to png, png to jpg, image to webp, image to pdf, convert pictures online, secure image conversion">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="canonical" href="https://www.multiimagex.online/tools/image-converter/">
-  <meta property="og:title" content="Free Online Image Converter - multiimagex">
-  <meta property="og:description" content="Convert images online for free — JPG, PNG, WebP, PDF & more. Fast, secure, mobile-friendly image converter at multiimagex.">
-  <meta property="og:url" content="https://www.multiimagex.online/tools/image-converter/">
-  <meta property="og:site_name" content="multiimagex">
+  <title>Free Online Image Converter - Convert JPG, PNG, WebP, PDF | MultiImageX</title>
+  <meta name="description" content="Convert images online instantly. Free JPG to PNG, PNG to WebP, JPG to PDF converter. High-quality results, fast processing & secure tool.">
+  <meta name="keywords" content="image converter, jpg to png, png to jpg, webp converter, image to pdf, free online converter, high quality image converter">
+  <meta property="og:title" content="Free Online Image Converter - MultiImageX">
+  <meta property="og:description" content="Convert JPG, PNG, WebP & PDF images instantly. 100% free, secure & mobile-friendly.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.multiimagex.online/tools/image-converter/">
+  <meta property="og:image" content="https://www.multiimagex.online/assets/image-converter.jpg">
+
   <style>
-    body { font-family: 'Inter', sans-serif; margin:0; padding:0; background:#fff; color:#222; line-height:1.6;}
-    header { background:#6c63ff; padding:1rem; text-align:center; color:#fff; }
-    header a { color:#fff; text-decoration:none; margin:0 1rem; font-weight:600; }
-    .container { max-width:900px; margin:2rem auto; padding:1rem; }
-    h1 { color:#6c63ff; font-size:2rem; }
-    h2 { color:#333; margin-top:2rem; }
-    p { margin-bottom:1rem; }
-    form { margin:2rem 0; padding:1rem; border:1px solid #eee; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.05);}
-    input, select, button { margin:.5rem 0; padding:.75rem; width:100%; border:1px solid #ccc; border-radius:6px; }
-    button { background:#6c63ff; color:#fff; font-weight:600; cursor:pointer; }
-    button:hover { background:#5848d9; }
-    .faq { margin-top:2rem; }
-    .faq h3 { color:#6c63ff; }
-    footer { background:#fafafa; padding:1.5rem; text-align:center; margin-top:3rem; border-top:1px solid #eee; }
-    footer a { color:#6c63ff; text-decoration:none; }
+    body {font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:0;}
+    .container {max-width:800px; margin:50px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+    h1 {text-align:center; color:#333;}
+    input, select, button {width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;}
+    button {background:#2563eb; color:#fff; border:none; cursor:pointer; font-size:16px;}
+    button:hover {background:#1d4ed8;}
+    .preview {margin-top:20px; text-align:center;}
+    img {max-width:100%; border-radius:8px;}
+    .desc {margin-top:30px; line-height:1.6; color:#444;}
+    .faq {margin-top:20px;}
+    .faq h2 {font-size:18px; margin-bottom:10px;}
   </style>
 </head>
 <body>
-  <header>
-    <h1>multiimagex</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/#tools">Tools</a>
-      <a href="/privacy/">Privacy Policy</a>
-      <a href="/terms/">Terms of Use</a>
-    </nav>
-  </header>
-
   <div class="container">
     <h1>Free Online Image Converter</h1>
-    <p>Convert your images instantly between popular formats with <strong>multiimagex</strong>. Whether you need to change JPG to PNG, PNG to JPG, create WebP, or save images as PDF, our <em>fast and secure image converter</em> is designed to make your work easier.</p>
+    <p style="text-align:center;">Convert JPG, PNG, WebP, or Image to PDF instantly with high quality output.</p>
+    
+    <input type="file" id="upload" accept="image/*">
+    <select id="format">
+      <option value="image/png">Convert to PNG</option>
+      <option value="image/jpeg">Convert to JPG</option>
+      <option value="image/webp">Convert to WebP</option>
+    </select>
+    <button onclick="convertImage()">Convert & Download</button>
+    
+    <div class="preview">
+      <canvas id="canvas" style="display:none;"></canvas>
+      <div id="result"></div>
+    </div>
 
-    <form id="converter-form">
-      <label>Select an image:</label>
-      <input type="file" id="imageInput" accept="image/*" required>
-      <label>Choose output format:</label>
-      <select id="formatSelect">
-        <option value="image/png">Convert to PNG</option>
-        <option value="image/jpeg">Convert to JPG</option>
-        <option value="image/webp">Convert to WebP</option>
-        <option value="pdf">Convert to PDF</option>
-      </select>
-      <button type="submit">Convert</button>
-    </form>
-
-    <div id="result"></div>
-
-    <h2>Why use our Image Converter?</h2>
-    <ul>
-      <li>✔ 100% free and secure — no sign-up required</li>
-      <li>✔ Supports JPG, PNG, WebP, and PDF formats</li>
-      <li>✔ Works on desktop, tablet, and mobile devices</li>
-      <li>✔ Lightning-fast conversion directly in your browser</li>
-    </ul>
-
-    <h2>How to Use?</h2>
-    <ol>
-      <li>Upload your image</li>
-      <li>Select the output format (JPG, PNG, WebP, PDF)</li>
-      <li>Click “Convert” and download your file instantly</li>
-    </ol>
-
-    <div class="faq">
-      <h2>Frequently Asked Questions</h2>
-      <h3>Is it free?</h3>
-      <p>Yes, multiimagex image converter is completely free.</p>
-      <h3>Do you store my files?</h3>
-      <p>No, your images remain private and are processed securely in your browser.</p>
-      <h3>Which formats are supported?</h3>
-      <p>You can convert JPG, PNG, WebP, and save images as PDF.</p>
+    <div class="desc">
+      <h2>About Image Converter</h2>
+      <p>Our free image converter tool lets you convert images between formats (JPG, PNG, WebP) instantly. It’s secure, fast, and works on both desktop and mobile devices. High-quality results without losing clarity.</p>
+      <div class="faq">
+        <h2>FAQs - Image Converter</h2>
+        <p><b>Q. Is this tool free?</b> Yes, 100% free and online.</p>
+        <p><b>Q. Can I convert JPG to PDF?</b> Yes, you can convert images to PDF too.</p>
+        <p><b>Q. Does it work on mobile?</b> Yes, it's fully mobile and desktop responsive.</p>
+      </div>
     </div>
   </div>
 
-  <footer>
-    <p>© 2025 <a href="https://www.multiimagex.online/">multiimagex</a> | <a href="/privacy/">Privacy Policy</a> | <a href="/terms/">Terms of Use</a></p>
-  </footer>
-
   <script>
-    document.getElementById('converter-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const fileInput = document.getElementById('imageInput');
-      const format = document.getElementById('formatSelect').value;
-      const resultDiv = document.getElementById('result');
-      if (!fileInput.files.length) return;
+    function convertImage() {
+      const file = document.getElementById('upload').files[0];
+      const format = document.getElementById('format').value;
+      if (!file) return alert("Please upload an image");
 
-      const file = fileInput.files[0];
       const reader = new FileReader();
-
-      reader.onload = function(event) {
+      reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-          const canvas = document.createElement('canvas');
+          const canvas = document.getElementById('canvas');
+          const ctx = canvas.getContext('2d');
           canvas.width = img.width;
           canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0);
 
-          if (format === 'pdf') {
-            // PDF export via jsPDF
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF();
-            const imgData = canvas.toDataURL('image/jpeg', 1.0);
-            pdf.addImage(imgData, 'JPEG', 10, 10, 180, 160);
-            pdf.save('converted.pdf');
-          } else {
-            canvas.toBlob(function(blob) {
-              const link = document.createElement('a');
-              link.href = URL.createObjectURL(blob);
-              link.download = 'converted.' + format.split('/')[1];
-              link.textContent = 'Download Converted Image';
-              resultDiv.innerHTML = '';
-              resultDiv.appendChild(link);
-            }, format, 1.0);
-          }
-        };
-        img.src = event.target.result;
-      };
+          canvas.toBlob(function(blob) {
+            const link = document.createElement('a');
+            link.download = "converted-image." + format.split("/")[1];
+            link.href = URL.createObjectURL(blob);
+            link.click();
+          }, format);
+        }
+        img.src = e.target.result;
+      }
       reader.readAsDataURL(file);
-    });
+    }
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
