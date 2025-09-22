@@ -1,387 +1,93 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Unlock PDF — Convert Password Protected PDF to Unlocked PDF or Images | Multiimagex</title>
-
-  <!-- Advanced SEO description (long, keyword-rich) -->
-  <meta name="description" content="Unlock password protected PDF online — enter PDF password to locally unlock, preview pages, download unlocked PDF or convert PDF to high-quality JPG/PNG images. Fast, secure, client-side (no upload), supports multi-page PDF, ZIP download. Ideal for JPG to PDF, PDF to image, password-protected PDF unlocking and secure local conversion." />
-  <meta name="keywords" content="unlock pdf, password protected pdf, remove pdf password online, convert secured pdf to image, pdf to jpg, pdf to png, unlock protected pdf online, save unlocked pdf, pdf unzip, pdf password remover (client-side), multiimagex unlock pdf" />
-  <link rel="canonical" href="https://multiimagex.online/tools/unlock-pdf/" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Unlock PDF — Password Protected PDF to Unlocked PDF / Images — Multiimagex" />
-  <meta property="og:description" content="Fast client-side tool to unlock password-protected PDFs and convert pages to high-quality JPG/PNG images or save a new unlocked PDF. Files never leave your device." />
-  <meta property="og:url" content="https://multiimagex.online/tools/unlock-pdf/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Multiimagex" />
-
-  <!-- Structured Data (WebApplication) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Unlock PDF",
-    "url": "https://multiimagex.online/tools/unlock-pdf/",
-    "description": "Unlock password protected PDFs in the browser and convert pages to images or save an unlocked PDF. Secure, client-side conversion.",
-    "applicationCategory": "Utility",
-    "operatingSystem": "All",
-    "provider": {
-      "@type": "Organization",
-      "name": "Multiimagex",
-      "url": "https://multiimagex.online/"
-    }
-  }
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unlock PDF Online | Remove PDF Password & Convert to Image | MultiImageX</title>
+  <meta name="description" content="Unlock password-protected PDF files online instantly. Enter the correct password, remove restrictions, and download as PDF or convert pages into images (JPG/PNG).">
+  <meta name="keywords" content="unlock pdf, remove pdf password, pdf to image, pdf unlock tool, open locked pdf, convert secure pdf">
+  <meta property="og:title" content="Unlock PDF Online - Remove PDF Password & Convert to Image">
+  <meta property="og:description" content="Upload your locked PDF, enter password, and unlock it instantly. Download as PDF or export pages as images in high quality.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.multiimagex.online/tools/unlock-pdf/">
+  <meta property="og:image" content="https://www.multiimagex.online/assets/unlock-pdf.jpg">
 
   <style>
-    :root{
-      --brand:#6c63ff;
-      --accent:#3c096c;
-      --muted:#666;
-      --bg:#fff;
-      --surface:#f7f7fb;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--surface);color:#111;-webkit-font-smoothing:antialiased}
-    header{background:linear-gradient(90deg,var(--brand),#8b5cf6);color:#fff;padding:18px;text-align:center}
-    header h1{margin:0;font-size:1.2rem}
-    main{max-width:980px;margin:18px auto;padding:18px;background:var(--bg);border-radius:10px;box-shadow:0 6px 20px rgba(40,40,90,0.06)}
-    .top{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;justify-content:space-between}
-    .controls{flex:1;min-width:260px}
-    .file-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    input[type=file]{padding:6px}
-    label{display:block;margin-top:10px;font-weight:600}
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
-    select,input[type=password],input[type=number]{padding:8px;border-radius:8px;border:1px solid #e6e6ee;min-width:160px}
-    button{background:var(--brand);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:700}
-    button.secondary{background:#f1f0ff;color:var(--accent)}
-    .note{font-size:0.9rem;color:var(--muted);margin-top:6px}
-    .progress{height:12px;background:#f1f3f8;border-radius:8px;overflow:hidden;margin-top:12px}
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--accent));width:0%}
-    .preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px}
-    .card{background:#fff;padding:10px;border-radius:8px;border:1px solid #f0f0f4;text-align:center}
-    .card img{max-width:100%;border-radius:6px;display:block;margin:0 auto 8px}
-    .meta{font-size:0.85rem;color:var(--muted)}
-    .actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
-    .footer-note{font-size:0.85rem;color:var(--muted);margin-top:12px;text-align:center}
-    footer{max-width:980px;margin:18px auto;text-align:center;color:var(--muted)}
-    @media(max-width:640px){main{margin:10px;padding:12px}}
+    body {font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:0;}
+    .container {max-width:900px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+    h1 {text-align:center; color:#333;}
+    input, button {width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;}
+    button {background:#dc2626; color:#fff; border:none; cursor:pointer; font-size:16px;}
+    button:hover {background:#b91c1c;}
+    .preview {margin-top:20px; text-align:center;}
+    canvas {max-width:100%; margin:10px 0; border:1px solid #ddd;}
+    .desc {margin-top:30px; line-height:1.6; color:#444;}
+    .faq h2 {font-size:18px; margin-bottom:10px;}
   </style>
 
-  <!-- Dependencies -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.13.216/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Unlock PDF — Download Unlocked PDF or Convert PDF to Images</h1>
-    <div style="margin-top:6px;font-size:0.95rem;opacity:0.95">Enter password for a protected PDF, preview pages and download images (PNG/JPEG) or save a new unlocked PDF — all in your browser, no uploads.</div>
-  </header>
+  <div class="container">
+    <h1>Unlock PDF Tool</h1>
+    <p style="text-align:center;">Upload your password-protected PDF, enter the password, and unlock it instantly.</p>
+    
+    <input type="file" id="upload" accept="application/pdf">
+    <input type="password" id="password" placeholder="Enter PDF password">
+    <button onclick="unlockPDF()">Unlock PDF</button>
+    <div id="pages"></div>
 
-  <main>
-    <div class="top">
-      <div class="controls">
-        <div class="file-row">
-          <input id="pdfFile" type="file" accept="application/pdf" />
-          <button id="clearBtn" class="secondary" title="Clear">Clear</button>
-        </div>
-
-        <label for="password">PDF Password (if protected)</label>
-        <input id="password" type="password" placeholder="Enter password if required" />
-
-        <div class="row">
-          <label style="margin:0">Output</label>
-          <select id="outputMode">
-            <option value="images">Images (PNG/JPEG)</option>
-            <option value="unlocked-pdf">Unlocked PDF (rasterized)</option>
-          </select>
-
-          <label style="margin:0">Format</label>
-          <select id="format">
-            <option value="png">PNG (lossless)</option>
-            <option value="jpeg">JPEG (smaller)</option>
-          </select>
-
-          <label style="margin:0">Scale</label>
-          <input id="scale" type="number" min="0.5" max="2" step="0.1" value="1" title="Rendering scale (0.5 - 2.0)" />
-        </div>
-
-        <div class="row">
-          <button id="unlockBtn">Unlock & Preview</button>
-          <button id="convertBtn" disabled>Convert & Download</button>
-        </div>
-
-        <div class="progress" id="progWrap" style="display:none"><i id="progBar"></i></div>
-        <div id="status" class="note"></div>
-
-        <div class="note" style="margin-top:12px">
-          <strong>Privacy:</strong> Files are processed locally in your browser and are not uploaded to any server. For very large PDFs, reduce scale to avoid memory issues.
-        </div>
-      </div>
-
-      <div style="min-width:240px">
-        <div class="card" style="text-align:left">
-          <strong>How Unlock PDF works</strong>
-          <ol style="padding-left:18px;margin:8px 0;color:var(--muted);font-size:0.95rem">
-            <li>Select a PDF file from your device</li>
-            <li>Enter the password (if required) and click <em>Unlock & Preview</em></li>
-            <li>Preview pages, then click <em>Convert & Download</em> to get images or an unlocked PDF</li>
-          </ol>
-          <div class="footer-note">Client-side conversion — secure and private. Supported: encrypted & unencrypted PDFs.</div>
-        </div>
+    <div class="desc">
+      <h2>About Unlock PDF</h2>
+      <p>With our free Unlock PDF tool, you can easily remove restrictions from password-protected PDF files. Once unlocked, you can either <b>download the PDF</b> without password protection or <b>convert each page into high-quality images</b> (JPG/PNG).</p>
+      
+      <div class="faq">
+        <h2>FAQs - Unlock PDF</h2>
+        <p><b>Q. Can I unlock any PDF?</b> Yes, as long as you know the correct password.</p>
+        <p><b>Q. Will my files be safe?</b> Yes, everything is processed in your browser. No upload to server.</p>
+        <p><b>Q. Can I convert to images?</b> Yes, once unlocked you can download each page as image.</p>
       </div>
     </div>
+  </div>
 
-    <section id="previewArea" class="preview" aria-live="polite"></section>
-  </main>
+  <script>
+    async function unlockPDF(){
+      const file = document.getElementById('upload').files[0];
+      const password = document.getElementById('password').value;
+      if(!file || !password) return alert("Upload a PDF and enter password");
 
-  <footer>
-    © 2025 Multiimagex — <a href="/privacy-policy/index.html">Privacy Policy</a> | <a href="/terms-of-use/index.html">Terms of Use</a>
-  </footer>
-
-<script>
-  // Setup pdf.js worker
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.13.216/pdf.worker.min.js';
-
-  // Elements
-  const pdfInput = document.getElementById('pdfFile');
-  const passwordInput = document.getElementById('password');
-  const unlockBtn = document.getElementById('unlockBtn');
-  const convertBtn = document.getElementById('convertBtn');
-  const previewArea = document.getElementById('previewArea');
-  const progWrap = document.getElementById('progWrap');
-  const progBar = document.getElementById('progBar');
-  const status = document.getElementById('status');
-  const clearBtn = document.getElementById('clearBtn');
-  const formatSelect = document.getElementById('format');
-  const scaleInput = document.getElementById('scale');
-  const outputMode = document.getElementById('outputMode');
-
-  let currentPdfData = null;
-  let pdfDoc = null;
-  let pagesRendered = []; // {pageNum, dataUrl}
-
-  function uiReset() {
-    pdfDoc = null;
-    currentPdfData = null;
-    pagesRendered = [];
-    previewArea.innerHTML = '';
-    progBar.style.width = '0%';
-    progWrap.style.display = 'none';
-    status.textContent = '';
-    convertBtn.disabled = true;
-    pdfInput.value = '';
-    passwordInput.value = '';
-  }
-
-  clearBtn.addEventListener('click', uiReset);
-
-  pdfInput.addEventListener('change', (e) => {
-    uiReset();
-    const f = e.target.files[0];
-    if (!f) return;
-    if (f.type !== 'application/pdf') {
-      alert('Please select a PDF file.');
-      pdfInput.value = '';
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      currentPdfData = evt.target.result;
-      status.textContent = `Loaded: ${f.name} (${Math.round(f.size/1024)} KB)`;
-    };
-    reader.readAsArrayBuffer(f);
-  });
-
-  // Render page to image dataURL
-  async function renderPage(pageNum, scale, format) {
-    const page = await pdfDoc.getPage(pageNum);
-    const viewport = page.getViewport({ scale });
-    const canvas = document.createElement('canvas');
-    canvas.width = Math.round(viewport.width);
-    canvas.height = Math.round(viewport.height);
-    const ctx = canvas.getContext('2d', { alpha: true });
-
-    await page.render({ canvasContext: ctx, viewport }).promise;
-    // Convert to dataURL
-    let dataUrl;
-    if (format === 'png') dataUrl = canvas.toDataURL('image/png');
-    else dataUrl = canvas.toDataURL('image/jpeg', 0.92);
-    // free canvas memory
-    canvas.width = canvas.height = 0;
-    return dataUrl;
-  }
-
-  // Unlock & Preview
-  unlockBtn.addEventListener('click', async () => {
-    status.textContent = '';
-    previewArea.innerHTML = '';
-    pagesRendered = [];
-    convertBtn.disabled = true;
-
-    if (!currentPdfData) {
-      alert('Please choose a PDF file first.');
-      return;
-    }
-
-    const pwd = passwordInput.value || undefined;
-    status.textContent = 'Opening PDF...';
-
-    try {
-      // Try to load PDF with pdf.js using password if provided
-      const loadingTask = pdfjsLib.getDocument({ data: currentPdfData, password: pwd });
-      loadingTask.onPassword = function (updatePassword, reason) {
-        // If password required, inform user
-        if (reason === pdfjsLib.PasswordResponses.NEED_PASSWORD) {
-          status.textContent = 'This PDF requires a password. Enter it and click Unlock.';
-        } else if (reason === pdfjsLib.PasswordResponses.INCORRECT_PASSWORD) {
-          status.textContent = 'Incorrect password. Please try again.';
-        } else {
-          status.textContent = 'Password required.';
-        }
-      };
-
-      pdfDoc = await loadingTask.promise;
-    } catch (err) {
-      const msg = (err && err.message) ? err.message.toLowerCase() : '';
-      if (msg.includes('password') || msg.includes('incorrect') || msg.includes('need')) {
-        status.textContent = 'Incorrect or missing password. Please enter the correct password.';
-        return;
-      } else {
-        console.error(err);
-        status.textContent = 'Failed to open PDF: ' + (err && err.message ? err.message : 'Unknown error');
-        return;
-      }
-    }
-
-    // Successfully opened
-    status.textContent = `PDF opened — pages: ${pdfDoc.numPages}. Preparing preview...`;
-    convertBtn.disabled = false;
-
-    // Render a limited preview (up to 8 pages) for speed
-    const maxPreview = Math.min(pdfDoc.numPages, 8);
-    const scale = Math.max(0.5, Math.min(2, parseFloat(scaleInput.value) || 1));
-    const fmt = formatSelect.value;
-
-    progWrap.style.display = 'block';
-    progBar.style.width = '0%';
-
-    for (let p = 1; p <= maxPreview; p++) {
-      try {
-        const dataUrl = await renderPage(p, scale, fmt);
-        pagesRendered.push({ pageNum: p, dataUrl });
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `<img alt="Page ${p}" src="${dataUrl}" /><div class="meta">Page ${p}</div>
-          <div class="actions">
-            <a download="page-${p}.${fmt}" href="${dataUrl}"><button>Download</button></a>
-          </div>`;
-        previewArea.appendChild(card);
-        progBar.style.width = Math.round((p / maxPreview) * 100) + '%';
-      } catch (e) {
-        console.error('Preview render error', e);
-        const failCard = document.createElement('div');
-        failCard.className = 'card';
-        failCard.innerHTML = `<div class="meta">Page ${p} — preview failed</div>`;
-        previewArea.appendChild(failCard);
-      }
-    }
-    progBar.style.width = '100%';
-    status.textContent = `Preview ready (${pagesRendered.length} pages previewed). Click Convert & Download to export all pages.`;
-  });
-
-  // Convert & Download (images or unlocked PDF)
-  convertBtn.addEventListener('click', async () => {
-    if (!pdfDoc) { alert('Open a PDF first.'); return; }
-
-    convertBtn.disabled = true;
-    unlockBtn.disabled = true;
-    progWrap.style.display = 'block';
-    progBar.style.width = '0%';
-    status.textContent = 'Converting pages...';
-
-    const total = pdfDoc.numPages;
-    const scale = Math.max(0.5, Math.min(2, parseFloat(scaleInput.value) || 1));
-    const fmt = formatSelect.value;
-    const mode = outputMode.value;
-
-    // If images mode => produce ZIP of images
-    if (mode === 'images') {
-      const zip = new JSZip();
-      for (let p = 1; p <= total; p++) {
+      const reader = new FileReader();
+      reader.onload = async function(e){
+        const typedArray = new Uint8Array(e.target.result);
         try {
-          const dataUrl = await renderPage(p, scale, fmt);
-          const resp = await fetch(dataUrl);
-          const blob = await resp.blob();
-          const ext = fmt === 'png' ? 'png' : 'jpg';
-          zip.file(`page-${p}.${ext}`, blob);
-        } catch (e) {
-          console.error('Convert page error', p, e);
-          zip.file(`page-${p}-error.txt`, `Failed to convert page ${p}: ${e && e.message ? e.message : 'unknown'}`);
+          const pdf = await pdfjsLib.getDocument({data: typedArray, password: password}).promise;
+          document.getElementById('pages').innerHTML = "<h3>Unlocked PDF Pages:</h3>";
+          
+          for(let i=1; i<=pdf.numPages; i++){
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({scale:1.5});
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            await page.render({canvasContext: context, viewport: viewport}).promise;
+            
+            document.getElementById('pages').appendChild(canvas);
+
+            // Download link for each page
+            const link = document.createElement('a');
+            link.innerText = "Download Page " + i + " as Image";
+            link.href = canvas.toDataURL("image/png");
+            link.download = "page-"+i+".png";
+            document.getElementById('pages').appendChild(link);
+            document.getElementById('pages').appendChild(document.createElement("br"));
+          }
+        } catch(err){
+          alert("Incorrect password or invalid PDF file.");
         }
-        progBar.style.width = Math.round((p / total) * 100) + '%';
       }
-      status.textContent = 'Preparing ZIP...';
-      try {
-        const content = await zip.generateAsync({ type: 'blob' }, (meta) => {
-          progBar.style.width = Math.round(meta.percent) + '%';
-        });
-        saveAs(content, 'pdf-pages-images.zip');
-        status.textContent = 'Download started: images ZIP.';
-      } catch (e) {
-        console.error('ZIP error', e);
-        status.textContent = 'Failed to prepare ZIP: ' + (e && e.message ? e.message : 'unknown');
-      }
-    } else {
-      // mode === 'unlocked-pdf' -> rasterize each page and assemble into new PDF (unlocked)
-      const { jsPDF } = window.jspdf;
-      // We'll create pdf pages sized to each rendered image's pixel dims (converted to pt using 72dpi)
-      const newPdf = new jsPDF({ unit: 'pt', format: 'a4' }); // we'll resize per page
-      for (let p = 1; p <= total; p++) {
-        try {
-          const dataUrl = await renderPage(p, scale, fmt);
-          // Create image element to measure dimensions
-          const img = new Image();
-          img.src = dataUrl;
-          await new Promise((res) => { img.onload = res; img.onerror = res; });
-          // Convert image px to points (1pt = 1.333px at 96dpi) — use jsPDF addImage with width/height in pt
-          const pxToPt = (px) => px * 72 / 96;
-          const wPt = pxToPt(img.width);
-          const hPt = pxToPt(img.height);
-          if (p > 1) newPdf.addPage([wPt, hPt]);
-          // Add image at 0,0 filling page
-          newPdf.addImage(dataUrl, fmt === 'png' ? 'PNG' : 'JPEG', 0, 0, wPt, hPt);
-        } catch (e) {
-          console.error('Assemble page error', p, e);
-          // add blank page indicating error
-          if (p > 1) newPdf.addPage();
-          newPdf.text(`Page ${p} conversion failed`, 20, 30);
-        }
-        progBar.style.width = Math.round((p / total) * 100) + '%';
-      }
-      status.textContent = 'Preparing unlocked PDF...';
-      try {
-        const blob = newPdf.output('blob');
-        saveAs(blob, 'unlocked-pdf.pdf');
-        status.textContent = 'Download started: unlocked PDF.';
-      } catch (e) {
-        console.error('PDF save error', e);
-        status.textContent = 'Failed to create unlocked PDF: ' + (e && e.message ? e.message : 'unknown');
-      }
+      reader.readAsArrayBuffer(file);
     }
-
-    convertBtn.disabled = false;
-    unlockBtn.disabled = false;
-  });
-
-  // Accessibility: Enter on password triggers unlock
-  passwordInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') unlockBtn.click(); });
-
-</script>
-
+  </script>
 </body>
 </html>
