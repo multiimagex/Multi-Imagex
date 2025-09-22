@@ -3,76 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Online Image to Text (OCR) Converter | MultiImageX</title>
-  <meta name="description" content="Extract text from images instantly using our free online OCR tool. Convert scanned images, screenshots, or documents to editable text. Fast, secure, and accurate.">
-  <meta name="keywords" content="image to text, OCR online, free OCR, extract text from image, jpg to text, png to text, scanned document to text">
-  <meta property="og:title" content="Free Online Image to Text (OCR) Converter">
-  <meta property="og:description" content="Upload any image and extract text instantly with our powerful OCR tool. 100% free and secure.">
+  <title>Image to Text (OCR) Online - Extract Text from Image | MultiImageX</title>
+  <meta name="description" content="Free Image to Text (OCR) tool. Extract text from images in English and Hindi while keeping the same format. Copy the extracted text easily.">
+  <meta name="keywords" content="image to text, ocr online, extract text from image, convert image to text, copy text from image, hindi ocr, english ocr, online ocr tool">
+  <meta property="og:title" content="Image to Text OCR - Extract Text Online">
+  <meta property="og:description" content="Upload an image and extract the exact text format in English or Hindi with line breaks. Free online OCR tool with copy option.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.multiimagex.online/tools/image-ocr/">
   <meta property="og:image" content="https://www.multiimagex.online/assets/image-ocr.jpg">
 
   <style>
     body {font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:0;}
-    .container {max-width:800px; margin:50px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-    h1 {text-align:center; color:#333;}
-    input, button {width:100%; padding:12px; margin:8px 0; border-radius:8px; border:1px solid #ccc;}
-    button {background:#16a34a; color:#fff; border:none; cursor:pointer; font-size:16px;}
-    button:hover {background:#15803d;}
-    .preview {margin-top:20px; text-align:center;}
-    img {max-width:100%; border-radius:8px;}
-    textarea {width:100%; height:200px; margin-top:20px; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:14px;}
-    .desc {margin-top:30px; line-height:1.6; color:#444;}
-    .faq {margin-top:20px;}
-    .faq h2 {font-size:18px; margin-bottom:10px;}
+    .container {max-width:800px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+    h1 {text-align:center; color:#1e293b;}
+    input, button, select {width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;}
+    button {background:#2563eb; color:#fff; border:none; font-size:16px; cursor:pointer;}
+    button:hover {background:#1d4ed8;}
+    textarea {width:100%; height:250px; margin-top:15px; padding:12px; border-radius:8px; border:1px solid #ccc; font-size:15px; white-space:pre-wrap;}
+    .output {margin-top:20px;}
   </style>
+
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <h1>Image to Text Converter (OCR)</h1>
-    <p style="text-align:center;">Upload your image and extract text instantly with our free OCR tool.</p>
-    
-    <input type="file" id="upload" accept="image/*">
-    <button onclick="extractText()">Extract Text</button>
-    
-    <div class="preview">
-      <img id="preview" style="display:none;">
-    </div>
-    
-    <textarea id="output" placeholder="Extracted text will appear here..."></textarea>
+    <h1>Image to Text (OCR) Online</h1>
+    <p style="text-align:center;">Upload an image and extract text with original format in <b>English or Hindi</b>. Copy the text directly.</p>
 
-    <div class="desc">
-      <h2>About Image OCR</h2>
-      <p>Our free Image to Text (OCR) tool allows you to convert scanned documents, screenshots, and photos into editable text. Powered by advanced OCR technology, it provides high accuracy and works on both mobile and desktop.</p>
-      <div class="faq">
-        <h2>FAQs - Image to Text Converter</h2>
-        <p><b>Q. What is OCR?</b> OCR (Optical Character Recognition) is a technology that extracts text from images.</p>
-        <p><b>Q. Does it support all languages?</b> Yes, it supports multiple languages including English, Spanish, French, Hindi and more.</p>
-        <p><b>Q. Is my data safe?</b> Yes, everything runs in your browser, we don’t store any files.</p>
-      </div>
+    <input type="file" id="imageFile" accept="image/*">
+    <select id="lang">
+      <option value="eng">English</option>
+      <option value="hin">Hindi</option>
+      <option value="eng+hin">English + Hindi</option>
+    </select>
+    <button onclick="extractText()">Extract Text</button>
+
+    <div class="output">
+      <textarea id="outputText" placeholder="Extracted text will appear here..." readonly></textarea>
+      <button onclick="copyText()">Copy Text</button>
     </div>
   </div>
 
   <script>
-    function extractText() {
-      const file = document.getElementById('upload').files[0];
-      if (!file) return alert("Please upload an image first");
+    async function extractText() {
+      const file = document.getElementById("imageFile").files[0];
+      if (!file) return alert("Please upload an image!");
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('preview').src = e.target.result;
-        document.getElementById('preview').style.display = "block";
+      const lang = document.getElementById("lang").value;
 
-        Tesseract.recognize(
-          e.target.result,
-          'eng',
-          { logger: info => console.log(info) }
-        ).then(({ data: { text } }) => {
-          document.getElementById('output').value = text.trim();
-        });
-      }
-      reader.readAsDataURL(file);
+      const { data: { text } } = await Tesseract.recognize(file, lang, {
+        preserve_interword_spaces: 1
+      });
+
+      document.getElementById("outputText").value = text;
+    }
+
+    function copyText() {
+      const textArea = document.getElementById("outputText");
+      textArea.select();
+      document.execCommand("copy");
+      alert("✅ Text copied to clipboard!");
     }
   </script>
 </body>
