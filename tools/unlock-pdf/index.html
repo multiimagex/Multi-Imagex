@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Unlock PDF Online Free | Convert Locked PDF to High Quality Images</title>
+<title>Unlock PDF Online Free | Convert Locked PDF to High-Quality Images</title>
 
-<!-- Primary SEO -->
-<meta name="description" content="Free unlock PDF tool: remove password from PDF securely in your browser and convert all pages into high quality images (PNG/JPG). Fast, secure, no upload required.">
-<meta name="keywords" content="unlock pdf, remove pdf password, pdf unlocker online, convert pdf to image, pdf to jpg, pdf to png, pdf password remover, secure pdf unlock tool, free pdf converter, high quality pdf to image, hd pdf unlocker, unlock protected pdf">
+<!-- SEO Meta Tags -->
+<meta name="description" content="Free unlock PDF tool: remove password from PDF securely in your browser and convert pages into high-quality images. Fast, secure, no upload required.">
+<meta name="keywords" content="unlock pdf, pdf unlocker, remove pdf password, convert pdf to image, pdf to jpg, pdf to png, high-quality pdf images, pdf password remover, online pdf unlock, multiimagex pdf tool">
 
 <!-- Open Graph -->
-<meta property="og:title" content="Unlock PDF Online Free | Convert PDF to Images">
-<meta property="og:description" content="Remove password from locked PDF and export pages as HD images. Secure, free and instant in your browser.">
+<meta property="og:title" content="Unlock PDF Online Free | Convert PDF to High-Quality Images">
+<meta property="og:description" content="Remove password from PDF and convert all pages to clear high-quality images. Fast, secure and free in your browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.multiimagex.online/tools/unlock-pdf/">
 <meta property="og:image" content="https://www.multiimagex.online/assets/unlock-pdf-preview.png">
@@ -19,13 +19,13 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Unlock PDF Free | PDF Password Remover & Converter">
-<meta name="twitter:description" content="Unlock PDF password and download pages as HD images. Free, secure and fast.">
+<meta name="twitter:description" content="Unlock PDF password and download pages as high-quality images instantly. Secure, free, fast.">
 <meta name="twitter:image" content="https://www.multiimagex.online/assets/unlock-pdf-preview.png">
 
 <link rel="canonical" href="https://www.multiimagex.online/tools/unlock-pdf/">
 
 <style>
-  body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:0;background:#f9fafb;color:#111}
+  body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f9fafb;color:#111}
   header{background:linear-gradient(90deg,#6366f1,#8b5cf6);color:#fff;text-align:center;padding:20px}
   header h1{margin:0;font-size:1.5rem}
   main{max-width:900px;margin:20px auto;padding:20px;background:#fff;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
@@ -50,8 +50,8 @@
 </head>
 <body>
 <header>
-  <h1>Unlock PDF → Convert Locked PDF to HD Images</h1>
-  <p>Remove PDF password & download all pages in Full HD PNG format. Secure, fast & free.</p>
+  <h1>Unlock PDF → Convert Locked PDF to High-Quality Images</h1>
+  <p>Remove PDF password & download pages in high-quality images. Fast, secure & free.</p>
 </header>
 
 <main>
@@ -67,7 +67,7 @@
 </main>
 
 <footer>
-  © 2025 Multiimagex | Best Free Online PDF Unlock Tool
+  © 2025 Multiimagex | Free Online PDF Unlock Tool
 </footer>
 
 <script>
@@ -96,10 +96,10 @@ unlockBtn.addEventListener("click",async()=>{
   }
 
   preview.innerHTML="";
-  status.textContent=`Unlocked successfully — ${pdfDoc.numPages} pages found. Rendering...`;
+  status.textContent=`Unlocked successfully — ${pdfDoc.numPages} pages. Rendering...`;
 
   for(let p=1;p<=pdfDoc.numPages;p++){
-    const imgData=await renderPage(pdfDoc,p,1920); // Full HD width
+    const imgData=await renderPage(pdfDoc,p,1365); // High Quality
     appendCard(p,imgData);
   }
 
@@ -138,7 +138,7 @@ downloadAll.addEventListener("click",async()=>{
   status.textContent="Preparing ZIP file...";
   const zip=new JSZip();
   for(let p=1;p<=pdfDoc.numPages;p++){
-    const data=await renderPage(pdfDoc,p,1920);
+    const data=await renderPage(pdfDoc,p,1365);
     zip.file(`page-${p}.png`,dataURLtoBlob(data));
   }
   const blob=await zip.generateAsync({type:"blob"});
