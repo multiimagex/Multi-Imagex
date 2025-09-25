@@ -1,73 +1,72 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Unlock PDF Online Free | Convert Locked PDF to High-Quality Images</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unlock PDF Online | Convert Locked PDF to High-Quality Images</title>
 
-<!-- SEO Meta Tags -->
-<meta name="description" content="Free unlock PDF tool: remove password from PDF securely in your browser and convert pages into high-quality images. Fast, secure, no upload required.">
-<meta name="keywords" content="unlock pdf, pdf unlocker, remove pdf password, convert pdf to image, pdf to jpg, pdf to png, high-quality pdf images, pdf password remover, online pdf unlock, multiimagex pdf tool">
+<!-- SEO Meta -->
+<meta name="description" content="Free online PDF unlock tool: Remove password from any PDF and convert pages into high-quality images quickly. Secure, fast, and easy to use.">
+<meta name="keywords" content="unlock pdf, remove pdf password, pdf unlocker online, pdf to image, pdf to jpg, pdf to png, pdf password remover, free pdf unlock tool, multiimagex pdf tool">
 
 <!-- Open Graph -->
-<meta property="og:title" content="Unlock PDF Online Free | Convert PDF to High-Quality Images">
-<meta property="og:description" content="Remove password from PDF and convert all pages to clear high-quality images. Fast, secure and free in your browser.">
+<meta property="og:title" content="Unlock PDF Online | Convert Locked PDF to High-Quality Images">
+<meta property="og:description" content="Remove PDF password and convert pages to clear high-quality images. Fast, secure, and free in your browser.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.multiimagex.online/tools/unlock-pdf/">
 <meta property="og:image" content="https://www.multiimagex.online/assets/unlock-pdf-preview.png">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Unlock PDF Free | PDF Password Remover & Converter">
-<meta name="twitter:description" content="Unlock PDF password and download pages as high-quality images instantly. Secure, free, fast.">
+<meta name="twitter:title" content="Unlock PDF Online Free | Multiimagex">
+<meta name="twitter:description" content="Remove PDF password and download pages as high-quality images securely and instantly.">
 <meta name="twitter:image" content="https://www.multiimagex.online/assets/unlock-pdf-preview.png">
 
 <link rel="canonical" href="https://www.multiimagex.online/tools/unlock-pdf/">
 
 <style>
-  body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f9fafb;color:#111}
-  header{background:linear-gradient(90deg,#6366f1,#8b5cf6);color:#fff;text-align:center;padding:20px}
-  header h1{margin:0;font-size:1.5rem}
-  main{max-width:900px;margin:20px auto;padding:20px;background:#fff;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
-  .row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
-  input,button{padding:10px;border-radius:8px;border:1px solid #ddd}
-  input[type=file]{flex:1}
-  input[type=password]{flex:1}
-  button{cursor:pointer;background:#6366f1;color:#fff;border:none;font-weight:bold}
-  button:disabled{background:#cbd5e1;cursor:not-allowed}
-  #status{margin:8px 0;color:#555}
-  #preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:15px}
-  .card{background:#fafafa;padding:10px;border:1px solid #eee;border-radius:8px;text-align:center}
-  .card img{max-width:100%;border-radius:6px}
-  footer{text-align:center;margin:20px 0;color:#555;font-size:0.9rem}
+body{font-family:Arial,sans-serif;margin:0;padding:0;background:#f9fafb;color:#111}
+header{background:linear-gradient(90deg,#6366f1,#8b5cf6);color:#fff;text-align:center;padding:20px}
+header h1{margin:0;font-size:1.5rem}
+main{max-width:900px;margin:20px auto;padding:20px;background:#fff;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.08)}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+input,button{padding:10px;border-radius:8px;border:1px solid #ddd}
+input[type=file]{flex:1}
+input[type=password]{flex:1}
+button{cursor:pointer;background:#6366f1;color:#fff;border:none;font-weight:bold}
+button:disabled{background:#cbd5e1;cursor:not-allowed}
+#status{margin:8px 0;color:#555}
+#preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:15px}
+.card{background:#fafafa;padding:10px;border:1px solid #eee;border-radius:8px;text-align:center}
+.card img{max-width:100%;border-radius:6px}
+footer{text-align:center;margin:20px 0;color:#555;font-size:0.9rem}
 </style>
 
-<!-- PDF.js -->
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.110/build/pdf.min.js"></script>
-<!-- JSZip + FileSaver -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
 </head>
 <body>
 <header>
-  <h1>Unlock PDF → Convert Locked PDF to High-Quality Images</h1>
-  <p>Remove PDF password & download pages in high-quality images. Fast, secure & free.</p>
+<h1>Unlock PDF → Convert PDF to High-Quality Images</h1>
+<p>Remove PDF password & download pages as images. Fast, secure & free.</p>
 </header>
 
 <main>
-  <div class="row">
-    <input id="fileInput" type="file" accept="application/pdf">
-    <input id="password" type="password" placeholder="Enter PDF Password">
-    <button id="unlockBtn">Unlock & Preview</button>
-    <button id="downloadAll" disabled>Download All Pages (ZIP)</button>
-  </div>
+<div class="row">
+<input id="fileInput" type="file" accept="application/pdf">
+<input id="password" type="password" placeholder="Enter PDF Password">
+<button id="unlockBtn">Unlock & Preview</button>
+<button id="downloadAll" disabled>Download All Pages (ZIP)</button>
+</div>
 
-  <div id="status"></div>
-  <section id="preview"></section>
+<div id="status"></div>
+<section id="preview"></section>
 </main>
 
 <footer>
-  © 2025 Multiimagex | Free Online PDF Unlock Tool
+© 2025 Multiimagex | Free Online PDF Unlock Tool
 </footer>
 
 <script>
@@ -83,74 +82,73 @@ const downloadAll=document.getElementById("downloadAll");
 let pdfDoc=null;
 
 unlockBtn.addEventListener("click",async()=>{
-  const file=fileInput.files[0];
-  if(!file){alert("Select a PDF file first");return;}
-  status.textContent="Loading PDF...";
-  const buffer=await file.arrayBuffer();
-  try{
-    const task=pdfjsLib.getDocument({data:new Uint8Array(buffer),password:passwordInput.value||undefined});
-    pdfDoc=await task.promise;
-  }catch(e){
-    status.textContent="Incorrect password or failed to open PDF.";
-    return;
-  }
+const file=fileInput.files[0];
+if(!file){alert("Select a PDF file first");return;}
+status.textContent="Loading PDF...";
+const buffer=await file.arrayBuffer();
+try{
+const task=pdfjsLib.getDocument({data:new Uint8Array(buffer),password:passwordInput.value||undefined});
+pdfDoc=await task.promise;
+}catch(e){
+status.textContent="Incorrect password or failed to open PDF.";
+return;
+}
 
-  preview.innerHTML="";
-  status.textContent=`Unlocked successfully — ${pdfDoc.numPages} pages. Rendering...`;
+preview.innerHTML="";
+status.textContent=`Unlocked successfully — ${pdfDoc.numPages} pages found. Rendering...`;
 
-  for(let p=1;p<=pdfDoc.numPages;p++){
-    const imgData=await renderPage(pdfDoc,p,1365); // High Quality
-    appendCard(p,imgData);
-  }
+for(let p=1;p<=pdfDoc.numPages;p++){
+const imgData=await renderPage(pdfDoc,p,1365); // High Quality
+appendCard(p,imgData);
+}
 
-  status.textContent="PDF unlocked. You can download pages individually or all together.";
-  downloadAll.disabled=false;
+status.textContent="PDF unlocked. You can download pages individually or all together.";
+downloadAll.disabled=false;
 });
 
 async function renderPage(pdf,pageNum,width){
-  const page=await pdf.getPage(pageNum);
-  const viewport=page.getViewport({scale:1});
-  const scale=width/viewport.width;
-  const vp=page.getViewport({scale});
-  const canvas=document.createElement("canvas");
-  canvas.width=vp.width;
-  canvas.height=vp.height;
-  const ctx=canvas.getContext("2d");
-  await page.render({canvasContext:ctx,viewport:vp}).promise;
-  return canvas.toDataURL("image/png");
+const page=await pdf.getPage(pageNum);
+const viewport=page.getViewport({scale:1});
+const scale=width/viewport.width;
+const vp=page.getViewport({scale});
+const canvas=document.createElement("canvas");
+canvas.width=vp.width;
+canvas.height=vp.height;
+const ctx=canvas.getContext("2d");
+await page.render({canvasContext:ctx,viewport:vp}).promise;
+return canvas.toDataURL("image/png");
 }
 
 function appendCard(pageNum,imgData){
-  const card=document.createElement("div");
-  card.className="card";
-  card.innerHTML=`
-    <img src="${imgData}" alt="Page ${pageNum}">
-    <p>Page ${pageNum}</p>
-    <a href="${imgData}" download="page-${pageNum}.png">
-      <button>Download</button>
-    </a>
-  `;
-  preview.appendChild(card);
+const card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<img src="${imgData}" alt="Page ${pageNum}">
+<p>Page ${pageNum}</p>
+<a href="${imgData}" download="page-${pageNum}.png">
+<button>Download</button>
+</a>`;
+preview.appendChild(card);
 }
 
 downloadAll.addEventListener("click",async()=>{
-  if(!pdfDoc)return;
-  status.textContent="Preparing ZIP file...";
-  const zip=new JSZip();
-  for(let p=1;p<=pdfDoc.numPages;p++){
-    const data=await renderPage(pdfDoc,p,1365);
-    zip.file(`page-${p}.png`,dataURLtoBlob(data));
-  }
-  const blob=await zip.generateAsync({type:"blob"});
-  saveAs(blob,"unlocked-pdf-images.zip");
-  status.textContent="Download ready!";
+if(!pdfDoc)return;
+status.textContent="Preparing ZIP file...";
+const zip=new JSZip();
+for(let p=1;p<=pdfDoc.numPages;p++){
+const data=await renderPage(pdfDoc,p,1365);
+zip.file(`page-${p}.png`,dataURLtoBlob(data));
+}
+const blob=await zip.generateAsync({type:"blob"});
+saveAs(blob,"unlocked-pdf-images.zip");
+status.textContent="Download ready!";
 });
 
 function dataURLtoBlob(dataurl){
-  const arr=dataurl.split(","),mime=arr[0].match(/:(.*?);/)[1];
-  const bstr=atob(arr[1]);let n=bstr.length;const u8=new Uint8Array(n);
-  while(n--)u8[n]=bstr.charCodeAt(n);
-  return new Blob([u8],{type:mime});
+const arr=dataurl.split(","),mime=arr[0].match(/:(.*?);/)[1];
+const bstr=atob(arr[1]);let n=bstr.length;const u8=new Uint8Array(n);
+while(n--)u8[n]=bstr.charCodeAt(n);
+return new Blob([u8],{type:mime});
 }
 </script>
 </body>
