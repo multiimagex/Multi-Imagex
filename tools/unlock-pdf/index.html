@@ -1,63 +1,205 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unlock PDF Online | MultiImageX</title>
-  <meta name="description" content="Unlock password-protected PDF files online for free. Enter your PDF password to remove protection and download the unlocked PDF or convert it into high-quality images. Fast, secure, and easy to use.">
-  <meta name="keywords" content="unlock PDF, remove PDF password, convert PDF to images, PDF unlocker online, free PDF unlock tool, high quality PDF to image">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Unlock PDF Online Free | Remove Password & Convert PDF to High-Quality Images</title>
+
+<!-- Primary SEO Meta Tags -->
+<meta name="description" content="Unlock password-protected PDF online for free. Remove PDF password safely in your browser and convert PDF pages to high-quality PNG/JPG images instantly. No upload, 100% client-side, secure and fast." />
+<meta name="keywords" content="unlock pdf, remove pdf password online, pdf unlock tool, free pdf unlocker, pdf password remover, convert pdf to image, pdf to png, pdf to jpg, pdf password cracker, unlock secure pdf, export pdf to hd image, pdf converter online, free pdf to image converter, best pdf unlock tool, multiimagex pdf unlock" />
+
+<!-- Open Graph (Facebook & LinkedIn) -->
+<meta property="og:title" content="Unlock PDF Online Free | Remove Password & Convert to Images" />
+<meta property="og:description" content="Remove password from secure PDFs and convert them into high-quality images (PNG/JPG) directly in your browser. Fast, secure & free." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.multiimagex.online/tools/unlock-pdf/" />
+<meta property="og:image" content="https://www.multiimagex.online/assets/unlock-pdf-preview.png" />
+
+<!-- Twitter Card (SEO Boost) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Free Unlock PDF Tool | Password Remover & Converter" />
+<meta name="twitter:description" content="Unlock PDF password & convert pages into HD PNG/JPG images instantly. Secure, client-side & free online PDF unlocker." />
+<meta name="twitter:image" content="https://www.multiimagex.online/assets/unlock-pdf-preview.png" />
+
+<link rel="canonical" href="https://www.multiimagex.online/tools/unlock-pdf/" />
+
+<style>
+  :root{--brand:#6c63ff;--muted:#6b7280;--bg:#fff;--surface:#f6f7fb}
+  *{box-sizing:border-box}
+  body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;background:var(--surface);color:#0f172a}
+  header{background:linear-gradient(90deg,var(--brand),#8b5cf6);color:#fff;padding:18px;text-align:center}
+  header h1{margin:0;font-size:1.25rem}
+  main{max-width:980px;margin:18px auto;padding:18px;background:var(--bg);border-radius:12px;box-shadow:0 8px 30px rgba(13,20,40,0.06)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  input[type=file],input[type=password],select{padding:10px;border-radius:8px;border:1px solid #e6e6ee;min-width:180px}
+  button{background:var(--brand);color:#fff;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+  button.secondary{background:#eef2ff;color:var(--brand)}
+  .note{color:var(--muted);font-size:0.95rem;margin-top:8px}
+  .progress{height:12px;background:#eef2ff;border-radius:12px;overflow:hidden;margin-top:12px}
+  .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),#3b82f6);width:0%}
+  #preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:16px}
+  .card{background:#fff;padding:10px;border-radius:10px;border:1px solid #f0f0f4;text-align:center}
+  .card img{max-width:100%;height:auto;border-radius:6px;display:block;margin:0 auto 8px}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  footer{max-width:980px;margin:18px auto;padding:12px;text-align:center;color:var(--muted)}
+  @media(max-width:640px){.row{flex-direction:column;align-items:stretch}}
+</style>
+
+<!-- PDF.js -->
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.110/build/pdf.min.js"></script>
+<!-- JSZip & FileSaver -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
-  <h1>Unlock PDF Online</h1>
-  <p>Upload your password-protected PDF and enter the correct password to unlock it. You can download the unlocked PDF or convert it into high-quality images.</p>
+<header>
+  <h1>Unlock PDF Online (Free & Secure) → Convert PDF to Full-HD Images</h1>
+  <div style="margin-top:6px;opacity:0.95">Remove password from locked PDF and export every page as HD images (PNG/JPG) directly in your browser. Secure, fast, free — no upload required.</div>
+</header>
 
-  <form id="unlockForm" enctype="multipart/form-data">
-    <label>Upload PDF: <input type="file" name="pdf" id="pdfFile" accept="application/pdf" required></label><br><br>
-    <label>Enter Password: <input type="password" name="password" id="pdfPassword" required></label><br><br>
-    <button type="submit">Unlock PDF</button>
-  </form>
+<main>
+  <div class="row">
+    <input id="fileInput" type="file" accept="application/pdf" />
+    <input id="password" type="password" placeholder="PDF password (if required)" />
+    <select id="qualityPreset" title="Choose image width preset">
+      <option value="1920" selected>Full HD (≈1920px width)</option>
+      <option value="1365">1365px — High</option>
+      <option value="1024">1024px — Medium</option>
+      <option value="800">800px — Mobile friendly</option>
+    </select>
+    <button id="openBtn">Open & Preview</button>
+    <button id="convertAllBtn" class="secondary" disabled>Export All → ZIP</button>
+  </div>
 
-  <div id="result"></div>
+  <div class="note">Works fully offline in your browser. Best free PDF unlocker to remove password and convert PDF to images without uploading.</div>
 
-  <script>
-    document.getElementById("unlockForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const formData = new FormData();
-      formData.append("pdf", document.getElementById("pdfFile").files[0]);
-      formData.append("password", document.getElementById("pdfPassword").value);
+  <div class="progress" id="progWrap" style="display:none"><i id="progBar"></i></div>
+  <div id="status" class="note"></div>
 
-      document.getElementById("result").innerHTML = "Processing... Please wait.";
+  <section id="preview" aria-live="polite"></section>
+</main>
 
-      try {
-        const response = await fetch("http://localhost:3000/unlock-pdf", {
-          method: "POST",
-          body: formData,
-        });
+<footer>
+  © 2025 Multiimagex — <a href="/privacy-policy/index.html">Privacy Policy</a> | <a href="/terms-of-use/index.html">Terms of Use</a>
+</footer>
 
-        if (!response.ok) {
-          const err = await response.json();
-          throw new Error(err.message || "Failed to unlock PDF");
-        }
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.110/build/pdf.worker.min.js';
 
-        const data = await response.json();
+  const fileInput = document.getElementById('fileInput');
+  const passwordInput = document.getElementById('password');
+  const openBtn = document.getElementById('openBtn');
+  const preview = document.getElementById('preview');
+  const progWrap = document.getElementById('progWrap');
+  const progBar = document.getElementById('progBar');
+  const status = document.getElementById('status');
+  const convertAllBtn = document.getElementById('convertAllBtn');
+  const qualityPreset = document.getElementById('qualityPreset');
 
-        let html = `<p><b>Unlocked Successfully!</b></p>`;
-        if (data.pdfUrl) {
-          html += `<a href="${data.pdfUrl}" download="unlocked.pdf">Download Unlocked PDF</a><br>`;
-        }
-        if (data.images && data.images.length > 0) {
-          html += "<h3>Converted Images:</h3>";
-          data.images.forEach((img, i) => {
-            html += `<div><img src="${img}" style="max-width:300px;"><br>
-                     <a href="${img}" download="page-${i + 1}.png">Download Page ${i + 1}</a></div>`;
-          });
-        }
+  let loadedPdf = null;
+  let pdfData = null;
+  let pageCount = 0;
 
-        document.getElementById("result").innerHTML = html;
-      } catch (err) {
-        document.getElementById("result").innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
-      }
-    });
-  </script>
+  function resetUI() {
+    preview.innerHTML = '';
+    progWrap.style.display = 'none';
+    progBar.style.width = '0%';
+    status.textContent = '';
+    convertAllBtn.disabled = true;
+    loadedPdf = null;
+    pdfData = null;
+    pageCount = 0;
+  }
+
+  fileInput.addEventListener('change', () => resetUI());
+
+  openBtn.addEventListener('click', async () => {
+    resetUI();
+    const file = fileInput.files[0];
+    if (!file) { alert('Please choose a PDF file.'); return; }
+
+    status.textContent = 'Reading file...';
+    const arrayBuffer = await file.arrayBuffer();
+    pdfData = new Uint8Array(arrayBuffer);
+
+    try {
+      const loadingTask = pdfjsLib.getDocument({ data: pdfData, password: passwordInput.value || undefined });
+      loadedPdf = await loadingTask.promise;
+    } catch (err) {
+      status.textContent = 'Failed to open PDF. Check password.';
+      return;
+    }
+
+    pageCount = loadedPdf.numPages;
+    status.textContent = `PDF opened — ${pageCount} pages. Rendering preview...`;
+    progWrap.style.display = 'block';
+
+    const previewPages = Math.min(pageCount, 6);
+    for (let p = 1; p <= previewPages; p++) {
+      const dataUrl = await renderPageAsImageDataUrl(loadedPdf, p, parseInt(qualityPreset.value, 10));
+      appendPreviewCard(p, dataUrl);
+      progBar.style.width = Math.round((p/previewPages)*100) + '%';
+    }
+    status.textContent = `Preview ready. Click "Export All → ZIP" for all pages.`;
+    convertAllBtn.disabled = false;
+  });
+
+  async function renderPageAsImageDataUrl(pdfDoc, pageNumber, targetWidthPx) {
+    const page = await pdfDoc.getPage(pageNumber);
+    const unscaledViewport = page.getViewport({ scale: 1 });
+    const scale = targetWidthPx / unscaledViewport.width;
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(viewport.width);
+    canvas.height = Math.round(viewport.height);
+    const ctx = canvas.getContext('2d');
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    const dataUrl = canvas.toDataURL('image/png');
+    canvas.width = canvas.height = 0;
+    return dataUrl;
+  }
+
+  function appendPreviewCard(pageNum, dataUrl) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img alt="PDF Page ${pageNum}" src="${dataUrl}" />
+      <div>Page ${pageNum}</div>
+      <div class="actions">
+        <a download="page-${pageNum}.png" href="${dataUrl}"><button>Download</button></a>
+      </div>`;
+    preview.appendChild(card);
+  }
+
+  convertAllBtn.addEventListener('click', async () => {
+    if (!loadedPdf) return;
+    convertAllBtn.disabled = true;
+    const zip = new JSZip();
+    const total = loadedPdf.numPages;
+    const targetWidth = parseInt(qualityPreset.value, 10);
+
+    for (let p = 1; p <= total; p++) {
+      const dataUrl = await renderPageAsImageDataUrl(loadedPdf, p, targetWidth);
+      zip.file(`page-${p}.png`, dataURLtoBlob(dataUrl));
+      progBar.style.width = Math.round((p/total)*100) + '%';
+      status.textContent = `Converted ${p}/${total} pages...`;
+    }
+    const content = await zip.generateAsync({ type: 'blob' });
+    saveAs(content, 'pdf-images.zip');
+    status.textContent = 'Download ready.';
+    convertAllBtn.disabled = false;
+  });
+
+  function dataURLtoBlob(dataurl) {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while(n--) u8arr[n] = bstr.charCodeAt(n);
+    return new Blob([u8arr], { type: mime });
+  }
+</script>
 </body>
 </html>
