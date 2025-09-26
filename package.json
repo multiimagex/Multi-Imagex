@@ -1,25 +1,15 @@
 {
-  "name": "unlock-pdf-tool",
+  "name": "unlock-pdf",
   "version": "1.0.0",
-  "description": "Unlock password-protected PDF files online and convert them into high-quality images. Free, secure, fast PDF unlocker by MultiImageX.",
+  "description": "Unlock password protected PDF and convert to high-quality images",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "multer": "^1.4.5-lts.1",
+    "multer": "^1.4.5",
     "pdf-lib": "^1.17.1",
-    "pdf2pic": "^3.1.2"
-  },
-  "author": "MultiImageX",
-  "license": "MIT",
-  "keywords": [
-    "unlock pdf",
-    "remove pdf password",
-    "pdf unlocker online",
-    "convert pdf to images",
-    "high quality pdf converter",
-    "free pdf unlock tool"
-  ]
+    "pdf2pic": "^3.1.1"
+  }
 }
