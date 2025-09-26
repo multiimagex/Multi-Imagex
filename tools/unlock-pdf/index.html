@@ -1,85 +1,43 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-  <!-- Primary SEO -->
-  <title>Unlock PDF Online — Free Tool to Preview & Download</title>
-  <meta name="description" content="Unlock password-protected PDFs online. Enter password, preview pages as images, and download the unlocked PDF in high quality." />
-  <link rel="canonical" href="https://aapki-site.com/unlock-pdf.html" />
-
-  <!-- Open Graph (Facebook/LinkedIn) -->
-  <meta property="og:title" content="Unlock PDF Online — Free Tool" />
-  <meta property="og:description" content="Unlock password-protected PDFs, preview as images, and download in high quality." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://aapki-site.com/unlock-pdf.html" />
-  <meta property="og:image" content="https://aapki-site.com/images/unlock-pdf-preview.png" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Unlock PDF Online — Free Tool" />
-  <meta name="twitter:description" content="Easily unlock password-protected PDFs. Preview pages and download securely." />
-  <meta name="twitter:image" content="https://aapki-site.com/images/unlock-pdf-preview.png" />
-
-  <!-- JSON-LD FAQ Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-      "@type": "Question",
-      "name": "How can I unlock a PDF online?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Upload your password-protected PDF, enter the correct password, and our tool will unlock it for preview and high-quality download."
-      }
-    },{
-      "@type": "Question",
-      "name": "Is my PDF secure on this tool?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Your file is processed securely on our server and deleted automatically after unlocking. We do not store your data."
-      }
-    },{
-      "@type": "Question",
-      "name": "Can I preview my PDF before downloading?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Once unlocked, you can preview all PDF pages as images before downloading the high-quality unlocked version."
-      }
-    }]
-  }
-  </script>
-
-  <link rel="stylesheet" href="/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unlock PDF - MultiImageX</title>
+  <meta name="description" content="Unlock password-protected PDF files online and convert them into high-quality images securely. Fast, safe, and free unlock PDF tool by MultiImageX.">
 </head>
 <body>
-  <main class="container">
-    <h1>Unlock PDF — Preview & Download</h1>
-    <p>Use our free Unlock PDF tool to remove password protection. Enter the password, preview the document pages as images, and download the unlocked PDF securely.</p>
+  <h1>Unlock PDF & Convert to Images</h1>
+  <form id="unlockForm" enctype="multipart/form-data">
+    <input type="file" name="file" accept="application/pdf" required><br>
+    <input type="password" name="password" placeholder="Enter PDF Password" required><br>
+    <button type="submit">Unlock & Convert</button>
+  </form>
+  <div id="result"></div>
 
-    <!-- Upload Form -->
-    <form id="unlockForm" enctype="multipart/form-data">
-      <label for="pdf">Choose a PDF file (Max 150MB)</label>
-      <input id="pdf" name="pdf" type="file" accept="application/pdf" required />
+  <script>
+    document.getElementById("unlockForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
 
-      <label for="password">Enter PDF Password</label>
-      <input id="password" name="password" type="password" required autocomplete="current-password" />
+      let res = await fetch("http://localhost:3000/unlock-pdf", {
+        method: "POST",
+        body: formData
+      });
 
-      <button id="submitBtn" type="submit">Unlock & Preview</button>
-    </form>
+      let data = await res.json();
+      let resultDiv = document.getElementById("result");
 
-    <!-- Status Messages -->
-    <div id="status" aria-live="polite"></div>
-
-    <!-- Preview Pages -->
-    <section id="previewArea" class="preview"></section>
-
-    <!-- Download Button -->
-    <div id="downloadArea"></div>
-  </main>
-
-  <script src="/script.js"></script>
+      if (data.success) {
+        resultDiv.innerHTML = "<h3>Unlocked PDF Pages:</h3>";
+        data.images.forEach(img => {
+          resultDiv.innerHTML += `<img src="${img}" style="max-width:300px; margin:10px;"><br>`;
+          resultDiv.innerHTML += `<a href="${img}" download>Download</a><br>`;
+        });
+      } else {
+        resultDiv.innerHTML = "<p style='color:red'>" + data.message + "</p>";
+      }
+    });
+  </script>
 </body>
 </html>
