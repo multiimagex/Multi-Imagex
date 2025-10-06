@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Advanced Image Enhancer Online — Deblur & Sharpen Photos | MultiImageX</title>
+
+<!-- SEO -->
+<meta name="description" content="Advanced Image Enhancer (client-side). Improve & deblur photos: denoise, sharpen, contrast-enhance, and restore details quickly in your browser. No upload — secure & fast." />
+<meta name="keywords" content="image enhancer, deblur image, sharpen photo, denoise photo, enhance blurry image, photo enhancer online, improve image quality, image enhancement tool, multiimagex" />
+<link rel="canonical" href="https://www.multiimagex.online/tools/image-enhancer-advanced/" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Advanced Image Enhancer — Deblur & Sharpen Photos" />
+<meta property="og:description" content="Enhance and deblur images in-browser. Denoise, sharpen and improve clarity using OpenCV.js. Fast, private and free." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.multiimagex.online/tools/image-enhancer-advanced/" />
+<meta property="og:image" content="https://www.multiimagex.online/assets/image-enhancer-advanced.png" />
+
+<style>
+  :root{--brand:#5b6cff;--muted:#6b7280}
+  *{box-sizing:border-box}
+  body{font-family:Inter,system-ui,Arial,sans-serif;background:#f7f9fc;color:#0b1220;margin:0;padding:18px}
+  header{background:linear-gradient(90deg,var(--brand),#7c5cff);color:#fff;padding:18px;border-radius:10px}
+  header h1{margin:0;font-size:1.25rem}
+  main{max-width:980px;margin:18px auto}
+  .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(12,18,30,0.06)}
+  .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:12px}
+  .controls > *{flex:1;min-width:160px}
+  label{display:block;font-weight:600;margin-bottom:6px;color:var(--muted)}
+  input[type=file]{padding:8px}
+  button{background:var(--brand);color:#fff;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:700}
+  button.secondary{background:#eef2ff;color:var(--brand)}
+  #canvasWrap{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+  canvas{max-width:100%;border-radius:8px;border:1px solid #e6e9f2}
+  .meta{margin-top:8px;color:#374151}
+  .progress{height:10px;background:#eef2ff;border-radius:10px;overflow:hidden;margin-top:8px}
+  .bar{height:100%;background:linear-gradient(90deg,var(--brand),#3b82f6);width:0%}
+  .note{font-size:0.9rem;color:var(--muted);margin-top:10px}
+  @media(max-width:720px){.controls{flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Advanced Image Enhancer — Deblur & Sharpen (Client-side)</h1>
+  <div style="opacity:0.95;margin-top:6px">Improve blurry photos with denoise, sharpening and contrast enhancement — all in your browser. Secure: files never leave your device.</div>
+</header>
+
+<main>
+  <div class="card">
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:220px">
+        <label for="upload">Upload Image (JPG / PNG / WebP)</label>
+        <input id="upload" type="file" accept="image/*">
+        <div class="note">Max recommended size: 15MB. For very large images reduce dimensions before enhancing.</div>
+      </div>
+
+      <div style="flex:1;min-width:220px">
+        <label for="preset">Mode</label>
+        <select id="preset">
+          <option value="auto">Auto — Balanced</option>
+          <option value="face">Face Restore (faces sharper)</option>
+          <option value="text">Text & Document (OCR-friendly)</option>
+          <option value="detail">Detail Boost (textures)</option>
+        </select>
+
+        <div style="margin-top:10px">
+          <label>Sharpen Strength: <span id="shVal">1.0</span></label>
+          <input id="sharpen" type="range" min="0" max="3" step="0.1" value="1">
+        </div>
+      </div>
+
+      <div style="flex:1;min-width:220px">
+        <label>Denoise Strength: <span id="dnVal">10</span></label>
+        <input id="denoise" type="range" min="0" max="30" step="1" value="10">
+        <label style="margin-top:10px">Iterations (fast → more passes): <span id="itVal">1</span></label>
+        <input id="iterations" type="range" min="1" max="3" step="1" value="1">
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="enhanceBtn">Enhance Image</button>
+      <button id="resetBtn" class="secondary">Reset</button>
+      <button id="downloadBtn" disabled>Download Enhanced</button>
+    </div>
+
+    <div class="progress" style="margin-top:12px;display:none" id="progWrap"><div class="bar" id="progBar"></div></div>
+    <div id="status" class="meta"></div>
+
+    <div id="canvasWrap">
+      <div style="flex:1;min-width:300px">
+        <label>Original</label>
+        <canvas id="origCanvas"></canvas>
+      </div>
+      <div style="flex:1;min-width:300px">
+        <label>Enhanced</label>
+        <canvas id="resultCanvas"></canvas>
+      </div>
+    </div>
+
+    <div class="note">Tip: If result looks noisy, reduce Sharpen or Denoise strength. For faces use Face Restore preset for better visual clarity.</div>
+  </div>
+</main>
+
+<footer style="text-align:center;margin-top:14px;color:#6b7280">
+  © 2025 MultiImageX — Image Enhancer
+</footer>
+
+<!-- OpenCV.js -->
+<script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady()" ></script>
+
+<script>
+let uploadedImg = null;
+let origCanvas = document.getElementById('origCanvas');
+let resCanvas  = document.getElementById('resultCanvas');
+let origCtx = origCanvas.getContext('2d');
+let resCtx  = resCanvas.getContext('2d');
+
+const upload = document.getElementById('upload');
+const enhanceBtn = document.getElementById('enhanceBtn');
+const resetBtn = document.getElementById('resetBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const status = document.getElementById('status');
+const progWrap = document.getElementById('progWrap');
+const progBar = document.getElementById('progBar');
+
+const sharpen = document.getElementById('sharpen');
+const denoise = document.getElementById('denoise');
+const iterations = document.getElementById('iterations');
+const preset = document.getElementById('preset');
+const shVal = document.getElementById('shVal');
+const dnVal = document.getElementById('dnVal');
+const itVal = document.getElementById('itVal');
+
+sharpen.oninput = ()=> shVal.innerText = sharpen.value;
+denoise.oninput = ()=> dnVal.innerText = denoise.value;
+iterations.oninput = ()=> itVal.innerText = iterations.value;
+
+function onOpenCvReady() {
+  console.log('OpenCV.js loaded');
+  status.innerText = 'OpenCV loaded. Choose an image to start.';
+}
+
+upload.addEventListener('change', (e) => {
+  const f = e.target.files[0];
+  if(!f) return;
+  if(f.size > 25 * 1024 * 1024) alert('File >25MB may be too large — consider resizing first.');
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      // Limit max dimension for browser performace (max 2000px)
+      const maxDim = 2000;
+      let w = img.width, h = img.height;
+      if(Math.max(w,h) > maxDim){
+        const scale = maxDim / Math.max(w,h);
+        w = Math.round(w * scale); h = Math.round(h * scale);
+      }
+      origCanvas.width = w; origCanvas.height = h;
+      resCanvas.width = w; resCanvas.height = h;
+      origCtx.clearRect(0,0,w,h);
+      resCtx.clearRect(0,0,w,h);
+      origCtx.drawImage(img,0,0,w,h);
+      uploadedImg = img;
+      status.innerText = `Image loaded: ${img.width}×${img.height}. Ready to enhance.`;
+      downloadBtn.disabled = true;
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(f);
+});
+
+resetBtn.addEventListener('click', ()=>{
+  if(!uploadedImg) return;
+  origCtx.drawImage(uploadedImg,0,0,origCanvas.width,origCanvas.height);
+  resCtx.clearRect(0,0,resCanvas.width,resCanvas.height);
+  status.innerText = 'Reset to original.';
+  downloadBtn.disabled = true;
+  progWrap.style.display='none';
+  progBar.style.width='0%';
+});
+
+enhanceBtn.addEventListener('click', async ()=>{
+  if(!uploadedImg){ alert('Upload an image first'); return; }
+  // wait for OpenCV ready
+  if(typeof cv === 'undefined' || !cv.Mat){ alert('OpenCV not loaded yet — wait a moment and retry.'); return; }
+
+  progWrap.style.display='block';
+  progBar.style.width = '5%';
+  status.innerText = 'Preparing image...';
+
+  // read canvas to mat
+  let src = cv.imread(origCanvas);
+  progBar.style.width = '10%';
+
+  // convert to 3-channel BGR if needed
+  if(src.channels() === 1) cv.cvtColor(src, src, cv.COLOR_GRAY2RGB);
+
+  // Step 1: Denoise using fastNlMeansColored (parameters tuned by denoise slider)
+  status.innerText = 'Denoising...';
+  let denoiseStrength = parseInt(denoise.value,10); // 0..30
+  // map to h parameters for fastNlMeans: hColor around denoiseStrength*1.2
+  let h = Math.max(3, denoiseStrength * 1.0);
+  let hColor = Math.max(3, denoiseStrength * 1.2);
+  let templateWindowSize = 7; // default
+  let searchWindowSize = 21; // default
+  try {
+    let tmp = new cv.Mat();
+    cv.fastNlMeansDenoisingColored(src, tmp, h, hColor, templateWindowSize, searchWindowSize);
+    src.delete(); src = tmp;
+  } catch(e){
+    console.warn('fastNlMeans failed, skipping denoise', e);
+  }
+  progBar.style.width = '30%';
+
+  // Step 2: Convert to YCrCb, apply CLAHE on Y channel for local contrast (better detail)
+  status.innerText = 'Enhancing contrast (CLAHE)...';
+  try {
+    let ycrcb = new cv.Mat();
+    cv.cvtColor(src, ycrcb, cv.COLOR_RGB2YCrCb);
+    let channels = new cv.MatVector();
+    cv.split(ycrcb, channels);
+    let y = channels.get(0);
+    let clahe = new cv.CLAHE(2.0, new cv.Size(8,8)); // clipLimit=2.0, tileGrid=8x8
+    let yClahe = new cv.Mat();
+    clahe.apply(y, yClahe);
+    channels.set(0, yClahe);
+    cv.merge(channels, ycrcb);
+    cv.cvtColor(ycrcb, src, cv.COLOR_YCrCb2RGB);
+    // cleanup
+    y.delete(); yClahe.delete(); channels.delete(); ycrcb.delete(); clahe.delete();
+  } catch(e){
+    console.warn('CLAHE failed', e);
+  }
+  progBar.style.width = '50%';
+
+  // Step 3: Sharpening / Unsharp Mask (iterations control)
+  status.innerText = 'Sharpening...';
+  let sharpStrength = parseFloat(sharpen.value); // 0..3
+  const iters = parseInt(iterations.value,10);
+  try {
+    for(let it=0; it<iters; it++){
+      let blurred = new cv.Mat();
+      // Gaussian blur radius depends on image size
+      let ksize = Math.max(1, Math.round(Math.max(src.cols, src.rows) / 800)); // 1..3
+      if(ksize % 2 === 0) ksize++; // kernel must be odd
+      cv.GaussianBlur(src, blurred, new cv.Size(ksize,ksize), 0, 0, cv.BORDER_DEFAULT);
+      let sharpened = new cv.Mat();
+      // dst = src * (1 + alpha) - blurred * alpha
+      // alpha = (sharpStrength * 0.4) per iteration
+      let alpha = Math.min(1.5, sharpStrength * 0.45);
+      cv.addWeighted(src, 1 + alpha, blurred, -alpha, 0, sharpened);
+      src.delete();
+      blurred.delete();
+      src = sharpened;
+      progBar.style.width = 50 + Math.round((it+1)/iters * 25);
+    }
+  } catch(e){
+    console.warn('sharpen failed', e);
+  }
+
+  // Step 4: Optional small bilateral filter to smooth while keeping edges
+  status.innerText = 'Edge-preserving smoothing...';
+  try {
+    let tmp2 = new cv.Mat();
+    let d = 5; // diameter
+    let sigmaColor = 75;
+    let sigmaSpace = 75;
+    cv.bilateralFilter(src, tmp2, d, sigmaColor, sigmaSpace, cv.BORDER_DEFAULT);
+    src.delete();
+    src = tmp2;
+  } catch(e){ console.warn('bilateral failed', e); }
+  progBar.style.width = '85%';
+
+  // Final: write to result canvas
+  status.innerText = 'Finalizing...';
+  cv.imshow(resCanvas, src);
+  progBar.style.width = '95%';
+
+  // cleanup
+  src.delete();
+  progBar.style.width = '100%';
+  setTimeout(()=>{ progWrap.style.display='none'; progBar.style.width='0%'; }, 600);
+  status.innerText = 'Enhancement complete. Preview updated.';
+  downloadBtn.disabled = false;
+});
+
+// download
+downloadBtn.addEventListener('click', ()=>{
+  if(!resCanvas) return;
+  const a = document.createElement('a');
+  a.href = resCanvas.toDataURL('image/png', 0.95);
+  a.download = 'enhanced-image.png';
+  a.click();
+});
+
+// helper: small function to auto-run sample (optional)
+// expose window for debugging
+window._debug = { origCanvas, resCanvas };
+
+</script>
+</body>
+</html>
