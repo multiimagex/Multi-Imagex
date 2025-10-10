@@ -1,29 +1,34 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>AI Photo Enhancer & Deep Beautify — MultiImageX</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<!-- Primary SEO -->
-<meta name="description" content="Advanced Image Enhancer & Deep Beautify tool by MultiImageX. Enhance blurred photos, restore facial details (eyes, nose, skin), smooth skin, brighten eyes & sharpen details — all in your browser. Secure, private, and SEO optimized." />
-<meta name="keywords" content="image enhancer, photo enhancer, deblur image, beauty enhancer, face retouch online, skin smoothing, eye brightening, image sharpener, enhance photo online, multiimagex" />
-<link rel="canonical" href="https://www.multiimagex.online/tools/image-enhancer-pro/index.html" />
+<title>Image Enhancer Pro — AI-like Face-Aware Deblur & Beautify | MultiImageX</title>
+<meta name="description" content="MultiImageX Image Enhancer Pro: Enhance blurred photos, restore facial details, smooth skin, brighten eyes and sharpen details — all in-browser. Fast, private, and SEO-optimized." />
+<meta name="keywords" content="image enhancer, photo enhancer, deblur image, face beautify online, skin smoothing, eye brightening, enhance photo online, multiimagex image enhancer" />
+<link rel="canonical" href="https://www.multiimagex.online/tools/image-enhancer-advanced/index.html" />
 
 <!-- Open Graph -->
-<meta property="og:title" content="AI Photo Enhancer & Deep Beautify — MultiImageX" />
-<meta property="og:description" content="Deep photo enhancement: face-aware deblurring, skin smoothing, eye brightening, and subtle beautification — runs fully in-browser." />
+<meta property="og:title" content="Image Enhancer Pro — AI-like Face-Aware Deblur & Beautify | MultiImageX" />
+<meta property="og:description" content="Enhance and beautify photos in your browser. Face-aware smoothing, eye brightening, selective sharpening and color boost — secure and private." />
+<meta property="og:url" content="https://www.multiimagex.online/tools/image-enhancer-advanced/index.html" />
+<meta property="og:image" content="https://www.multiimagex.online/assets/image-enhancer-advanced.png" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.multiimagex.online/tools/image-enhancer-pro/index.html" />
-<meta property="og:image" content="https://www.multiimagex.online/assets/image-enhancer-pro-preview.png" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Image Enhancer Pro — MultiImageX" />
+<meta name="twitter:description" content="Face-aware photo enhancement in browser: smooth skin, sharpen details, brighten eyes and improve colors." />
+<meta name="twitter:image" content="https://www.multiimagex.online/assets/image-enhancer-advanced.png" />
 
 <!-- JSON-LD structured data -->
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
-  "@type":"WebApplication",
+  "@type":"SoftwareApplication",
   "name":"MultiImageX Image Enhancer Pro",
-  "url":"https://www.multiimagex.online/tools/image-enhancer-pro/index.html",
+  "url":"https://www.multiimagex.online/tools/image-enhancer-advanced/index.html",
   "description":"Advanced in-browser image enhancer and beautify tool. Fix blur, improve skin, restore details and download high quality images.",
   "applicationCategory":"PhotoEditing",
   "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
@@ -31,552 +36,568 @@
 </script>
 
 <style>
-  :root{--brand:#5b6cff;--muted:#6b7280;--bg:#f7fafc}
+  :root{--brand:#5b6cff;--accent:#10b981;--muted:#6b7280;--bg:#f7fafc}
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:#0b1220}
-  header{background:linear-gradient(90deg,var(--brand),#7c5cff);color:#fff;padding:20px;text-align:center}
-  header h1{margin:0;font-size:1.35rem}
-  .container{max-width:1100px;margin:20px auto;padding:18px}
+  header{background:linear-gradient(90deg,var(--brand),#7c5cff);color:#fff;padding:22px;text-align:center}
+  header h1{margin:0;font-size:1.4rem}
+  .container{max-width:1200px;margin:20px auto;padding:18px}
   .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 8px 30px rgba(12,18,30,0.06)}
-  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .col{flex:1;min-width:260px}
-  label{display:block;font-weight:600;margin-bottom:6px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
+  @media(max-width:980px){.grid{grid-template-columns:1fr}}
+  label{display:block;font-weight:700;margin-bottom:6px;color:var(--muted)}
   input[type=file]{width:100%}
-  .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:12px}
-  input[type=range]{width:100%}
+  .controls{display:grid;gap:10px;margin-top:10px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .slider {width:100%}
   button{background:var(--brand);color:#fff;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:700}
-  button.secondary{background:#eef2ff;color:var(--brand)}
-  #canvases{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-  canvas{width:100%;height:auto;border-radius:8px;border:1px solid #e6e9f2;max-width:100%}
-  .preview-box{flex:1;min-width:300px}
-  .meta{margin-top:10px;color:#374151}
-  footer{text-align:center;color:var(--muted);margin:20px 0;font-size:14px}
-  .small{font-size:13px;color:#6b7280}
-  .loader{display:inline-block;padding:6px 10px;border-radius:8px;background:#f1f5f9;color:#0b1220;font-weight:600}
-  @media(max-width:800px){#canvases{flex-direction:column}}
+  button.ghost{background:#fff;color:var(--brand);border:1px solid #e6e9f2}
+  .small{font-size:13px;color:var(--muted)}
+  #previewArea{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+  .canvasWrap{background:#fff;border:1px solid #e9eef8;border-radius:10px;padding:8px;min-width:280px;flex:1}
+  canvas{display:block;width:100%;height:auto;border-radius:6px;background:#f6f7fb}
+  .actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .status{margin-top:10px;color:#374151}
+  .beforeafter{position:relative;overflow:hidden;border-radius:8px}
+  .beforeafter input[type="range"]{position:absolute;left:0;right:0;bottom:6px}
+  footer{text-align:center;color:var(--muted);margin:22px 0;font-size:13px}
 </style>
 
 <!-- Libraries -->
-<!-- OpenCV (for image processing) -->
-<script async src="https://docs.opencv.org/4.x/opencv.js" onload="console.log('OpenCV loaded');"></script>
-
-<!-- face-api.js for face detection/landmarks -->
+<!-- OpenCV.js (for local image ops) -->
+<script async src="https://docs.opencv.org/4.x/opencv.js"></script>
+<!-- face-api (vladmandic fork) for detection & landmarks -->
 <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.11.6/dist/face-api.min.js"></script>
-<!-- JSZip & FileSaver for download -->
+<!-- JSZip + FileSaver -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
 </head>
 <body>
 <header>
-  <h1>Image Enhancer Pro — Deep Beautify & Deblur (In-Browser)</h1>
-  <div style="opacity:0.95;margin-top:6px">Face-aware enhancement: skin smoothing, eye brightening, detail restore & subtle beautify — files never leave your device.</div>
+  <h1>Image Enhancer Pro — Face-Aware Deblur & Deep Beautify</h1>
+  <div style="opacity:0.9;margin-top:6px">Enhance photos in your browser — targeted skin smoothing, eye brightening, selective sharpening and color boost. Private & fast.</div>
 </header>
 
 <div class="container">
   <div class="card">
-    <div class="row">
-      <div class="col">
-        <label for="file">Upload Image (JPG / PNG / WebP)</label>
-        <input id="file" type="file" accept="image/*"/>
-        <div class="small">Recommended max: 10–15MB. Use modern Chrome/Edge for best performance.</div>
+    <div class="grid">
+      <!-- Left panel: controls -->
+      <div>
+        <label for="file">Upload Image (JPG, PNG, WebP)</label>
+        <input id="file" type="file" accept="image/*" />
 
-        <div style="margin-top:12px" class="controls">
+        <div class="controls">
           <div>
-            <label>Beauty Strength: <span id="beautyVal">0.6</span></label>
-            <input id="beauty" type="range" min="0" max="1" step="0.05" value="0.6"/>
+            <label>Preset</label>
+            <select id="preset">
+              <option value="auto">Auto Enhance</option>
+              <option value="portrait">Portrait (faces)</option>
+              <option value="natural">Natural</option>
+              <option value="document">Text/Document</option>
+              <option value="detail">Detail Boost</option>
+            </select>
+            <div class="small">Auto applies smart default per image.</div>
           </div>
+
           <div>
-            <label>Skin Smooth (0-1): <span id="skinVal">0.6</span></label>
-            <input id="skin" type="range" min="0" max="1" step="0.05" value="0.6"/>
+            <label>Beauty Strength <span id="lblBeauty" class="small"></span></label>
+            <input id="beauty" class="slider" type="range" min="0" max="1" step="0.05" value="0.6" />
           </div>
+
           <div>
-            <label>Eye Brightness (0-1): <span id="eyeVal">0.4</span></label>
-            <input id="eye" type="range" min="0" max="1" step="0.05" value="0.4"/>
+            <label>Skin Smooth <span id="lblSkin" class="small"></span></label>
+            <input id="skin" class="slider" type="range" min="0" max="1" step="0.05" value="0.55" />
           </div>
+
           <div>
-            <label>Detail Sharpen (0-1): <span id="sharpVal">0.5</span></label>
-            <input id="sharp" type="range" min="0" max="1" step="0.05" value="0.5"/>
+            <label>Eye Brightness <span id="lblEye" class="small"></span></label>
+            <input id="eye" class="slider" type="range" min="0" max="1" step="0.05" value="0.35" />
           </div>
+
           <div>
-            <label>Color Boost (0-1): <span id="colorVal">0.15</span></label>
-            <input id="color" type="range" min="0" max="1" step="0.05" value="0.15"/>
+            <label>Detail Sharpness <span id="lblSharp" class="small"></span></label>
+            <input id="sharp" class="slider" type="range" min="0" max="1" step="0.05" value="0.45" />
           </div>
+
           <div>
-            <label>Face Restore Mode</label>
+            <label>Color Boost <span id="lblColor" class="small"></span></label>
+            <input id="color" class="slider" type="range" min="0" max="1" step="0.05" value="0.15" />
+          </div>
+
+          <div>
+            <label>Iterations (passes)</label>
+            <input id="passes" class="slider" type="range" min="1" max="3" step="1" value="1" />
+            <div class="small">More passes = stronger but slower (1–3)</div>
+          </div>
+
+          <div>
+            <label>Face Mode</label>
             <select id="faceMode">
               <option value="auto">Auto</option>
-              <option value="strong">Strong (faces)</option>
               <option value="natural">Natural</option>
+              <option value="strong">Strong</option>
             </select>
           </div>
-        </div>
 
-        <div style="margin-top:12px" class="row">
-          <button id="analyzeBtn">Analyze & Enhance</button>
-          <button id="downloadBtn" class="secondary" disabled>Download Enhanced</button>
-        </div>
+          <div class="actions">
+            <button id="analyze">Analyze & Enhance</button>
+            <button id="autoBtn" class="ghost">Auto Enhance</button>
+            <button id="download" class="ghost" disabled>Download Result</button>
+            <button id="downloadJPEG" class="ghost" disabled>Download JPG</button>
+          </div>
 
-        <div class="meta" id="status">Model load: waiting... (face detection models will load automatically)</div>
+          <div class="status" id="status">Status: waiting for image & libraries.</div>
+        </div>
       </div>
 
-      <div class="col preview-box">
-        <label>Before / After</label>
-        <div id="canvases">
-          <div style="flex:1">
-            <div class="small">Original</div>
-            <canvas id="orig"></canvas>
+      <!-- Right panel: preview -->
+      <div>
+        <label>Before / After (drag the slider)</label>
+        <div class="beforeafter" id="baWrap" style="position:relative">
+          <canvas id="canvasBefore"></canvas>
+          <div id="overlay" style="position:absolute;left:0;top:0;height:100%;width:50%;overflow:hidden">
+            <canvas id="canvasAfter" style="position:relative;left:0;top:0"></canvas>
           </div>
-          <div style="flex:1">
-            <div class="small">Enhanced</div>
-            <canvas id="res"></canvas>
-          </div>
+          <input id="baRange" type="range" min="0" max="100" value="50" style="position:absolute;left:6px;right:6px;bottom:8px">
         </div>
 
-        <div style="margin-top:10px" class="row">
-          <button id="compareBtn" class="secondary">Toggle Before/After Slider</button>
-          <button id="resetBtn" class="secondary">Reset</button>
+        <div style="margin-top:10px" class="row small">
+          <div>Original size: <span id="origSize">-</span></div>
+          <div>Result size (approx): <span id="resSize">-</span></div>
         </div>
-
       </div>
     </div>
 
-    <div style="margin-top:12px">
-      <h3 style="color:var(--brand)">How it works (brief)</h3>
-      <p class="small">We detect face regions and use localized filters: targeted denoising & edge-preserving smoothing for skin, selective sharpening for eyes and edges, local brightness for eyes/teeth, and global color/contrast corrections. All processing happens in your browser for privacy and speed.</p>
+    <div style="margin-top:14px" class="small">
+      <strong>Tip:</strong> For portraits choose <em>Portrait</em> preset and use 1–2 passes. For documents choose <em>Document</em>.
     </div>
+
+    <hr style="margin-top:14px">
+
+    <h3 style="color:var(--brand)">How this works</h3>
+    <p class="small">We run a fast client-side pipeline: denoise → local contrast (CLAHE) → selective sharpening → face-aware smoothing and eye/lip enhancements. All processing stays on your device (no upload).</p>
   </div>
 </div>
 
 <footer>
-  © 2025 MultiImageX — Advanced Image Enhancer Pro
+  © 2025 MultiImageX — Image Enhancer Pro
 </footer>
 
 <script>
-/* ===========================
-   NOTES BEFORE USE
-   - This is an advanced client-side tool.
-   - face-api models must be available. The code attempts to load models from CDN; hosting them under /models/ is recommended for reliability.
-   - OpenCV.js should be loaded (we included it). On slow connections it may take few seconds.
-   =========================== */
+/* ============================
+  Advanced Image Enhancer Pro
+  - Uses OpenCV.js + face-api
+  - Face-aware local edits + global processing
+  - Before/After slider overlay
+  - All client-side, privacy-first
+  ============================ */
 
 const fileInput = document.getElementById('file');
-const origCanvas = document.getElementById('orig');
-const resCanvas = document.getElementById('res');
-const statusEl = document.getElementById('status');
-const analyzeBtn = document.getElementById('analyzeBtn');
-const downloadBtn = document.getElementById('downloadBtn');
-const resetBtn = document.getElementById('resetBtn');
-const compareBtn = document.getElementById('compareBtn');
+const canvasBefore = document.getElementById('canvasBefore');
+const canvasAfter = document.getElementById('canvasAfter');
+const overlay = document.getElementById('overlay');
+const baRange = document.getElementById('baRange');
 
-// sliders
+const statusEl = document.getElementById('status');
+const analyzeBtn = document.getElementById('analyze');
+const autoBtn = document.getElementById('autoBtn');
+const downloadBtn = document.getElementById('download');
+const downloadJPEGBtn = document.getElementById('downloadJPEG');
+
 const beauty = document.getElementById('beauty');
 const skin = document.getElementById('skin');
 const eye = document.getElementById('eye');
 const sharp = document.getElementById('sharp');
 const color = document.getElementById('color');
+const passes = document.getElementById('passes');
 const faceMode = document.getElementById('faceMode');
+const preset = document.getElementById('preset');
 
-const beautyVal = document.getElementById('beautyVal');
-const skinVal = document.getElementById('skinVal');
-const eyeVal = document.getElementById('eyeVal');
-const sharpVal = document.getElementById('sharpVal');
-const colorVal = document.getElementById('colorVal');
+const lblBeauty = document.getElementById('lblBeauty');
+const lblSkin = document.getElementById('lblSkin');
+const lblEye = document.getElementById('lblEye');
+const lblSharp = document.getElementById('lblSharp');
+const lblColor = document.getElementById('lblColor');
+const origSizeEl = document.getElementById('origSize');
+const resSizeEl = document.getElementById('resSize');
 
-beauty.oninput = ()=> beautyVal.innerText = beauty.value;
-skin.oninput = ()=> skinVal.innerText = skin.value;
-eye.oninput = ()=> eyeVal.innerText = eye.value;
-sharp.oninput = ()=> sharpVal.innerText = sharp.value;
-color.oninput = ()=> colorVal.innerText = color.value;
+let img = null;
+let origWidth = 0, origHeight = 0;
+let modelsLoaded = false;
+let cvReady = false;
+let latestResultBlob = null;
 
-let origCtx = origCanvas.getContext('2d');
-let resCtx  = resCanvas.getContext('2d');
-let imgElement = null;
-let faceModelsLoaded = false;
-let openCvLoaded = false;
-let detections = null;
+// update labels
+const updLabels = ()=> {
+  lblBeauty.innerText = beauty.value;
+  lblSkin.innerText = skin.value;
+  lblEye.innerText = eye.value;
+  lblSharp.innerText = sharp.value;
+  lblColor.innerText = color.value;
+};
+[beauty,skin,eye,sharp,color].forEach(s=>s.addEventListener('input',updLabels));
+updLabels();
 
-// load face-api models (we try CDN; hosting '/models' is recommended)
-async function loadFaceModels() {
-  try {
-    statusEl.innerText = 'Loading face detection models (tiny_face + landmarks)...';
-    // Try loading from CDN weights hosted on jsdelivr for @vladmandic/face-api
-    const modelBase = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.11.6/model/'; // this package exposes models under /model/
-    await faceapi.nets.tinyFaceDetector.loadFromUri(modelBase);
-    await faceapi.nets.faceLandmark68TinyNet.loadFromUri(modelBase);
-    // optional: face expression / descriptor not needed
-    faceModelsLoaded = true;
-    statusEl.innerText = 'Face models loaded. Ready.';
-  } catch (e) {
-    console.warn('face models load failed, try hosting /models locally.', e);
-    statusEl.innerText = 'Face models failed to load from CDN. For best results host face-api models at /models/ and reload.';
+// load libs status
+function checkLibs() {
+  if (typeof cv !== 'undefined' && cv.Mat) cvReady = true;
+  if (typeof faceapi !== 'undefined') {
+    // try loading face-api models from CDN model folder (vladmandic distribution)
+    if (!modelsLoaded) {
+      statusEl.innerText = 'Loading face models...';
+      const base = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.11.6/model/';
+      Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri(base),
+        faceapi.nets.faceLandmark68TinyNet.loadFromUri(base)
+      ]).then(()=> {
+        modelsLoaded = true;
+        if (cvReady) statusEl.innerText = 'Ready — upload an image.';
+        else statusEl.innerText = 'Face models loaded — waiting for OpenCV.';
+      }).catch(e=>{
+        console.warn('face models load failed', e);
+        statusEl.innerText = 'Face models failed to load from CDN. Consider hosting /models locally.';
+      });
+    }
   }
 }
+const libInterval = setInterval(()=> {
+  checkLibs();
+  if (modelsLoaded && cvReady) { clearInterval(libInterval); statusEl.innerText = 'Ready — upload an image.'; }
+},700);
 
-// wait for OpenCV
-function checkOpenCV() {
-  if (typeof cv !== 'undefined' && cv.Mat) {
-    openCvLoaded = true;
-    if (!faceModelsLoaded) statusEl.innerText = 'OpenCV ready; face models loading...';
-    return true;
-  }
-  return false;
-}
-
-// ensure libs loaded
-(function init() {
-  const tries = 0;
-  const waitForLibs = setInterval(()=> {
-    checkOpenCV();
-    if (faceapi && !faceModelsLoaded) {
-      loadFaceModels();
-    }
-    if ((typeof cv !== 'undefined' && cv.Mat) && (typeof faceapi !== 'undefined')) {
-      clearInterval(waitForLibs);
-      statusEl.innerText = 'Ready — upload an image to start.';
-    }
-  }, 700);
-})();
-
-// handle file upload
-fileInput.addEventListener('change', (e)=> {
-  const file = e.target.files[0];
-  if (!file) return;
+// handle upload
+fileInput.addEventListener('change', async (e)=>{
+  const f = e.target.files[0];
+  if (!f) return;
   const reader = new FileReader();
   reader.onload = ()=> {
-    imgElement = new Image();
-    imgElement.onload = ()=> {
-      // limit large dimensions for speed
+    const dataUrl = reader.result;
+    const image = new Image();
+    image.onload = () => {
+      // resize large images down for browser performance (cap max dimension)
       const maxDim = 2000;
-      let w = imgElement.width, h = imgElement.height;
+      let w = image.width, h = image.height;
       if (Math.max(w,h) > maxDim) {
         const scale = maxDim / Math.max(w,h);
-        w = Math.round(w * scale); h = Math.round(h * scale);
+        w = Math.round(w * scale);
+        h = Math.round(h * scale);
       }
-      origCanvas.width = w; origCanvas.height = h;
-      resCanvas.width = w; resCanvas.height = h;
-      origCtx.drawImage(imgElement,0,0,w,h);
-      resCtx.clearRect(0,0,w,h);
-      statusEl.innerText = `Image loaded (${imgElement.width}×${imgElement.height}). Click Analyze & Enhance.`;
-      downloadBtn.disabled = true;
+      origWidth = w; origHeight = h;
+      canvasBefore.width = w; canvasBefore.height = h;
+      canvasAfter.width = w; canvasAfter.height = h;
+      const ctxB = canvasBefore.getContext('2d'); ctxB.clearRect(0,0,w,h); ctxB.drawImage(image,0,0,w,h);
+      const ctxA = canvasAfter.getContext('2d'); ctxA.clearRect(0,0,w,h); ctxA.drawImage(image,0,0,w,h);
+      img = image;
+      origSizeEl.innerText = (f.size/1024).toFixed(1) + ' KB';
+      resSizeEl.innerText = '-';
+      statusEl.innerText = 'Image loaded. Click Analyze & Enhance.';
+      latestResultBlob = null;
+      downloadBtn.disabled = true; downloadJPEGBtn.disabled = true;
+      baRange.value = 50; overlay.style.width = '50%';
     };
-    imgElement.src = reader.result;
+    image.src = dataUrl;
   };
-  reader.readAsDataURL(file);
+  reader.readAsDataURL(f);
 });
 
-resetBtn.addEventListener('click', ()=> {
-  if (!imgElement) return;
-  origCtx.clearRect(0,0,origCanvas.width,origCanvas.height);
-  origCtx.drawImage(imgElement,0,0,origCanvas.width,origCanvas.height);
-  resCtx.clearRect(0,0,resCanvas.width,resCanvas.height);
-  statusEl.innerText = 'Reset to original.';
-  downloadBtn.disabled = true;
+// before-after slider update
+baRange.addEventListener('input', ()=> {
+  overlay.style.width = baRange.value + '%';
 });
 
-// compare toggle - simple swap
-let compareMode = false;
-compareBtn.addEventListener('click', ()=> {
-  compareMode = !compareMode;
-  if (compareMode) {
-    // overlay: draw result on top with opacity slider? simple swap for now
-    origCanvas.style.display = 'none';
-    resCanvas.style.display = 'block';
-  } else {
-    origCanvas.style.display = 'block';
-    resCanvas.style.display = 'block';
-  }
+// Auto enhance: sets smart sliders
+autoBtn.addEventListener('click', ()=> {
+  // auto presets based on image analysis (simple heuristics)
+  beauty.value = 0.6; skin.value = 0.55; eye.value = 0.35; sharp.value = 0.45; color.value = 0.15;
+  passes.value = 1;
+  preset.value = 'auto';
+  updLabels();
+  statusEl.innerText = 'Auto settings applied. Click Analyze & Enhance.';
 });
 
-// main analyze & enhance flow
+// Analyze & run enhancement pipeline
 analyzeBtn.addEventListener('click', async ()=> {
-  if (!imgElement) { alert('Upload an image first'); return; }
-  if (!(typeof cv !== 'undefined' && cv.Mat)) { alert('OpenCV not loaded yet — wait a moment and retry'); return; }
-  statusEl.innerText = 'Analyzing image...';
-  downloadBtn.disabled = true;
+  if (!img) { alert('Please upload an image first'); return; }
+  if (!cvReady) { alert('OpenCV not loaded yet. Wait a few seconds and retry.'); return; }
+  statusEl.innerText = 'Starting analysis & enhancement...';
+  downloadBtn.disabled = true; downloadJPEGBtn.disabled = true;
 
-  // read original into OpenCV mat
-  let src = cv.imread(origCanvas); // RGBA
-  // convert to RGB (drop alpha)
+  // Read original into cv.Mat
+  let src = cv.imread(canvasBefore); // RGBA
+  // convert to RGB
   let srcRGB = new cv.Mat();
   cv.cvtColor(src, srcRGB, cv.COLOR_RGBA2RGB);
 
-  // face detection (if models loaded)
-  detections = null;
-  if (faceModelsLoaded) {
-    statusEl.innerText = 'Detecting face landmarks...';
-    // faceapi expects HTMLImageElement or canvas
-    const smallCanvas = document.createElement('canvas');
-    smallCanvas.width = origCanvas.width;
-    smallCanvas.height = origCanvas.height;
-    smallCanvas.getContext('2d').drawImage(imgElement, 0,0, origCanvas.width, origCanvas.height);
+  // Step 1: optional face detection for local ops
+  let faces = null;
+  if (modelsLoaded) {
+    statusEl.innerText = 'Detecting faces (fast)...';
     try {
-      const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
-      const fd = await faceapi.detectAllFaces(smallCanvas, options).withFaceLandmarks(true);
-      detections = fd; // array
-      statusEl.innerText = `Faces detected: ${fd.length}. Preparing localized enhancement...`;
+      // create a temporary canvas for faceapi
+      const tmp = document.createElement('canvas');
+      tmp.width = canvasBefore.width; tmp.height = canvasBefore.height;
+      tmp.getContext('2d').drawImage(img,0,0, canvasBefore.width, canvasBefore.height);
+      // small input size to speed up
+      const fdOptions = new faceapi.TinyFaceDetectorOptions({ inputSize: 320, scoreThreshold: 0.5 });
+      const detections = await faceapi.detectAllFaces(tmp, fdOptions).withFaceLandmarks(true);
+      faces = detections; // may be empty array
+      statusEl.innerText = `Faces detected: ${faces.length}`;
     } catch(e) {
-      console.warn('faceapi detect failed', e);
-      statusEl.innerText = 'Face detection failed — proceeding with global enhancement.';
+      console.warn('face detection error', e);
+      statusEl.innerText = 'Face detection failed — applying global enhancement.';
     }
   } else {
     statusEl.innerText = 'Face models not available — performing global enhancement.';
   }
 
-  // perform global denoise + CLAHE + unsharp for base
-  statusEl.innerText = 'Applying base denoise & contrast...';
-  await delay(50);
+  // Small helper to yield UI and avoid freeze
+  const yieldUI = (ms=20)=> new Promise(r=>setTimeout(r,ms));
 
-  // 1) Denoise (fastNlMeansColored)
-  try {
-    let denoised = new cv.Mat();
-    const h = Math.max(3, Math.round( (1 - parseFloat(beauty.value)) * 10 + parseFloat(skin.value) * 8 )); // adaptive
-    const hColor = Math.max(3, h * 1.1);
-    cv.fastNlMeansDenoisingColored(srcRGB, denoised, h, hColor, 7, 21);
-    srcRGB.delete(); srcRGB = denoised;
-  } catch(e) {
-    console.warn('Denoise failed', e);
-  }
+  // Perform multiple passes as per settings
+  const passCount = parseInt(passes.value,10) || 1;
 
-  // 2) CLAHE on Y channel for local contrast (preserve color)
-  try {
-    let ycrcb = new cv.Mat();
-    cv.cvtColor(srcRGB, ycrcb, cv.COLOR_RGB2YCrCb);
-    let channels = new cv.MatVector();
-    cv.split(ycrcb, channels);
-    let y = channels.get(0);
-    let clahe = new cv.CLAHE(2.0, new cv.Size(8,8));
-    let yclahe = new cv.Mat();
-    clahe.apply(y, yclahe);
-    channels.set(0, yclahe);
-    cv.merge(channels, ycrcb);
-    cv.cvtColor(ycrcb, srcRGB, cv.COLOR_YCrCb2RGB);
-    // cleanup
-    y.delete(); yclahe.delete(); channels.delete(); ycrcb.delete(); clahe.delete();
-  } catch(e) {
-    console.warn('CLAHE failed', e);
-  }
+  for (let pass=0; pass<passCount; pass++) {
+    statusEl.innerText = `Processing pass ${pass+1}/${passCount} — denoising & contrast...`;
+    await yieldUI();
 
-  // 3) Global mild sharpening
-  try {
-    let blurred = new cv.Mat();
-    let ksize = 3;
-    cv.GaussianBlur(srcRGB, blurred, new cv.Size(ksize, ksize), 0);
-    let sharpened = new cv.Mat();
-    const alpha = parseFloat(sharp.value) * 0.9; // 0..0.9
-    cv.addWeighted(srcRGB, 1 + alpha, blurred, -alpha, 0, sharpened);
-    srcRGB.delete(); blurred.delete();
-    srcRGB = sharpened;
-  } catch(e){ console.warn('global sharpen failed', e); }
+    // Denoise (fastNlMeansColored)
+    try {
+      let denoised = new cv.Mat();
+      // adaptive h parameters
+      const baseH = 8;
+      const beautyFactor = parseFloat(beauty.value);
+      const skinFactor = parseFloat(skin.value);
+      const h = Math.max(3, Math.round(baseH - beautyFactor*2 + skinFactor*6));
+      const hColor = Math.max(3, Math.round(h * 1.1));
+      cv.fastNlMeansDenoisingColored(srcRGB, denoised, h, hColor, 7, 21);
+      srcRGB.delete();
+      srcRGB = denoised;
+    } catch(e) {
+      console.warn('Denoise failed', e);
+    }
 
-  statusEl.innerText = 'Applying face-aware local enhancements...';
-  await delay(50);
+    await yieldUI();
 
-  // Create result mat as copy
-  let resMat = new cv.Mat();
-  srcRGB.copyTo(resMat);
+    // CLAHE on Y channel for local contrast
+    try {
+      let ycrcb = new cv.Mat();
+      cv.cvtColor(srcRGB, ycrcb, cv.COLOR_RGB2YCrCb);
+      let channels = new cv.MatVector();
+      cv.split(ycrcb, channels);
+      let y = channels.get(0);
+      let clahe = new cv.CLAHE(2.0, new cv.Size(8,8));
+      let yclahe = new cv.Mat();
+      clahe.apply(y, yclahe);
+      channels.set(0, yclahe);
+      cv.merge(channels, ycrcb);
+      cv.cvtColor(ycrcb, srcRGB, cv.COLOR_YCrCb2RGB);
+      y.delete(); yclahe.delete(); channels.delete(); ycrcb.delete(); clahe.delete();
+    } catch(e) {
+      console.warn('CLAHE failed', e);
+    }
 
-  // If faces detected -> perform localized operations
-  if (detections && detections.length > 0) {
-    for (let i=0;i<detections.length;i++){
-      const det = detections[i];
-      // landmarks example: det.landmarks.positions -> array of points
-      const pts = det.landmarks.positions; // 68 points
-      // compute bounding rect for face region
-      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
-      pts.forEach(p => { if (p.x < minX) minX=p.x; if (p.y < minY) minY=p.y; if (p.x>maxX) maxX=p.x; if(p.y>maxY) maxY=p.y; });
-      // expand region a bit
-      const pad = Math.max(10, Math.round(Math.min(origCanvas.width, origCanvas.height) * 0.04));
-      minX = Math.max(0, Math.floor(minX - pad)); minY = Math.max(0, Math.floor(minY - pad));
-      maxX = Math.min(origCanvas.width-1, Math.ceil(maxX + pad)); maxY = Math.min(origCanvas.height-1, Math.ceil(maxY + pad));
-      const w = maxX - minX, h = maxY - minY;
-      if (w <= 0 || h <= 0) continue;
+    await yieldUI();
 
-      // make ROI mats
-      let faceROI = resMat.roi(new cv.Rect(minX, minY, w, h));
+    // Global mild sharpening
+    try {
+      let blurred = new cv.Mat();
+      const ksize = 3;
+      cv.GaussianBlur(srcRGB, blurred, new cv.Size(ksize,ksize), 0);
+      let sharpened = new cv.Mat();
+      const globalAlpha = Math.min(1.2, 0.6 + parseFloat(sharp.value)); // 0.6..1.2
+      cv.addWeighted(srcRGB, 1 + globalAlpha, blurred, -globalAlpha, 0, sharpened);
+      srcRGB.delete(); blurred.delete();
+      srcRGB = sharpened;
+    } catch(e){ console.warn('global sharpen failed', e); }
 
-      // Create skin mask using landmark polygon (cheeks/forehead region) - approximate using jaw(0..16), left brow(17..21), right brow(22..26)
-      let mask = new cv.Mat.zeros(h, w, cv.CV_8UC1);
-      // build polygon points relative to ROI
-      // pick points: jaw 0..16, left brow 17..21, right brow 22..26, nose 27..35 - we craft a skin polygon: from left jaw to right jaw via brows
-      let polyPts = [];
-      // jaw points 0..16
-      for (let j=0;j<=16;j++){
-        const p = pts[j];
-        polyPts.push({x: p.x - minX, y: p.y - minY});
-      }
-      // add right brow reverse
-      for (let j=26;j>=17;j--){
-        const p = pts[j];
-        polyPts.push({x: p.x - minX, y: p.y - minY});
-      }
-      // convert to cv.Point vector
-      let contours = new cv.MatVector();
-      let cnt = cv.matFromArray(polyPts.length, 1, cv.CV_32SC2, polyPts.flatMap(p=>[Math.round(p.x), Math.round(p.y)]));
-      contours.push_back(cnt);
-      cv.fillPoly(mask, contours, new cv.Scalar(255));
-      cnt.delete(); contours.delete();
+    await yieldUI();
 
-      // Smooth mask edges by blur & threshold to make soft transitions
-      let blurMask = new cv.Mat();
-      cv.GaussianBlur(mask, blurMask, new cv.Size(15,15), 0);
-      cv.threshold(blurMask, mask, 10, 255, cv.THRESH_BINARY);
+    // Face-aware local ops
+    if (faces && faces.length>0) {
+      statusEl.innerText = `Applying face-aware enhancements (${faces.length})...`;
+      // copy to resMat and work per face ROI
+      let resMat = new cv.Mat();
+      srcRGB.copyTo(resMat);
 
-      // Skin smoothing: bilateral filter / edge-preserving
-      let skinStrength = parseFloat(skin.value) * (parseFloat(beauty.value) + (faceMode.value==='strong'?0.2:0));
-      skinStrength = Math.max(0, Math.min(1, skinStrength));
-      // convert to target numeric parameters
-      let d = 9 + Math.round(skinStrength * 10);
-      let sigmaColor = 50 + Math.round(skinStrength * 60);
-      let sigmaSpace = 50 + Math.round(skinStrength * 60);
-      try {
-        let smoothed = new cv.Mat();
-        cv.bilateralFilter(faceROI, smoothed, d, sigmaColor, sigmaSpace, cv.BORDER_DEFAULT);
-        // blend smoothed back into resMat using mask (soft)
-        // convert mask to 3-channel
-        let maskColor = new cv.Mat();
-        cv.cvtColor(mask, maskColor, cv.COLOR_GRAY2RGB);
-        // normalize masks
-        let maskF = new cv.Mat();
-        maskColor.convertTo(maskF, cv.CV_32FC3, 1/255);
-        let smF = new cv.Mat(); smoothed.convertTo(smF, cv.CV_32FC3);
-        let origF = new cv.Mat(); faceROI.convertTo(origF, cv.CV_32FC3);
-        let blendedF = new cv.Mat();
-        // blended = smF * maskF * skinStrength + origF*(1 - maskF*skinStrength)
-        // compute maskScaled = maskF * (skinStrength)
-        let maskScaled = new cv.Mat();
-        cv.multiply(maskF, new cv.Mat(maskF.rows, maskF.cols, maskF.type(), new cv.Scalar(skinStrength,skinStrength,skinStrength)), maskScaled);
-        let invMask = new cv.Mat();
-        cv.subtract(new cv.Mat(maskScaled.rows, maskScaled.cols, maskScaled.type(), new cv.Scalar(1,1,1)), maskScaled, invMask);
-        let part1 = new cv.Mat(); cv.multiply(smF, maskScaled, part1);
-        let part2 = new cv.Mat(); cv.multiply(origF, invMask, part2);
-        cv.add(part1, part2, blendedF);
-        blendedF.convertTo(faceROI, cv.CV_8UC3);
-        // cleanup
-        smoothed.delete(); maskColor.delete(); maskF.delete(); smF.delete(); origF.delete();
-        blendedF.delete(); maskScaled.delete(); invMask.delete(); part1.delete(); part2.delete();
-      } catch(e) {
-        console.warn('skin smoothing failed', e);
-      }
-      // eye brightening & sharpening - use specific landmark ranges for eyes
-      // left eye points 36..41, right eye 42..47
-      try {
-        // function to apply selective enhancement to eye polygon
-        const enhanceEye = (start,end) => {
-          let eyePts = [];
-          for (let k=start;k<=end;k++){
-            const p = pts[k];
-            eyePts.push({x: Math.round(p.x - minX), y: Math.round(p.y - minY)});
+      for (let i=0;i<faces.length;i++){
+        const det = faces[i];
+        const pts = det.landmarks.positions; // array of points
+        // bounding rect
+        let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+        pts.forEach(p=>{ if(p.x<minX)minX=p.x; if(p.y<minY)minY=p.y; if(p.x>maxX)maxX=p.x; if(p.y>maxY)maxY=p.y; });
+        const pad = Math.max(10, Math.round(Math.min(origWidth,origHeight) * 0.04));
+        minX = Math.max(0, Math.floor(minX - pad)); minY = Math.max(0, Math.floor(minY - pad));
+        maxX = Math.min(origWidth-1, Math.ceil(maxX + pad)); maxY = Math.min(origHeight-1, Math.ceil(maxY + pad));
+        const w = maxX - minX, h = maxY - minY;
+        if (w<=0 || h<=0) continue;
+
+        // ROI
+        let faceROI = resMat.roi(new cv.Rect(minX,minY,w,h));
+
+        // SKIN SMOOTH on polygon region
+        try {
+          // build simple skin mask from jaw + brows
+          let mask = new cv.Mat.zeros(h,w,cv.CV_8UC1);
+          // polygon points
+          let poly = [];
+          for (let j=0;j<=16;j++){ const p=pts[j]; poly.push({x:Math.round(p.x-minX), y:Math.round(p.y-minY)}); }
+          for (let j=26;j>=17;j--){ const p=pts[j]; poly.push({x:Math.round(p.x-minX), y:Math.round(p.y-minY)}); }
+          let contours = new cv.MatVector();
+          let cnt = cv.matFromArray(poly.length,1,cv.CV_32SC2, poly.flatMap(p=>[p.x,p.y]));
+          contours.push_back(cnt);
+          cv.fillPoly(mask, contours, new cv.Scalar(255));
+          cnt.delete(); contours.delete();
+
+          // soften mask
+          cv.GaussianBlur(mask, mask, new cv.Size(15,15), 0);
+
+          // bilateral smoothing for skin
+          let skinStrength = parseFloat(skin.value) * (parseFloat(beauty.value) + (faceMode.value==='strong'?0.2:0));
+          skinStrength = Math.max(0, Math.min(1, skinStrength));
+          const d = 9 + Math.round(skinStrength * 12);
+          const sigmaColor = 50 + Math.round(skinStrength * 60);
+          const sigmaSpace = 50 + Math.round(skinStrength * 40);
+          let smoothed = new cv.Mat();
+          try { cv.bilateralFilter(faceROI, smoothed, d, sigmaColor, sigmaSpace, cv.BORDER_DEFAULT); }
+          catch(e){ smoothed = faceROI.clone(); }
+
+          // blend smoothed and original using mask
+          let maskColor = new cv.Mat();
+          cv.cvtColor(mask, maskColor, cv.COLOR_GRAY2RGB);
+          let maskF = new cv.Mat();
+          maskColor.convertTo(maskF, cv.CV_32FC3, 1/255);
+          let smF = new cv.Mat(); smoothed.convertTo(smF, cv.CV_32FC3);
+          let origF = new cv.Mat(); faceROI.convertTo(origF, cv.CV_32FC3);
+          let maskScaled = new cv.Mat(); cv.multiply(maskF, new cv.Mat(maskF.rows, maskF.cols, maskF.type(), new cv.Scalar(skinStrength,skinStrength,skinStrength)), maskScaled);
+          let invMask = new cv.Mat(); cv.subtract(new cv.Mat(maskScaled.rows, maskScaled.cols, maskScaled.type(), new cv.Scalar(1,1,1)), maskScaled, invMask);
+          let part1 = new cv.Mat(); cv.multiply(smF, maskScaled, part1);
+          let part2 = new cv.Mat(); cv.multiply(origF, invMask, part2);
+          let blended = new cv.Mat(); cv.add(part1, part2, blended);
+          blended.convertTo(faceROI, cv.CV_8UC3);
+
+          // cleanup
+          mask.delete(); maskColor.delete(); maskF.delete(); smF.delete(); origF.delete();
+          maskScaled.delete(); invMask.delete(); part1.delete(); part2.delete(); blended.delete(); smoothed.delete();
+        } catch(e){ console.warn('skin op failed', e); }
+
+        // EYE brighten & sharpen
+        try {
+          const applyEye = (start,end) => {
+            let eyePts = [];
+            for (let k=start;k<=end;k++){ const p=pts[k]; eyePts.push({x:Math.round(p.x-minX), y:Math.round(p.y-minY)}); }
+            let minEx=Infinity,minEy=Infinity,maxEx=-Infinity,maxEy=-Infinity;
+            eyePts.forEach(p=>{ if(p.x<minEx)minEx=p.x; if(p.y<minEy)minEy=p.y; if(p.x>maxEx)maxEx=p.x; if(p.y>maxEy)maxEy=p.y; });
+            minEx = Math.max(0,minEx-4); minEy=Math.max(0,minEy-4); maxEx=Math.min(w-1,maxEx+4); maxEy=Math.min(h-1,maxEy+4);
+            const ew = maxEx-minEx, eh = maxEy-minEy; if(ew<=0||eh<=0) return;
+            let eyeROI = faceROI.roi(new cv.Rect(minEx,minEy,ew,eh));
+            // brighten/contrast
+            const bright = parseFloat(eye.value) * (parseFloat(beauty.value)+0.15);
+            cv.convertScaleAbs(eyeROI, eyeROI, 1 + bright*0.35, bright*18);
+            // sharpen small
+            let eblur = new cv.Mat(); cv.GaussianBlur(eyeROI, eblur, new cv.Size(3,3),0);
+            let esharp = new cv.Mat();
+            let ealpha = Math.min(1.2, 0.6 + parseFloat(sharp.value));
+            cv.addWeighted(eyeROI, 1+ealpha, eblur, -ealpha, 0, esharp);
+            esharp.copyTo(eyeROI); eblur.delete(); esharp.delete(); eyeROI.delete();
+          };
+          applyEye(36,41); applyEye(42,47);
+        } catch(e){ console.warn('eye op failed', e); }
+
+        // lips: slight saturation
+        try {
+          let lipPts = [];
+          for (let k=48;k<=60;k++){ const p=pts[k]; lipPts.push({x:Math.round(p.x-minX), y:Math.round(p.y-minY)}); }
+          let minL=Infinity,minT=Infinity,maxR=-Infinity,maxB=-Infinity; lipPts.forEach(p=>{ if(p.x<minL)minL=p.x; if(p.y<minT)minT=p.y; if(p.x>maxR)maxR=p.x; if(p.y>maxB)maxB=p.y; });
+          minL=Math.max(0,minL-4); minT=Math.max(0,minT-4); maxR=Math.min(w-1,maxR+4); maxB=Math.min(h-1,maxB+4);
+          const lw=maxR-minL, lh=maxB-minT; if(lw>0 && lh>0) {
+            let lipROI = faceROI.roi(new cv.Rect(minL,minT,lw,lh));
+            let hsv = new cv.Mat(); cv.cvtColor(lipROI, hsv, cv.COLOR_RGB2HSV);
+            let ch = new cv.MatVector(); cv.split(hsv, ch);
+            let s = ch.get(1);
+            let add = Math.round(6 + parseFloat(color.value)*30);
+            cv.add(s, new cv.Mat(s.rows, s.cols, s.type(), new cv.Scalar(add)), s);
+            ch.set(1, s); cv.merge(ch, hsv); cv.cvtColor(hsv, lipROI, cv.COLOR_HSV2RGB);
+            hsv.delete(); ch.delete(); s.delete(); lipROI.delete();
           }
-          // bounding rect
-          let minEx=Infinity,minEy=Infinity,maxEx=-Infinity,maxEy=-Infinity;
-          eyePts.forEach(p=>{ if(p.x<minEx)minEx=p.x; if(p.y<minEy)minEy=p.y; if(p.x>maxEx)maxEx=p.x; if(p.y>maxEy)maxEy=p.y; });
-          minEx = Math.max(0,minEx-4); minEy=Math.max(0,minEy-4); maxEx=Math.min(w-1,maxEx+4); maxEy=Math.min(h-1,maxEy+4);
-          const ew = maxEx-minEx, eh = maxEy-minEy;
-          if(ew<=0||eh<=0) return;
-          let eyeROI = faceROI.roi(new cv.Rect(minEx,minEy,ew,eh));
-          // brighten
-          let eyeF = new cv.Mat();
-          eyeROI.convertTo(eyeF, cv.CV_32FC3);
-          let bright = parseFloat(eye.value) * (parseFloat(beauty.value)+0.2);
-          // increase contrast slightly and brightness
-          cv.convertScaleAbs(eyeROI, eyeROI, 1 + bright*0.3, bright*30);
-          // sharpen
-          let eblur = new cv.Mat();
-          cv.GaussianBlur(eyeROI, eblur, new cv.Size(3,3),0);
-          let esharp = new cv.Mat();
-          let ealpha = Math.min(1.2, 0.6 + parseFloat(sharp.value));
-          cv.addWeighted(eyeROI, 1+ealpha, eblur, -ealpha, 0, esharp);
-          esharp.copyTo(eyeROI);
-          // cleanup
-          eyeF.delete(); eblur.delete(); esharp.delete();
-          eyeROI.delete();
-        };
-        enhanceEye(36,41); enhanceEye(42,47);
-      } catch(e){ console.warn('eye enhance failed', e); }
+        } catch(e){ console.warn('lip op failed', e); }
 
-      // lips: slight saturation/contrast boost
-      try {
-        // lip points 48..60
-        let lipPts = [];
-        for (let k=48;k<=60;k++){
-          const p = pts[k];
-          lipPts.push({x: Math.round(p.x - minX), y: Math.round(p.y - minY)});
-        }
-        // bounding box
-        let minL=Infinity,minT=Infinity,maxR=-Infinity,maxB=-Infinity;
-        lipPts.forEach(p=>{ if(p.x<minL)minL=p.x; if(p.y<minT)minT=p.y; if(p.x>maxR)maxR=p.x; if(p.y>maxB)maxB=p.y; });
-        minL=Math.max(0,minL-4); minT=Math.max(0,minT-4); maxR=Math.min(w-1,maxR+4); maxB=Math.min(h-1,maxB+4);
-        const lw = maxR-minL, lh = maxB-minT;
-        if(lw>0 && lh>0) {
-          let lipROI = faceROI.roi(new cv.Rect(minL,minT,lw,lh));
-          // convert to HSV, increase saturation a bit
-          let lipHSV = new cv.Mat();
-          cv.cvtColor(lipROI, lipHSV, cv.COLOR_RGB2HSV);
-          let channels = new cv.MatVector(); cv.split(lipHSV, channels);
-          let s = channels.get(1);
-          cv.add(s, new cv.Mat(s.rows, s.cols, s.type(), new cv.Scalar(10 + parseFloat(color.value)*40)), s);
-          channels.set(1, s);
-          cv.merge(channels, lipHSV);
-          cv.cvtColor(lipHSV, lipROI, cv.COLOR_HSV2RGB);
-          // cleanup
-          lipHSV.delete(); channels.delete(); s.delete();
-          lipROI.delete();
-        }
-      } catch(e){ console.warn('lips adjust failed', e); }
+        faceROI.delete();
+      } // end faces loop
 
-      // cleanup mask and faceROI reference
-      mask.delete();
-    } // end each face
-  } // end if detections
+      // copy resMat back to srcRGB
+      srcRGB.delete();
+      srcRGB = resMat;
+    } // end faces conditional
 
-  // final global color boost
+    await yieldUI();
+  } // end passes loop
+
+  // global color boost
   try {
-    let resF = new cv.Mat();
-    resMat.convertTo(resF, cv.CV_32FC3);
-    // simple color boost: convert to HSV and slightly increase saturation/value
     let hsv = new cv.Mat();
-    cv.cvtColor(resMat, hsv, cv.COLOR_RGB2HSV);
+    cv.cvtColor(srcRGB, hsv, cv.COLOR_RGB2HSV);
     let ch = new cv.MatVector(); cv.split(hsv, ch);
-    let sat = ch.get(1);
-    let val = ch.get(2);
-    // add proportional
-    let satAdd = parseFloat(color.value) * 30;
-    let valAdd = parseFloat(color.value) * 10;
-    cv.add(sat, new cv.Mat(sat.rows, sat.cols, sat.type(), new cv.Scalar(satAdd)), sat);
-    cv.add(val, new cv.Mat(val.rows, val.cols, val.type(), new cv.Scalar(valAdd)), val);
-    ch.set(1, sat); ch.set(2, val);
-    cv.merge(ch, hsv);
-    cv.cvtColor(hsv, resMat, cv.COLOR_HSV2RGB);
-    // cleanup
-    resF.delete(); hsv.delete(); ch.delete(); sat.delete(); val.delete();
+    let s = ch.get(1); let v = ch.get(2);
+    const satAdd = parseFloat(color.value) * 30;
+    const valAdd = parseFloat(color.value) * 10;
+    cv.add(s, new cv.Mat(s.rows, s.cols, s.type(), new cv.Scalar(satAdd)), s);
+    cv.add(v, new cv.Mat(v.rows, v.cols, v.type(), new cv.Scalar(valAdd)), v);
+    ch.set(1, s); ch.set(2, v); cv.merge(ch, hsv); cv.cvtColor(hsv, srcRGB, cv.COLOR_HSV2RGB);
+    hsv.delete(); ch.delete(); s.delete(); v.delete();
   } catch(e){ console.warn('color boost failed', e); }
 
-  // show result
+  // show final
   try {
-    cv.imshow(resCanvas, resMat);
-  } catch(e) {
-    console.error('imshow failed', e);
-  }
+    cv.imshow(canvasAfter, srcRGB);
+  } catch(e){ console.error('imshow failed', e); }
 
-  // cleanup mats
-  src.delete(); srcRGB.delete(); resMat.delete();
+  // compute approximate blob for download size
+  canvasAfter.toBlob((blob)=>{
+    if (blob) {
+      latestResultBlob = blob;
+      resSizeEl.innerText = (blob.size/1024).toFixed(1) + ' KB';
+      downloadBtn.disabled = false;
+      downloadJPEGBtn.disabled = false;
+    }
+  }, 'image/png', 0.95);
 
-  statusEl.innerText = 'Enhancement finished — preview ready. Adjust sliders and re-run for fine-tune.';
-  downloadBtn.disabled = false;
+  // cleanup
+  src.delete(); if (srcRGB) srcRGB.delete();
+  statusEl.innerText = 'Enhancement finished. Tweak sliders and re-run for fine tuning.';
 });
 
-// download
-downloadBtn.addEventListener('click', ()=> {
-  if (!resCanvas) return;
-  const a = document.createElement('a');
-  a.href = resCanvas.toDataURL('image/png', 0.95);
-  a.download = 'enhanced-' + (new Date()).getTime() + '.png';
-  a.click();
+// downloads
+downloadBtn.addEventListener('click', ()=>{
+  if (!latestResultBlob) return;
+  saveBlobAs(latestResultBlob, `enhanced-${Date.now()}.png`);
+});
+downloadJPEGBtn.addEventListener('click', ()=>{
+  // convert canvasAfter to JPEG blob
+  canvasAfter.toBlob((b)=>{ if(b) saveBlobAs(b, `enhanced-${Date.now()}.jpg`); }, 'image/jpeg', 0.92);
+});
+function saveBlobAs(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a);
+  a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+
+/* Utility: auto-apply preset values when preset changes */
+preset.addEventListener('change', ()=> {
+  const p = preset.value;
+  if (p === 'portrait') { beauty.value=0.7; skin.value=0.6; eye.value=0.4; sharp.value=0.45; color.value=0.18; passes.value=1; faceMode.value='natural'; }
+  else if (p === 'natural') { beauty.value=0.5; skin.value=0.45; eye.value=0.25; sharp.value=0.35; color.value=0.12; passes.value=1; faceMode.value='auto'; }
+  else if (p === 'document') { beauty.value=0.1; skin.value=0.0; eye.value=0.0; sharp.value=0.9; color.value=0.0; passes.value=1; faceMode.value='auto'; }
+  else if (p === 'detail') { beauty.value=0.25; skin.value=0.1; eye.value=0.2; sharp.value=0.8; color.value=0.22; passes.value=1; faceMode.value='natural'; }
+  else { beauty.value=0.6; skin.value=0.55; eye.value=0.35; sharp.value=0.45; color.value=0.15; passes.value=1; faceMode.value='auto'; }
+  updLabels();
+  statusEl.innerText = `Preset '${p}' selected. Click Analyze & Enhance.`;
 });
 
-// small helper
-function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
+// initial set: hide overlay properly
+overlay.style.width = baRange.value + '%';
+canvasAfter.style.display = 'block';
+
 </script>
 </body>
 </html>
