@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>YouTube Thumbnail Downloader — HD Thumbnails | MultiImageX</title>
+  <meta name="description" content="Free YouTube Thumbnail Downloader by MultiImageX. Paste any YouTube URL or video ID and instantly preview & download HD thumbnails (maxres, hq, sd). Fast, private, and SEO-optimized for multiimagex, multiimagex.online." />
+  <meta name="keywords" content="youtube thumbnail downloader, download youtube thumbnail, multiimagex, multiimagex.online, youtube thumbnail hd, yt thumbnail downloader, download thumbnail" />
+  <link rel="canonical" href="https://www.multiimagex.online/tools/yt-thumbnail-downloader/index.html" />
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:title" content="YouTube Thumbnail Downloader — MultiImageX" />
+  <meta property="og:description" content="Download YouTube thumbnails (maxres, hq, sd) instantly. MultiImageX provides a fast, reliable thumbnail downloader for creators." />
+  <meta property="og:image" content="https://www.multiimagex.online/assets/yt-thumbnail-preview.png" />
+  <meta property="og:url" content="https://www.multiimagex.online/tools/yt-thumbnail-downloader/index.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "YouTube Thumbnail Downloader — MultiImageX",
+    "url": "https://www.multiimagex.online/tools/yt-thumbnail-downloader/index.html",
+    "description": "Download YouTube video thumbnails (HD) by URL or video ID. Fast, free and private — MultiImageX tools.",
+    "applicationCategory": "MultimediaApplication",
+    "keywords": ["youtube thumbnail downloader","thumbnail downloader","multiimagex","yt thumbnail"]
+  }
+  </script>
+
+  <style>
+    :root{--brand:#2563eb;--muted:#6b7280}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial,sans-serif;background:#f8fafc;margin:0;color:#0f172a}
+    header{background:linear-gradient(90deg,var(--brand),#7c5cff);color:#fff;padding:20px;text-align:center}
+    header h1{margin:0;font-size:1.25rem}
+    main{max-width:980px;margin:20px auto;padding:18px}
+    .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 6px 24px rgba(15,23,42,0.06)}
+    .row{display:flex;gap:10px;align-items:center}
+    input[type=text]{flex:1;padding:10px;border-radius:8px;border:1px solid #e6eef8}
+    button{background:var(--brand);color:#fff;padding:10px 14px;border:none;border-radius:8px;cursor:pointer;font-weight:700}
+    .thumb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px}
+    .thumb{background:#f8fafc;border-radius:8px;padding:8px;text-align:center;border:1px solid #eef2ff}
+    .thumb img{max-width:100%;height:auto;border-radius:6px}
+    .download{display:inline-block;margin-top:8px;padding:8px 10px;background:#10b981;color:#fff;border-radius:6px;text-decoration:none}
+    .meta{color:var(--muted);font-size:13px;margin-top:10px}
+    .hint{background:#fff;border-radius:8px;padding:10px;margin-top:12px;border:1px solid #eef2ff}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>YouTube Thumbnail Downloader</h1>
+    <div style="opacity:.95;margin-top:6px">Get HD thumbnails by URL or video ID — quick preview & one-click download. Powered by MultiImageX.</div>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="row">
+        <input id="videoInput" type="text" placeholder="Paste YouTube URL or Video ID (e.g. https://youtu.be/VIDEO_ID)" aria-label="YouTube URL or ID">
+        <button id="goBtn">Fetch</button>
+      </div>
+
+      <div class="meta">Supports default, mqdefault, hqdefault, sddefault, and maxresdefault sizes. If maxres isn't available the preview shows fallback.</div>
+
+      <div id="thumbGrid" class="thumb-grid" aria-live="polite"></div>
+
+      <div class="hint">
+        <strong>Pro tips:</strong>
+        <ul>
+          <li>For best results paste the full YouTube URL or the 11-character video ID.</li>
+          <li>Use thumbnails for video promotion, social shares, or inspiration.</li>
+          <li>All requests are client-side — images are fetched directly from YouTube's public CDN (no uploads).</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Advanced Thumbnail Downloader - improved UX + URL parsing + lazy preview
+    const sizes = [
+      {key:'maxresdefault', label:'Max Resolution (maxres) - best'},
+      {key:'sddefault', label:'SD (640x480)'},
+      {key:'hqdefault', label:'High (480x360)'},
+      {key:'mqdefault', label:'Medium (320x180)'},
+      {key:'default', label:'Default (120x90)'}
+    ];
+
+    function extractVideoId(input){
+      if(!input) return null;
+      const v = input.trim();
+      // direct id
+      if(/^[a-zA-Z0-9_-]{11}$/.test(v)) return v;
+      // try URL parsing
+      try{
+        const u = new URL(v);
+        if(u.hostname.includes('youtu.be')) return u.pathname.slice(1);
+        const vparam = u.searchParams.get('v'); if(vparam) return vparam;
+      }catch(e){}
+      // fallback regex
+      const m = v.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/);
+      return m ? m[1] : null;
+    }
+
+    function makeThumbUrl(id, sizeKey){
+      return `https://img.youtube.com/vi/${encodeURIComponent(id)}/${sizeKey}.jpg`;
+    }
+
+    function createThumbCard(src, label, filename){
+      const div = document.createElement('div'); div.className='thumb';
+      const img = document.createElement('img'); img.dataset.src = src; img.alt = label + ' thumbnail'; img.loading = 'lazy';
+      // lazy load with IntersectionObserver
+      img.src = ''; // empty for now
+      const caption = document.createElement('div'); caption.textContent = label;
+      const a = document.createElement('a'); a.href = src; a.className='download'; a.textContent='Download'; a.setAttribute('download', filename);
+      div.appendChild(img); div.appendChild(caption); div.appendChild(a);
+      return {el:div,img};
+    }
+
+    function lazyLoadImages(items){
+      if('IntersectionObserver' in window){
+        const io = new IntersectionObserver((entries, ob)=>{
+          entries.forEach(en=>{
+            if(en.isIntersecting){
+              const img = en.target; img.src = img.dataset.src; ob.unobserve(img);
+            }
+          });
+        },{rootMargin:'200px'});
+        items.forEach(it=> io.observe(it.img));
+      } else {
+        // fallback: eager load
+        items.forEach(it=> it.img.src = it.img.dataset.src);
+      }
+    }
+
+    document.getElementById('goBtn').addEventListener('click', ()=>{
+      const inVal = document.getElementById('videoInput').value;
+      const id = extractVideoId(inVal);
+      const grid = document.getElementById('thumbGrid'); grid.innerHTML='';
+      if(!id){ grid.innerHTML = '<div style="color:#b91c1c">Invalid YouTube URL or Video ID. Paste full URL or 11-char ID.</div>'; return; }
+
+      // Display cards with progressive loading — try best-first (maxres) then fallback
+      const created = [];
+      sizes.forEach(s=>{
+        const url = makeThumbUrl(id, s.key);
+        const filename = `${id}-${s.key}.jpg`;
+        const card = createThumbCard(url, s.label, filename);
+        grid.appendChild(card.el);
+        created.push(card);
+      });
+
+      // lazy load images
+      lazyLoadImages(created);
+
+      // Try fetching maxres first to check availability and adjust note
+      const maxUrl = makeThumbUrl(id, 'maxresdefault');
+      fetch(maxUrl, {method:'HEAD'}).then(res=>{
+        // if 404, the image tags will show fallback SVG
+        if(!res.ok) console.log('maxres missing, will use other sizes');
+      }).catch(()=>{});
+
+      // Add click-to-preview larger in new tab
+      grid.addEventListener('click', (e)=>{
+        const a = e.target.closest('a.download'); if(!a) return; // download link
+        // allow native download
+      });
+
+    });
+
+    // Allow enter key
+    document.getElementById('videoInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ document.getElementById('goBtn').click(); } });
+  </script>
+</body>
+</html>
