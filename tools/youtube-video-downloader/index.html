@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YouTube Video Downloader — MultiImageX</title>
+<meta name="description" content="Download YouTube videos in various qualities using MultiImageX. Server-side downloader required (yt-dlp + ffmpeg). Use responsibly and only for permitted content.">
+<meta name="keywords" content="youtube downloader, download youtube, multiimagex, yt downloader, save youtube video">
+<link rel="canonical" href="https://www.multiimagex.online/tools/yt-video-downloader/" />
+<style>body{font-family:Inter,system-ui,Arial;background:#f7fafc;margin:0;color:#0b1220}header{background:linear-gradient(90deg,#2563eb,#7c5cff);color:#fff;padding:14px;text-align:center}main{max-width:920px;margin:18px auto;padding:18px}.card{background:#fff;padding:14px;border-radius:10px}.row{display:flex;gap:8px;align-items:center}</style>
+</head>
+<body>
+<header><h1>YouTube Video Downloader</h1><div style="opacity:.9">Server required (yt-dlp). Download videos or audio-only for content you own/are allowed to use.</div></header>
+<main>
+  <div class="card">
+    <label>Paste YouTube URL</label>
+    <input id="videoUrl" style="width:60%;padding:8px;border-radius:8px;border:1px solid #e6eef8">
+    <select id="format"><option value="best">Best Available</option><option value="mp4_1080">MP4 1080p</option><option value="mp4_720">MP4 720p</option><option value="mp4_480">MP4 480p</option><option value="audio">Audio (MP3)</option></select>
+    <button id="getLink">Get Download</button>
+    <div id="status" style="margin-top:12px;color:#374151">Idle</div>
+    <div id="result" style="margin-top:12px"></div>
+  </div>
+</main>
+<script>
+async function getDownload(){
+  const url = document.getElementById('videoUrl').value.trim(); const fmt = document.getElementById('format').value;
+  if(!url){ alert('Enter URL'); return }
+  document.getElementById('status').innerText = 'Requesting server...'; document.getElementById('result').innerHTML='';
+  try{
+    const res = await fetch('/api/get-video',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url,format:fmt})});
+    const j = await res.json(); if(!j.ok){ document.getElementById('status').innerText='Error: '+(j.error||'failed'); return }
+    document.getElementById('status').innerText='Ready'; document.getElementById('result').innerHTML = `<a href="${j.downloadUrl}" download>Download File</a>`;
+  }catch(err){ document.getElementById('status').innerText='Server error: '+err.message }
+}
+document.getElementById('getLink').addEventListener('click', getDownload);
+</script>
+</body>
+</html>
+
+
+<!-- SERVER: server.js (example) -->
+
+/*
+Node/Express example for video downloader. Requires yt-dlp on server.
+Implement security checks and rate limiting in production.
+*/
+
+const serverCode = `const express = require('express');
+const rateLimit = require('express-rate-limit');
+const { spawn } = require('child_process');
+const path = require('path');
+const fs = require('fs');
+const os = require('os');
+const app = express(); app.use(express.json());
+const limiter = rateLimit({ windowMs: 60*1000, max: 6 }); app.use(limiter);
+const TEMP = process.env.TEMP_FOLDER || path.join(os.tmpdir(),'multiimagex-yt'); if(!fs.existsSync(TEMP)) fs.mkdirSync(TEMP,{recursive:true});
+function safeName(id,ext){ return `video-${Date.now()}-${id.replace(/[^a-z0-9]/gi,'').slice(0,30)}.${ext}`; }
+
+app.post('/api/get-video', (req,res)=>{
+  const { url, format } = req.body; if(!url) return res.json({ok:false,error:'url required'});
+  if(!/youtube|youtu\.be/.test(url)) return res.json({ok:false,error:'only youtube urls allowed'});
+  // map format to yt-dlp args
+  let args = [];
+  const id = 'vid'+Date.now();
+  if(format === 'audio'){
+    const out = path.join(TEMP, safeName(id,'mp3'));
+    args = ['-x','--audio-format','mp3','-o', out.replace(/\.mp3$/,'.%(ext)s'), url];
+  } else if(format === 'mp4_1080'){
+    const out = path.join(TEMP, safeName(id,'mp4'));
+    args = ['-f','"bestvideo[height<=1080]+bestaudio/best[height<=1080]"','-o', out.replace(/\.mp4$/,'.%(ext)s'), url];
+  } else if(format === 'mp4_720'){
+    const out = path.join(TEMP, safeName(id,'mp4'));
+    args = ['-f','"bestvideo[height<=720]+bestaudio/best[height<=720]"','-o',out.replace(/\.mp4$/,'.%(ext)s'), url];
+  } else if(format === 'mp4_480'){
+    const out = path.join(TEMP, safeName(id,'mp4'));
+    args = ['-f','"bestvideo[height<=480]+bestaudio/best[height<=480]"','-o',out.replace(/\.mp4$/,'.%(ext)s'), url];
+  } else {
+    const out = path.join(TEMP, safeName(id,'mp4'));
+    args = ['-f','best','-o', out.replace(/\.mp4$/,'.%(ext)s'), url];
+  }
+  const proc = spawn('yt-dlp', args, { shell:true });
+  let stderr=''; proc.stderr.on('data',d=> stderr+=d.toString()); proc.on('close', code=>{
+    const files = fs.readdirSync(TEMP).filter(f=>/(mp4|mkv|webm|mp3)$/.test(f)).map(f=>({f,m:fs.statSync(path.join(TEMP,f)).mtimeMs})).sort((a,b)=>b.m-a.m);
+    if(!files.length) return res.json({ok:false,error:'download failed',details:stderr});
+    const latest = files[0].f; res.json({ok:true,downloadUrl:'/static/'+encodeURIComponent(latest)});
+  });
+});
+
+app.use('/static', express.static(TEMP)); const PORT = process.env.PORT||3000; app.listen(PORT, ()=> console.log('Server running',PORT));`;
+
+console.log('server.js example prepared for Video Downloader. Save serverCode to server.js and install yt-dlp on server.');
