@@ -1,132 +1,4 @@
-<!--
-Files in this canvas (save into /tools/youtube-to-mp3/):
-  1) index.html        (frontend - SEO + UI + progress)
-  2) server.js         (Node.js + Express server using yt-dlp + ffmpeg)
-  3) package.json      (dependencies and start scripts)
-
-IMPORTANT:
-- Server must have yt-dlp (https://github.com/yt-dlp/yt-dlp) and ffmpeg installed and available in PATH.
-- This example is designed for self-hosting (Hostinger VPS, Render, Railway, etc.).
-- Respect copyright: download only videos you have rights to.
-- For production add HTTPS, auth, stronger rate-limiting, and a job queue (Bull/Redis) for heavy loads.
-
-Save folder structure:
-/tools/youtube-to-mp3/index.html
-/tools/youtube-to-mp3/server.js
-/tools/youtube-to-mp3/package.json
-
---- COPY / PASTE FILES BELOW ---
-
-======================== index.html ========================
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>YouTube to MP3 Converter — Fast & Free | MultiImageX</title>
-  <meta name="description" content="Convert YouTube videos to high-quality MP3 online with MultiImageX. Fast conversion using yt-dlp + ffmpeg. Use only for videos you own or are allowed to download." />
-  <meta name="keywords" content="youtube to mp3, yt to mp3, video to mp3, multiimagex, multiimagex.online, youtube audio converter, download mp3" />
-  <link rel="canonical" href="https://www.multiimagex.online/tools/youtube-video-to-mp3/" />
-  <meta property="og:title" content="YouTube to MP3 Converter — MultiImageX" />
-  <meta property="og:description" content="Convert YouTube videos to MP3 fast. High quality audio downloads powered by MultiImageX." />
-  <meta property="og:url" content="https://www.multiimagex.online/tools/youtube-video-to-mp3/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://www.multiimagex.online/assets/yt-to-mp3.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"SoftwareApplication",
-    "name":"YouTube to MP3 Converter - MultiImageX",
-    "url":"https://www.multiimagex.online/tools/youtube-video-to-mp3/",
-    "description":"Convert YouTube videos to MP3 using yt-dlp and ffmpeg on the server. Fast, high-quality MP3 downloads for legally permitted content.",
-    "applicationCategory":"MultimediaApplication",
-    "keywords":["youtube to mp3","yt to mp3","multiimagex","video to audio"]
-  }
-  </script>
-
-  <style>
-    :root{--brand:#2563eb;--accent:#10b981;--muted:#6b7280}
-    *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,Arial,sans-serif;background:#f7fafc;margin:0;color:#0b1220}
-    header{background:linear-gradient(90deg,var(--brand),#7c5cff);color:#fff;padding:20px;text-align:center}
-    .container{max-width:880px;margin:24px auto;padding:18px}
-    .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(12,18,30,0.06)}
-    input,select,button{padding:10px;border-radius:8px;border:1px solid #e6eef8}
-    button{background:var(--brand);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
-    .row{display:flex;gap:8px;align-items:center}
-    .status{margin-top:12px;color:var(--muted)}
-    progress{width:100%;height:16px}
-    a.download{display:inline-block;margin-top:10px;padding:10px 14px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none}
-  </style>
-</head>
-<body>
-  <header>
-    <h1>YouTube to MP3 Converter</h1>
-    <div style="opacity:.95;margin-top:6px">Convert YouTube videos to high-quality MP3 using our secure server pipeline (yt-dlp + ffmpeg). Use responsibly.</div>
-  </header>
-
-  <main class="container">
-    <div class="card">
-      <label for="videoUrl">YouTube URL</label>
-      <div class="row">
-        <input id="videoUrl" placeholder="Paste a YouTube URL (https://www.youtube.com/watch?v=...)" style="flex:1">
-        <select id="quality">
-          <option value="192">MP3 192 kbps (balanced)</option>
-          <option value="320" selected>MP3 320 kbps (best)</option>
-        </select>
-        <button id="convertBtn">Convert</button>
-      </div>
-
-      <div class="status" id="status">Ready — paste a YouTube link and click Convert.</div>
-      <div id="progressWrap" style="margin-top:12px;display:none">
-        <progress id="progress" value="0" max="100"></progress>
-        <div id="progressText" class="status"></div>
-      </div>
-
-      <div id="result" style="margin-top:12px"></div>
-
-      <div style="margin-top:14px;color:var(--muted);font-size:13px">Legal: Only download content you own or have permission to use. MultiImageX provides the software — you are responsible for correct usage.</div>
-    </div>
-  </main>
-
-<script>
-  function validateYouTubeUrl(u){
-    if(!u) return null;
-    try{ const url = new URL(u); if(url.hostname.includes('youtube.com') || url.hostname.includes('youtu.be')) return u; }catch(e){}
-    // also accept raw video id
-    if(/^[a-zA-Z0-9_-]{11}$/.test(u)) return 'https://www.youtube.com/watch?v=' + u;
-    return null;
-  }
-
-  document.getElementById('convertBtn').addEventListener('click', async ()=>{
-    const raw = document.getElementById('videoUrl').value.trim(); const q = document.getElementById('quality').value;
-    const url = validateYouTubeUrl(raw);
-    const status = document.getElementById('status'); const result = document.getElementById('result'); result.innerHTML='';
-    if(!url){ status.innerText='Invalid YouTube URL or ID.'; return; }
-    status.innerText = 'Sending conversion request...';
-    document.getElementById('progressWrap').style.display='block'; document.getElementById('progress').value = 5; document.getElementById('progressText').innerText='Queued';
-
-    try{
-      const res = await fetch('/api/convert-mp3', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ url, bitrate: q }) });
-      const j = await res.json();
-      if(!j.ok){ status.innerText = 'Conversion failed: ' + (j.error || 'Unknown'); document.getElementById('progressWrap').style.display='none'; return; }
-      // success
-      status.innerText = 'Conversion complete — ready to download.';
-      document.getElementById('progress').value = 100; document.getElementById('progressText').innerText = 'Done';
-      const a = document.createElement('a'); a.href = j.downloadUrl; a.className='download'; a.textContent = 'Download MP3'; a.setAttribute('download','audio-'+Date.now()+'.mp3'); result.appendChild(a);
-    }catch(err){ status.innerText = 'Server error: ' + err.message; document.getElementById('progressWrap').style.display='none'; }
-  });
-</script>
-</body>
-</html>
-
-
-======================== server.js ========================
-// Save as server.js (Node.js + Express)
-// Requires: yt-dlp and ffmpeg installed on the server PATH
-// npm install express express-rate-limit cors helmet
-
+// server.js (Node.js + Express) - yt-dlp + ffmpeg required
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const { spawn } = require('child_process');
@@ -139,116 +11,65 @@ const cors = require('cors');
 const app = express();
 app.use(helmet());
 app.use(cors());
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit:'1mb' }));
 
-// Simple rate limiting
-const limiter = rateLimit({ windowMs: 60 * 1000, max: 6 });
+const limiter = rateLimit({ windowMs:60*1000, max:6 });
 app.use(limiter);
 
-const TEMP = process.env.TEMP_FOLDER || path.join(os.tmpdir(), 'multiimagex-yt-mp3');
-if(!fs.existsSync(TEMP)) fs.mkdirSync(TEMP, { recursive: true });
+const TMP = process.env.TEMP_FOLDER || path.join(os.tmpdir(),'multiimagex-yt-mp3');
+if(!fs.existsSync(TMP)) fs.mkdirSync(TMP,{recursive:true});
 
-function safeFilename(prefix, ext) {
-  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
-}
-
-function validateYouTubeUrl(u){
+function safeName(pre){ return `${pre}-${Date.now()}-${Math.random().toString(36).slice(2,8)}.mp3`; }
+function validateYT(u){
   try{ const url = new URL(u); return /youtube|youtu.be/.test(url.hostname); }catch(e){ return false; }
 }
 
-app.post('/api/convert-mp3', async (req, res) => {
+app.post('/api/convert-mp3', async (req,res)=>{
   const { url, bitrate } = req.body || {};
-  if(!url || !validateYouTubeUrl(url)) return res.json({ ok:false, error:'Invalid or missing YouTube URL' });
-  const bit = (bitrate && ['128','192','256','320'].includes(String(bitrate))) ? String(bitrate) : '320';
+  if(!url || !validateYT(url)) return res.json({ ok:false, error:'Invalid YouTube URL' });
+  const bit = (['128','192','256','320'].includes(String(bitrate)))? String(bitrate) : '320';
+  const outBasename = safeName('audio');
+  const outTemplate = path.join(TMP, outBasename.replace('.mp3','.%\(ext\)s')); // yt-dlp template
 
-  // prepare output path
-  const outName = safeFilename('audio', 'mp3');
-  const outPathTemplate = path.join(TEMP, outName.replace(/\.mp3$/, '.%(ext)s'));
+  // Build args
+  const args = [
+    '-f','bestaudio',
+    '--no-playlist',
+    '--restrict-filenames',
+    '-o', path.join(TMP, outBasename.replace('.mp3','.%(ext)s')),
+    url,
+    '--extract-audio','--audio-format','mp3','--postprocessor-args', `-b:a ${bit}k`
+  ];
 
-  // create yt-dlp args: -x extract audio, --audio-format mp3, --audio-quality
-  // --audio-quality accepts values like 0-9 for lame; but simpler use -x --audio-format mp3 and ffmpeg will set bitrate via --postprocessor-args
-  const args = ['-f', 'bestaudio', '-o', outPathTemplate, '--no-playlist', '--restrict-filenames', url, '--extract-audio', '--audio-format', 'mp3', '--recode-video', 'mp3', '--no-warnings', '--no-call-home'];
-
-  // Add ffmpeg bitrate via postprocessor args if yt-dlp supports it
-  args.push('--postprocessor-args');
-  args.push(`-b:a ${bit}k`);
-
-  // Spawn yt-dlp
+  // spawn yt-dlp
   try{
-    const proc = spawn('yt-dlp', args, { stdio: ['ignore', 'pipe', 'pipe'] });
+    const proc = spawn('yt-dlp', args, { shell: true });
     let stderr = '';
-    proc.stderr.on('data', (c) => { stderr += c.toString(); });
-
-    // optional: stream stdout lines to console
-    proc.stdout.on('data', (c) => { /* could parse progress here if yt-dlp prints it */ });
-
-    // Set a maximum timeout for conversion (e.g., 5 minutes)
-    const timeoutMs = 5 * 60 * 1000;
-    const timeout = setTimeout(()=>{ try{ proc.kill('SIGKILL'); }catch(e){} }, timeoutMs);
-
-    proc.on('close', (code) => {
-      clearTimeout(timeout);
-      // find generated mp3 in TEMP (most recent)
-      const files = fs.readdirSync(TEMP).filter(f => f.endsWith('.mp3')).map(f => ({ f, m: fs.statSync(path.join(TEMP,f)).mtimeMs })).sort((a,b) => b.m - a.m);
-      if(!files.length) return res.json({ ok:false, error: 'Conversion failed', details: stderr });
+    proc.stderr.on('data', d => stderr += d.toString());
+    proc.on('close', code => {
+      // find newest mp3 in TMP
+      const files = fs.readdirSync(TMP).filter(f => f.endsWith('.mp3')).map(f => ({ f, m: fs.statSync(path.join(TMP,f)).mtimeMs })).sort((a,b)=>b.m-a.m);
+      if(!files.length) return res.json({ ok:false, error: 'conversion failed', details: stderr });
       const latest = files[0].f;
-      // return a download URL (serve static files from /static)
-      const downloadUrl = `/static/${encodeURIComponent(latest)}`;
-      return res.json({ ok:true, downloadUrl });
+      return res.json({ ok:true, downloadUrl: '/static/' + encodeURIComponent(latest) });
     });
-  }catch(err){ return res.json({ ok:false, error: 'Server error: '+err.message }); }
+  }catch(err){
+    return res.json({ ok:false, error: err.message });
+  }
 });
 
-// serve static files
-app.use('/static', express.static(TEMP, { index: false }));
+app.use('/static', express.static(TMP, { index:false }));
 
-// periodic cleanup (remove files older than 12 hours)
+// cleanup files older than 12 hours
 setInterval(()=>{
   try{
-    const files = fs.readdirSync(TEMP);
     const now = Date.now();
-    files.forEach(f=>{
-      const p = path.join(TEMP,f);
-      try{ const st = fs.statSync(p); if(now - st.mtimeMs > 12*60*60*1000) fs.unlinkSync(p); }catch(e){}
+    fs.readdirSync(TMP).forEach(f=>{
+      const p = path.join(TMP,f);
+      try{ const s = fs.statSync(p); if(now - s.mtimeMs > 12*3600*1000) fs.unlinkSync(p); }catch(e){}
     });
   }catch(e){}
 }, 60*60*1000);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=> console.log('YouTube->MP3 server running on port', PORT));
-
-======================== package.json ========================
-{
-  "name": "multiimagex-yt-mp3",
-  "version": "1.0.0",
-  "description": "Server for MultiImageX YouTube to MP3 converter (yt-dlp + ffmpeg)",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "express-rate-limit": "^6.7.0",
-    "helmet": "^6.0.1",
-    "cors": "^2.8.5"
-  }
-}
-
-
----
-INSTRUCTIONS & NOTES:
-1) Install yt-dlp and ffmpeg on the server PATH. Example (Ubuntu):
-   sudo apt update && sudo apt install -y ffmpeg
-   pip install -U yt-dlp
-
-2) Place index.html in your static hosting folder and run the server.js on your backend host. Ensure same-origin or configure CORS properly.
-
-3) Protect the endpoint: add authentication, strong rate-limiting, and/or require a token to prevent abuse.
-
-4) Timeouts: heavy videos may take long. Increase timeout if necessary and move to a job queue for production.
-
-5) Legal & TOS: This tool converts YouTube content — ensure you follow YouTube Terms of Service and local copyright laws.
-
-6) SEO: index.html includes meta tags, JSON-LD, canonical and brand keywords (multiimagex, multiimagex.online) to maximize search relevance.
-
-================================ END OF CANVAS FILES =================================
+app.listen(PORT, ()=> console.log('YT→MP3 server running on', PORT));
