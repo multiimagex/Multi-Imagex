@@ -1,254 +1,122 @@
-<!--
-Files in this canvas (save into /tools/youtube-video-downloader/):
-  1) index.html        (frontend - SEO + UI + quality selection + progress)
-  2) server.js         (Node.js + Express server using yt-dlp to download selected format)
-  3) package.json      (dependencies and start scripts)
-
-IMPORTANT:
-- Server must have yt-dlp installed and available in PATH. ffmpeg may be required for merging.
-- This example is for self-hosting. Use responsibly and comply with YouTube Terms of Service.
-- Add HTTPS, authentication, and stronger rate-limiting before public deployment.
-
-Save folder structure:
-/tools/youtube-video-downloader/index.html
-/tools/youtube-video-downloader/server.js
-/tools/youtube-video-downloader/package.json
-
---- COPY / PASTE FILES BELOW ---
-
-======================== index.html ========================
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>YouTube Video Downloader — MultiImageX</title>
-  <meta name="description" content="Download YouTube videos in MP4, WebM or extract audio (MP3) with MultiImageX. Server-side downloader (yt-dlp) handles conversions quickly and securely. Use only for permitted content." />
-  <meta name="keywords" content="youtube downloader, download youtube, youtube video downloader, multiimagex, multiimagex.online, yt downloader, save youtube video" />
-  <link rel="canonical" href="https://www.multiimagex.online/tools/youtube-video-downloader/" />
-  <meta property="og:title" content="YouTube Video Downloader — MultiImageX" />
-  <meta property="og:description" content="Download YouTube videos in multiple qualities or extract audio with our fast downloader. Server required (yt-dlp)." />
-  <meta property="og:url" content="https://www.multiimagex.online/tools/youtube-video-downloader/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://www.multiimagex.online/assets/yt-downloader-preview.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"SoftwareApplication",
-    "name":"YouTube Video Downloader - MultiImageX",
-    "url":"https://www.multiimagex.online/tools/youtube-video-downloader/",
-    "description":"Download YouTube videos in MP4/WebM or extract audio using a secure server pipeline (yt-dlp).",
-    "applicationCategory":"MultimediaApplication",
-    "keywords":["youtube downloader","download youtube","multiimagex","video downloader"]
-  }
-  </script>
-
-  <style>
-    :root{--brand:#2563eb;--accent:#10b981;--muted:#6b7280}
-    *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,Arial,sans-serif;background:#f7fafc;margin:0;color:#0b1220}
-    header{background:linear-gradient(90deg,var(--brand),#7c5cff);color:#fff;padding:20px;text-align:center}
-    .container{max-width:920px;margin:24px auto;padding:18px}
-    .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(12,18,30,0.06)}
-    input,select,button{padding:10px;border-radius:8px;border:1px solid #e6eef8}
-    button{background:var(--brand);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
-    .row{display:flex;gap:8px;align-items:center}
-    .status{margin-top:12px;color:var(--muted)}
-    progress{width:100%;height:16px}
-    a.download{display:inline-block;margin-top:10px;padding:10px 14px;background:var(--accent);color:#fff;border-radius:8px;text-decoration:none}
-    .formats{display:flex;gap:8px;flex-wrap:wrap}
-    .formats label{background:#f1f5f9;padding:8px;border-radius:6px;cursor:pointer}
-  </style>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>YouTube Video Downloader — MultiImageX</title>
+<meta name="description" content="Download YouTube videos in MP4/WebM or extract audio (MP3) — MultiImageX downloader (server required)." />
+<style>
+  body{font-family:Inter,system-ui,Arial;margin:0;background:#f7fafc;color:#0b1220}
+  header{background:linear-gradient(90deg,#2563eb,#7c5cff);color:#fff;padding:16px;text-align:center}
+  .wrap{max-width:920px;margin:18px auto;padding:14px}
+  .card{background:#fff;padding:16px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+  .row{display:flex;gap:8px;align-items:center}
+  input,select,button{padding:10px;border-radius:8px;border:1px solid #e6eef8}
+  button{background:#2563eb;color:#fff;border:none;cursor:pointer}
+  .muted{color:#6b7280;font-size:13px}
+  .formats{margin-top:12px;display:none}
+  .formats label{display:block;padding:8px;background:#f1f5f9;border-radius:6px;margin-bottom:6px;cursor:pointer}
+  progress{width:100%}
+  a.download{display:inline-block;margin-top:12px;padding:10px 14px;background:#10b981;color:#fff;border-radius:8px;text-decoration:none}
+</style>
 </head>
 <body>
-  <header>
-    <h1>YouTube Video Downloader</h1>
-    <div style="opacity:.95;margin-top:6px">Download YouTube videos (MP4/WebM) or extract audio (MP3). Server-side downloader (yt-dlp) required. Use responsibly.</div>
-  </header>
+<header><h1>YouTube Video Downloader</h1></header>
+<main class="wrap">
+  <div class="card">
+    <label>Paste YouTube URL or ID</label>
+    <div class="row" style="margin-top:8px;">
+      <input id="videoUrl" style="flex:1" placeholder="YouTube link or Video ID" />
+      <button id="inspectBtn">Inspect</button>
+    </div>
 
-  <main class="container">
-    <div class="card">
-      <label for="videoUrl">YouTube URL</label>
-      <div class="row">
-        <input id="videoUrl" placeholder="Paste YouTube URL (https://www.youtube.com/watch?v=...)" style="flex:1">
-        <button id="inspectBtn">Inspect</button>
-      </div>
+    <div id="info" class="muted" style="margin-top:10px">Click Inspect to list available formats (server required).</div>
 
-      <div id="info" class="status">Paste a YouTube link and click Inspect to see available formats.</div>
-
-      <div id="formatsWrap" style="margin-top:12px;display:none" class="card">
-        <h3>Available formats</h3>
-        <div id="formatsList" class="formats"></div>
-        <div style="margin-top:10px">
-          <button id="downloadSelected">Download Selected</button>
-          <div id="progressWrap" style="display:none;margin-top:8px"><progress id="progress" max="100" value="0"></progress><div id="progressText" class="status"></div></div>
+    <div id="formats" class="formats card" aria-hidden="true">
+      <h3>Available formats</h3>
+      <div id="formatsList"></div>
+      <div style="margin-top:10px">
+        <button id="downloadBtn">Download Selected</button>
+        <div id="progressWrap" style="display:none;margin-top:8px">
+          <progress id="progress" max="100" value="0"></progress>
+          <div id="progressText" class="muted" style="margin-top:6px"></div>
         </div>
       </div>
-
-      <div id="result" style="margin-top:12px"></div>
-      <div style="margin-top:14px;color:var(--muted);font-size:13px">Legal: Do not use to download copyrighted content without permission. MultiImageX provides the downloader; you are responsible for compliance.</div>
     </div>
-  </main>
+
+    <div id="result" style="margin-top:12px"></div>
+    <div style="margin-top:10px" class="muted">Server must run yt-dlp. Do not use for copyrighted content you don't own.</div>
+  </div>
+</main>
 
 <script>
-  function getVideoId(input){ if(!input) return null; const v = input.trim(); if(/^[a-zA-Z0-9_-]{11}$/.test(v)) return v; try{ const u = new URL(v); if(u.hostname.includes('youtu.be')) return u.pathname.slice(1); if(u.searchParams.get('v')) return u.searchParams.get('v'); }catch(e){} const m = v.match(/[?&]v=([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/); return m? (m[1]||m[2]) : null; }
+const API_BASE = ''; // change if server on other origin
 
-  async function inspectFormats(url){
-    const res = await fetch('/api/inspect', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ url }) });
-    if(!res.ok) throw new Error('Inspect failed: ' + res.status);
-    return await res.json();
+function getVideoId(input){
+  if(!input) return null;
+  const s = input.trim();
+  if(/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
+  try{ const u = new URL(s); if(u.hostname.includes('youtu.be')) return u.pathname.slice(1); if(u.searchParams.get('v')) return u.searchParams.get('v'); }catch(e){}
+  const m = s.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+  return m? m[1] : null;
+}
+
+async function timeoutFetch(url, opts={}, ms=120000){
+  return Promise.race([fetch(url, opts), new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')), ms))]);
+}
+
+document.getElementById('inspectBtn').addEventListener('click', async ()=>{
+  const raw = document.getElementById('videoUrl').value;
+  const vid = getVideoId(raw);
+  const info = document.getElementById('info');
+  const formatsWrap = document.getElementById('formats');
+  const formatsList = document.getElementById('formatsList');
+  const result = document.getElementById('result');
+  formatsList.innerHTML=''; result.innerHTML=''; formatsWrap.style.display='none';
+  if(!vid){ info.textContent = 'Invalid URL or ID'; return; }
+  info.textContent = 'Inspecting...';
+  try{
+    const res = await timeoutFetch(API_BASE + '/api/inspect', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ url: raw })
+    }, 2*60*1000);
+    if(!res.ok){ info.textContent = 'Inspect failed: ' + res.status; const txt = await res.text().catch(()=>null); console.error(txt); return; }
+    const j = await res.json();
+    if(!j.ok) { info.textContent = 'Inspect failed: ' + (j.error||'unknown'); return; }
+    const fmts = j.formats || [];
+    if(!fmts.length){ info.textContent = 'No formats found'; return; }
+    formatsList.innerHTML = '';
+    fmts.forEach((f, idx)=>{
+      const id = 'fmt-'+idx;
+      const label = document.createElement('label');
+      label.innerHTML = `<input type="radio" name="fmt" value="${idx}" ${idx===0?'checked':''}/> ${f.format} — ${f.ext} ${f.format_note || ''} ${f.filesize?(' - '+(Math.round(f.filesize/1024/1024*100)/100)+'MB'):''}`;
+      formatsList.appendChild(label);
+    });
+    formatsWrap.style.display='block'; info.textContent = 'Choose a format and click Download Selected.';
+    document.getElementById('downloadBtn').onclick = async ()=>{
+      const sel = document.querySelector('input[name="fmt"]:checked');
+      if(!sel) return alert('Select a format');
+      const fobj = fmts[Number(sel.value)];
+      document.getElementById('progressWrap').style.display='block';
+      document.getElementById('progress').value = 5; document.getElementById('progressText').textContent = 'Queued';
+      try{
+        const dl = await timeoutFetch(API_BASE + '/api/download', {
+          method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ url: raw, format_id: fobj.format_id })
+        }, 5*60*1000);
+        if(!dl.ok){ const txt = await dl.text().catch(()=>null); alert('Server error: '+dl.status); console.error(txt); return; }
+        const dj = await dl.json();
+        if(!dj.ok){ alert('Download failed: '+(dj.error||'unknown')); return; }
+        document.getElementById('progress').value = 100; document.getElementById('progressText').textContent = 'Ready';
+        const a = document.createElement('a'); a.href = (dj.downloadUrl.startsWith('http')? dj.downloadUrl : (API_BASE + dj.downloadUrl));
+        a.download = ''; a.className='download'; a.textContent = 'Download File';
+        result.innerHTML=''; result.appendChild(a);
+      }catch(err){
+        alert('Download request error: ' + err.message);
+      }
+    };
+  }catch(err){
+    info.textContent = 'Inspect error: '+err.message;
+    console.error(err);
   }
-
-  async function requestDownload(format){
-    const res = await fetch('/api/download', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(format) });
-    if(!res.ok) throw new Error('Download request failed: ' + res.status);
-    return await res.json();
-  }
-
-  document.getElementById('inspectBtn').addEventListener('click', async ()=>{
-    const raw = document.getElementById('videoUrl').value.trim(); const vid = getVideoId(raw); const info = document.getElementById('info'); const formatsWrap = document.getElementById('formatsWrap'); const formatsList = document.getElementById('formatsList'); formatsList.innerHTML=''; document.getElementById('result').innerHTML='';
-    if(!vid){ info.innerText = 'Invalid YouTube URL or ID'; return; }
-    info.innerText = 'Inspecting available formats...';
-    try{
-      const j = await inspectFormats(raw);
-      if(!j.ok) { info.innerText = 'Inspect failed: ' + (j.error||'unknown'); return; }
-      const fmts = j.formats || [];
-      if(!fmts.length){ info.innerText = 'No downloadable formats found'; return; }
-      formatsList.innerHTML = '';
-      fmts.forEach((f, idx)=>{
-        const id = 'fmt-'+idx;
-        const label = document.createElement('label'); label.htmlFor=id; label.title = JSON.stringify(f);
-        const rb = document.createElement('input'); rb.type='radio'; rb.name='fmt'; rb.id=id; rb.value=idx; if(idx===0) rb.checked=true;
-        const text = `${f.format_note || f.ext || f.acodec || ''} — ${f.filesize ? (Math.round(f.filesize/1024/1024*100)/100)+' MB' : 'size unknown'} — ${f.format}`;
-        label.appendChild(rb); label.appendChild(document.createTextNode(' ' + text));
-        formatsList.appendChild(label);
-      });
-      formatsWrap.style.display='block'; info.innerText = 'Choose a format and click Download Selected.';
-
-      document.getElementById('downloadSelected').onclick = async ()=>{
-        const sel = document.querySelector('input[name="fmt"]:checked'); if(!sel) return alert('Select a format'); const fobj = fmts[Number(sel.value)];
-        document.getElementById('progressWrap').style.display='block'; document.getElementById('progress').value=5; document.getElementById('progressText').innerText='Queued';
-        try{
-          const dj = await requestDownload({ url: raw, format_id: fobj.format_id });
-          if(!dj.ok) return alert('Server error: '+(dj.error||'failed'));
-          document.getElementById('progress').value = 100; document.getElementById('progressText').innerText='Ready';
-          const a = document.createElement('a'); a.href = dj.downloadUrl; a.className = 'download'; a.textContent = 'Download File'; a.setAttribute('download','video-'+Date.now()+'.'+(dj.ext||'mp4'));
-          document.getElementById('result').innerHTML=''; document.getElementById('result').appendChild(a);
-        }catch(err){ alert('Download failed: '+err.message); }
-      };
-
-    }catch(err){ info.innerText = 'Inspect error: '+err.message; }
-  });
+});
 </script>
 </body>
 </html>
-
-
-======================== server.js ========================
-// Node.js + Express server for yt-dlp based video downloader
-// Requires: yt-dlp installed on server. ffmpeg for merging streams may be required.
-// npm i express express-rate-limit helmet cors
-
-const express = require('express');
-const rateLimit = require('express-rate-limit');
-const { spawn } = require('child_process');
-const path = require('path');
-const fs = require('fs');
-const os = require('os');
-const helmet = require('helmet');
-const cors = require('cors');
-
-const app = express();
-app.use(helmet());
-app.use(cors());
-app.use(express.json({ limit: '1mb' }));
-
-const limiter = rateLimit({ windowMs: 60*1000, max: 6 });
-app.use(limiter);
-
-const TEMP = process.env.TEMP_FOLDER || path.join(os.tmpdir(), 'multiimagex-yt-dl');
-if(!fs.existsSync(TEMP)) fs.mkdirSync(TEMP, { recursive: true });
-
-function getSafeName(prefix, ext){ return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`; }
-function validateYouTubeUrl(u){ try{ const url = new URL(u); return /youtube|youtu.be/.test(url.hostname); }catch(e){ return false; } }
-
-// inspect endpoint: runs yt-dlp -F to list formats then parse JSON (-J) for format info
-app.post('/api/inspect', async (req,res)=>{
-  const { url } = req.body || {};
-  if(!url || !validateYouTubeUrl(url)) return res.status(400).json({ ok:false, error:'Invalid URL' });
-  try{
-    // run yt-dlp with --dump-json to get formats
-    const args = ['-j', url];
-    const proc = spawn('yt-dlp', args, { shell: true });
-    let out=''; let err='';
-    proc.stdout.on('data', c=> out += c.toString());
-    proc.stderr.on('data', c=> err += c.toString());
-    proc.on('close', code=>{
-      if(!out) return res.json({ ok:false, error:'yt-dlp failed: '+err });
-      try{
-        const j = JSON.parse(out);
-        // map formats to simplified list
-        const fmts = (j.formats || []).map(f => ({ format_id: f.format_id, format: f.format, ext: f.ext, acodec: f.acodec, vcodec: f.vcodec, filesize: f.filesize, format_note: f.format_note }));
-        return res.json({ ok:true, title: j.title, formats: fmts });
-      }catch(e){ return res.json({ ok:false, error:'parse failed: '+e.message }); }
-    });
-  }catch(err){ return res.json({ ok:false, error: err.message }); }
-});
-
-// download endpoint: runs yt-dlp -f <format_id> -o <path>
-app.post('/api/download', async (req,res)=>{
-  const { url, format_id } = req.body || {};
-  if(!url || !validateYouTubeUrl(url) || !format_id) return res.status(400).json({ ok:false, error:'Missing parameters' });
-  try{
-    const outName = getSafeName('video','tmp');
-    const outTemplate = path.join(TEMP, outName + '.%(ext)s');
-    // yt-dlp args: -f <format_id> -o <template> --no-playlist --restrict-filenames
-    const args = ['-f', format_id, '-o', outTemplate, '--no-playlist', '--restrict-filenames', url];
-    const proc = spawn('yt-dlp', args, { shell: true });
-    let stderr=''; proc.stderr.on('data', c=> stderr += c.toString());
-    proc.on('close', code=>{
-      // find newest file in TEMP
-      const files = fs.readdirSync(TEMP).map(f=> ({ f, m: fs.statSync(path.join(TEMP,f)).mtimeMs })).sort((a,b)=> b.m - a.m);
-      if(!files.length) return res.json({ ok:false, error:'download failed: '+stderr });
-      const latest = files[0].f;
-      return res.json({ ok:true, downloadUrl: '/static/' + encodeURIComponent(latest), ext: path.extname(latest).replace('.', '') });
-    });
-  }catch(err){ return res.json({ ok:false, error: err.message }); }
-});
-
-// serve static downloads
-app.use('/static', express.static(TEMP, { index: false }));
-
-// cleanup old files (>12 hours)
-setInterval(()=>{
-  try{
-    const files = fs.readdirSync(TEMP);
-    const now = Date.now();
-    files.forEach(f=>{ const p = path.join(TEMP,f); try{ const s = fs.statSync(p); if(now - s.mtimeMs > 12*60*60*1000) fs.unlinkSync(p); }catch(e){} });
-  }catch(e){}
-}, 60*60*1000);
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=> console.log('YT downloader server running on', PORT));
-
-======================== package.json ========================
-{
-  "name": "multiimagex-yt-downloader",
-  "version": "1.0.0",
-  "description": "Server for MultiImageX YouTube video downloader using yt-dlp",
-  "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "dependencies": { "express": "^4.18.2", "express-rate-limit": "^6.7.0", "helmet": "^6.0.1", "cors": "^2.8.5" }
-}
-
-
----
-DEPLOY NOTES & SECURITY:
-- Ensure yt-dlp and ffmpeg are installed and in PATH.
-- Protect endpoints: add authentication/token for public deployments.
-- Add file size limits and sanitize input.
-- Use HTTPS and deploy behind a reverse proxy (NGINX) or platform (Render, Railway, Heroku) supporting long-running processes.
-- Consider converting heavy downloads into queued jobs for scalability.
-
-================================ END OF CANVAS FILES =================================
