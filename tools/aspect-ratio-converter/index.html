@@ -29,6 +29,7 @@
     <span class="font-medium">Mode:</span>
     <button id="cropMode" class="px-3 py-2 bg-sky-500 text-white rounded ml-2">Crop</button>
     <button id="fitMode" class="px-3 py-2 bg-slate-100 rounded">Fit</button>
+    <button id="adjustMode" class="px-3 py-2 bg-slate-100 rounded">Adjust</button>
   </div>
 
   <!-- Custom Dimensions -->
@@ -124,8 +125,9 @@ fileInput.addEventListener('change',(e)=>{
   } else alert('Unsupported file type.');
 });
 
-document.getElementById('cropMode').onclick=()=>{mode='crop'; document.getElementById('cropMode').className='px-3 py-2 bg-sky-500 text-white rounded'; document.getElementById('fitMode').className='px-3 py-2 bg-slate-100 rounded';};
-document.getElementById('fitMode').onclick=()=>{mode='fit'; document.getElementById('fitMode').className='px-3 py-2 bg-sky-500 text-white rounded'; document.getElementById('cropMode').className='px-3 py-2 bg-slate-100 rounded';};
+document.getElementById('cropMode').onclick=()=>{mode='crop'; document.getElementById('cropMode').className='px-3 py-2 bg-sky-500 text-white rounded ml-2'; document.getElementById('fitMode').className='px-3 py-2 bg-slate-100 rounded'; document.getElementById('adjustMode').className='px-3 py-2 bg-slate-100 rounded';};
+document.getElementById('fitMode').onclick=()=>{mode='fit'; document.getElementById('fitMode').className='px-3 py-2 bg-sky-500 text-white rounded'; document.getElementById('cropMode').className='px-3 py-2 bg-slate-100 rounded'; document.getElementById('adjustMode').className='px-3 py-2 bg-slate-100 rounded';};
+document.getElementById('adjustMode').onclick=()=>{mode='adjust'; document.getElementById('adjustMode').className='px-3 py-2 bg-sky-500 text-white rounded'; document.getElementById('cropMode').className='px-3 py-2 bg-slate-100 rounded'; document.getElementById('fitMode').className='px-3 py-2 bg-slate-100 rounded';};
 document.getElementById('clearFile').onclick=()=>{file=null; fileType=null; previewContainer.innerHTML=''; fileInput.value='';};
 
 document.getElementById('generateBtn').onclick=async()=>{
@@ -154,18 +156,27 @@ document.getElementById('generateBtn').onclick=async()=>{
   const srcW=img.naturalWidth, srcH=img.naturalHeight;
   let sx=0, sy=0, sW=srcW, sH=srcH;
   const r=selectedRatio.ratio;
+
   if(mode==='crop'){
     if(srcW/srcH>r){ sH=srcH; sW=Math.round(srcH*r); sx=Math.round((srcW-sW)/2); sy=0; }
     else{ sW=srcW; sH=Math.round(srcW/r); sx=0; sy=Math.round((srcH-sH)/2); }
   }
-  else{ sW=srcW; sH=srcH; sx=0; sy=0; }
-  if(mode==='crop') ctx.drawImage(img,sx,sy,sW,sH,0,0,outW,outH);
-  else{
+  else if(mode==='fit'){
     const fitRatio=Math.min(outW/srcW,outH/srcH);
     const dw=Math.round(srcW*fitRatio), dh=Math.round(srcH*fitRatio);
     const dx=Math.round((outW-dw)/2), dy=Math.round((outH-dh)/2);
     ctx.drawImage(img,0,0,srcW,srcH,dx,dy,dw,dh);
   }
+  else if(mode==='adjust'){
+    // Adjust mode: user can fit image inside ratio exactly while preserving maximum content
+    let dw=outW, dh=outH, dx=0, dy=0;
+    const imageRatio=srcW/srcH;
+    if(imageRatio>r){ dh=outH; dw=Math.round(dh*imageRatio); dx=Math.round((outW-dw)/2); }
+    else{ dw=outW; dh=Math.round(dw/imageRatio); dy=Math.round((outH-dh)/2); }
+    ctx.drawImage(img,0,0,srcW,srcH,dx,dy,dw,dh);
+  }
+
+  if(mode==='crop') ctx.drawImage(img,sx,sy,sW,sH,0,0,outW,outH);
   const dataUrl=canvas.toDataURL('image/jpeg',0.92);
   const a=document.createElement('a'); a.href=dataUrl; a.download=`multiimagex-${selectedRatio.id}.jpg`; a.click();
 };
