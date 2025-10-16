@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aspect Ratio Converter - MultiImageX</title>
+<meta name="description" content="Convert, crop, and resize images, videos, or PDFs to any aspect ratio — 1:1, 3:2, 4:3, 16:9, 5:7, 2.39:1 and more. MultiImageX tool.">
+<meta name="keywords" content="aspect ratio converter, image cropper, resize image, 16:9, 4:3, 5:7, photo size, multiimagex">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+<div class="max-w-6xl mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-2">Aspect Ratio Converter - MultiImageX</h1>
+  <p class="text-gray-600 mb-6">Convert images, videos, or PDFs to any aspect ratio. Search presets or enter custom dimensions.</p>
+
+  <!-- Upload -->
+  <input type="file" id="fileInput" class="mb-4 p-2 border rounded w-full" accept="image/*,video/*,application/pdf">
+  <div class="flex gap-2 mb-4">
+    <button id="loadPdf" class="px-3 py-2 bg-slate-200 rounded">Enable PDF Support</button>
+    <button id="clearFile" class="px-3 py-2 bg-slate-200 rounded">Clear</button>
+  </div>
+
+  <!-- Preview -->
+  <div id="previewContainer" class="mb-4"></div>
+
+  <!-- Mode -->
+  <div class="mb-4">
+    <span class="font-medium">Mode:</span>
+    <button id="cropMode" class="px-3 py-2 bg-sky-500 text-white rounded ml-2">Crop</button>
+    <button id="fitMode" class="px-3 py-2 bg-slate-100 rounded">Fit</button>
+  </div>
+
+  <!-- Custom Dimensions -->
+  <div class="grid grid-cols-2 gap-3 mb-4">
+    <div>
+      <label class="block">Width (px)</label>
+      <input type="number" id="customWidth" class="w-full p-2 border rounded" value="1500">
+    </div>
+    <div>
+      <label class="block">Height (px)</label>
+      <input type="number" id="customHeight" class="w-full p-2 border rounded" value="1500">
+    </div>
+  </div>
+
+  <!-- Searchable Aspect Ratio -->
+  <input type="search" id="ratioSearch" placeholder="Search ratio (e.g., 5:7, golden, 16:9)" class="w-full p-2 border rounded mb-4">
+  <div id="ratioList" class="max-h-64 overflow-auto mb-4"></div>
+
+  <button id="generateBtn" class="px-4 py-2 bg-green-600 text-white rounded">Generate & Download</button>
+  <canvas id="canvas" style="display:none;"></canvas>
+</div>
+
+<script>
+const RATIO_PRESETS = [
+  { id: '1:1', label:'1:1 (Square)', ratio:1 },
+  { id: '3:2', label:'3:2 (DSLR)', ratio:3/2 },
+  { id: '4:3', label:'4:3 (Compact/MFT)', ratio:4/3 },
+  { id: '5:7', label:'5:7 (Print)', ratio:5/7 },
+  { id: '4:5', label:'4:5 (Portrait)', ratio:4/5 },
+  { id: '5:6', label:'5:6 (Studio)', ratio:5/6 },
+  { id: '11:14', label:'11:14 (Framed)', ratio:11/14 },
+  { id: '2:1', label:'2:1 (Panoramic)', ratio:2 },
+  { id: '3:1', label:'3:1 (Ultra Panoramic)', ratio:3 },
+  { id: '4:1', label:'4:1 (Wide Banner)', ratio:4 },
+  { id: '16:9', label:'16:9 (HD/YouTube)', ratio:16/9 },
+  { id: '16:10', label:'16:10 (Laptop)', ratio:16/10 },
+  { id: '17:9', label:'17:9 (Cinema)', ratio:17/9 },
+  { id: '18:9', label:'18:9 (Phone)', ratio:18/9 },
+  { id: '19.5:9', label:'19.5:9 (Modern phones)', ratio:19.5/9 },
+  { id: '20:9', label:'20:9 (Tall phones)', ratio:20/9 },
+  { id: '21:9', label:'21:9 (Ultrawide)', ratio:21/9 },
+  { id: '32:9', label:'32:9 (Super Ultrawide)', ratio:32/9 },
+  { id: '48:9', label:'48:9 (Multi-screen)', ratio:48/9 },
+  { id: '1.85:1', label:'1.85:1 (Theatrical)', ratio:1.85 },
+  { id: '2.35:1', label:'2.35:1 (CinemaScope)', ratio:2.35 },
+  { id: '2.39:1', label:'2.39:1 (Anamorphic)', ratio:2.39 },
+  { id: '2.76:1', label:'2.76:1 (Ultra Panavision)', ratio:2.76 }
+];
+
+let file=null, fileType=null, selectedRatio=RATIO_PRESETS[0], mode='crop';
+const fileInput=document.getElementById('fileInput');
+const previewContainer=document.getElementById('previewContainer');
+const canvas=document.getElementById('canvas');
+const ratioList=document.getElementById('ratioList');
+const ratioSearch=document.getElementById('ratioSearch');
+
+function renderRatioList(filter=''){
+  ratioList.innerHTML='';
+  RATIO_PRESETS.filter(r=>r.label.toLowerCase().includes(filter.toLowerCase()) || r.id.toLowerCase().includes(filter.toLowerCase())).forEach(r=>{
+    const btn=document.createElement('button');
+    btn.textContent=r.label;
+    btn.className='w-full text-left p-2 rounded border mb-1';
+    if(selectedRatio.id===r.id) btn.classList.add('bg-sky-500','text-white');
+    btn.onclick=()=>{selectedRatio=r; document.getElementById('customWidth').value=1500; document.getElementById('customHeight').value=Math.round(1500/r.ratio); renderRatioList(ratioSearch.value);};
+    ratioList.appendChild(btn);
+  });
+}
+
+ratioSearch.addEventListener('input',()=>{renderRatioList(ratioSearch.value)});
+renderRatioList();
+
+fileInput.addEventListener('change',(e)=>{
+  file=e.target.files[0];
+  if(!file) return;
+  previewContainer.innerHTML='';
+  if(file.type.startsWith('image/')){
+    fileType='image';
+    const img=document.createElement('img');
+    img.src=URL.createObjectURL(file);
+    img.className='max-w-full rounded shadow';
+    previewContainer.appendChild(img);
+  } else if(file.type.startsWith('video/')){
+    fileType='video';
+    const vid=document.createElement('video');
+    vid.src=URL.createObjectURL(file);
+    vid.controls=true;
+    vid.className='max-w-full rounded shadow';
+    previewContainer.appendChild(vid);
+  } else if(file.type==='application/pdf'){
+    fileType='pdf';
+    const p=document.createElement('p'); p.textContent='PDF uploaded. Click Generate to convert first page.';
+    previewContainer.appendChild(p);
+  } else alert('Unsupported file type.');
+});
+
+document.getElementById('cropMode').onclick=()=>{mode='crop'; document.getElementById('cropMode').className='px-3 py-2 bg-sky-500 text-white rounded'; document.getElementById('fitMode').className='px-3 py-2 bg-slate-100 rounded';};
+document.getElementById('fitMode').onclick=()=>{mode='fit'; document.getElementById('fitMode').className='px-3 py-2 bg-sky-500 text-white rounded'; document.getElementById('cropMode').className='px-3 py-2 bg-slate-100 rounded';};
+document.getElementById('clearFile').onclick=()=>{file=null; fileType=null; previewContainer.innerHTML=''; fileInput.value='';};
+
+document.getElementById('generateBtn').onclick=async()=>{
+  if(!file){alert('Upload a file first'); return;}
+  let img=new Image(); img.crossOrigin='anonymous';
+  if(fileType==='image'){ img.src=URL.createObjectURL(file); await img.decode(); }
+  else if(fileType==='video'){
+    const vid=previewContainer.querySelector('video');
+    const tempCanvas=document.createElement('canvas'); tempCanvas.width=vid.videoWidth; tempCanvas.height=vid.videoHeight;
+    tempCanvas.getContext('2d').drawImage(vid,0,0,tempCanvas.width,tempCanvas.height);
+    img.src=tempCanvas.toDataURL('image/png'); await img.decode();
+  }
+  else if(fileType==='pdf'){
+    const pdf = await pdfjsLib.getDocument(URL.createObjectURL(file)).promise;
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({scale:2});
+    const tempCanvas=document.createElement('canvas'); tempCanvas.width=viewport.width; tempCanvas.height=viewport.height;
+    await page.render({canvasContext:tempCanvas.getContext('2d'),viewport}).promise;
+    img.src=tempCanvas.toDataURL('image/png'); await img.decode();
+  }
+  const outW=parseInt(document.getElementById('customWidth').value);
+  const outH=parseInt(document.getElementById('customHeight').value);
+  canvas.width=outW; canvas.height=outH;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,outW,outH);
+  const srcW=img.naturalWidth, srcH=img.naturalHeight;
+  let sx=0, sy=0, sW=srcW, sH=srcH;
+  const r=selectedRatio.ratio;
+  if(mode==='crop'){
+    if(srcW/srcH>r){ sH=srcH; sW=Math.round(srcH*r); sx=Math.round((srcW-sW)/2); sy=0; }
+    else{ sW=srcW; sH=Math.round(srcW/r); sx=0; sy=Math.round((srcH-sH)/2); }
+  }
+  else{ sW=srcW; sH=srcH; sx=0; sy=0; }
+  if(mode==='crop') ctx.drawImage(img,sx,sy,sW,sH,0,0,outW,outH);
+  else{
+    const fitRatio=Math.min(outW/srcW,outH/srcH);
+    const dw=Math.round(srcW*fitRatio), dh=Math.round(srcH*fitRatio);
+    const dx=Math.round((outW-dw)/2), dy=Math.round((outH-dh)/2);
+    ctx.drawImage(img,0,0,srcW,srcH,dx,dy,dw,dh);
+  }
+  const dataUrl=canvas.toDataURL('image/jpeg',0.92);
+  const a=document.createElement('a'); a.href=dataUrl; a.download=`multiimagex-${selectedRatio.id}.jpg`; a.click();
+};
+</script>
+</body>
+</html>
