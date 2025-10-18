@@ -1,91 +1,198 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aspect Ratio Converter - MultiImageX</title>
-<meta name="description" content="MultiImageX: Online Image Aspect Ratio Converter. Crop, fit, or adjust images to any aspect ratio including 1:1, 5:7, 16:9, 21:9, 2.35:1 and more. Free online tool for images.">
-<meta name="keywords" content="multiimagex, image aspect ratio, image crop, image adjust, 1:1, 3:2, 4:3, 5:7, 4:5, 5:6, 11:14, 2:1, 3:1, 4:1, 16:9, 16:10, 17:9, 18:9, 19:9, 19.5:9, 20:9, 21:9, 32:9, 48:9, 64:27, 1.17:1, 1.19:1, 1.33:1, 1.37:1, 1.43:1, 1.50:1, 1.66:1, 1.75:1, 1.78:1, 1.85:1, 2.00:1, 2.20:1, 2.35:1, 2.39:1, 2.40:1, 2.55:1, 2.76:1, 3:1, 1.89:1, 2.21:1, 9:16, 2:3, 10:7, 14:9, 25:16, 32:15, 9:8, 7:5">
-<script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aspect Ratio Converter — MultiImageX</title>
 
-<!-- Structured Data JSON-LD for SEO -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "MultiImageX - Image Aspect Ratio Converter",
-  "url": "https://multiimagex.online/tools/aspect-ratio-converter",
-  "logo": "https://multiimagex.online/logo.png",
-  "description": "Convert, crop, fit, and adjust images to any aspect ratio online. Supports all major ratios including 1:1, 5:7, 16:9, 21:9, 2.35:1, 9:16, and more.",
-  "applicationCategory": "ImageEditingApplication",
-  "operatingSystem": "All",
-  "creator": {
-    "@type": "Organization",
-    "name": "MultiImageX",
-    "url": "https://multiimagex.online"
-  },
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "INR",
-    "url": "https://multiimagex.online/tools/aspect-ratio-converter"
-  },
-  "featureList": [
-    "Crop / Fit / Adjust modes",
-    "Desktop drag + zoom",
-    "Mobile pinch zoom + drag",
-    "Custom width & height inputs",
-    "Searchable aspect ratio presets",
-    "Download final image",
-    "Supports all common and rare aspect ratios"
-  ]
-}
-</script>
+  <!-- SEO -->
+  <meta name="description" content="MultiImageX - Free Aspect Ratio Converter. Convert, crop, rotate, flip and batch-export images to any aspect ratio and exact pixel sizes (e.g. 480x672). Privacy-first, client-side tool." />
+  <meta name="keywords" content="aspect ratio converter, image crop, rotate image, flip image, batch image converter, MultiImageX, image resizer, 480x672, 5:7, online image tool, download zip" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.multiimagex.online/tools/aspect-ratio-converter/index.html" />
 
-<style>
-  .ratio-frame { position: relative; overflow: hidden; background: #f0f0f0; margin-bottom: 1rem; touch-action: none; }
-  .ratio-frame img { position: absolute; top: 0; left: 0; cursor: grab; user-select: none; transform-origin: top left; }
-</style>
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Aspect Ratio Converter — MultiImageX" />
+  <meta property="og:description" content="Convert & export images to any aspect ratio and pixel size. Rotate, flip, manual crop, EXIF-aware & batch ZIP export." />
+  <meta property="og:url" content="https://www.multiimagex.online/tools/aspect-ratio-converter/index.html" />
+  <meta property="og:site_name" content="MultiImageX" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aspect Ratio Converter — MultiImageX" />
+  <meta name="twitter:description" content="Convert & export images to any aspect ratio and pixel size. Rotate, flip, manual crop, EXIF-aware & batch ZIP export." />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Aspect Ratio Converter",
+    "url":"https://www.multiimagex.online/tools/aspect-ratio-converter/index.html",
+    "description":"Convert, crop, rotate & batch-export images to exact pixel sizes. Client-side tool by MultiImageX.",
+    "applicationCategory":"ImageEditing",
+    "operatingSystem":"Web",
+    "author":{"@type":"Organization","name":"MultiImageX","url":"https://www.multiimagex.online"}
+  }
+  </script>
+
+  <!-- Cropper.js CSS (touch friendly) -->
+  <link href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet"/>
+
+  <style>
+    /* Minimal modern UI - mobile responsive */
+    :root{
+      --bg:#071728; --card:#0b1520; --muted:#9bb0c2; --accent:#5eead4;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:linear-gradient(180deg,#041220,#08172a); color:#e8f3fb; padding:18px;}
+    .wrap{max-width:1100px;margin:0 auto;}
+    header{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .layout{display:grid;grid-template-columns:360px 1fr;gap:14px}
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:12px;border-radius:10px}
+    .upload{border:2px dashed rgba(255,255,255,0.04);padding:12px;border-radius:8px;text-align:center;cursor:pointer}
+    input[type=file]{display:none}
+    .controls{display:flex;gap:8px;margin-top:10px}
+    button,select,input{background:transparent;color:inherit;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px}
+    button.primary{background:linear-gradient(90deg,var(--accent),#34d399);color:#042018;border:none;font-weight:700}
+    .ratios{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .ratio-btn{padding:6px 8px;border-radius:6px;background:rgba(255,255,255,0.02);cursor:pointer;border:1px solid rgba(255,255,255,0.02);font-size:13px}
+    .ratio-btn.active{background:rgba(94,234,212,0.08);color:var(--accent);outline:2px solid rgba(94,234,212,0.06)}
+    .preview-wrap{display:flex;flex-direction:column;gap:8px}
+    .preview{background:#020816;border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:center;min-height:360px}
+    .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .thumb{width:72px;height:72px;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .row{display:flex;gap:8px;align-items:center}
+    .small{font-size:12px;color:var(--muted)}
+    footer.small{margin-top:12px;color:var(--muted);font-size:12px}
+    @media(max-width:960px){
+      .layout{grid-template-columns:1fr}
+      .preview{min-height:300px}
+    }
+  </style>
 </head>
-<body class="bg-gray-50 min-h-screen font-sans">
-<div class="max-w-5xl mx-auto p-6">
-  <h1 class="text-2xl font-bold mb-4">Aspect Ratio Converter - MultiImageX</h1>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Aspect Ratio Converter</h1>
+      <p class="lead">MultiImageX — Convert, crop, rotate, flip and batch-export images to exact pixel sizes (client-side).</p>
+    </header>
 
-  <!-- IMAGE PREVIEW -->
-  <div id="frameContainer" class="ratio-frame" style="width:800px; height:600px; margin-bottom:1rem;"></div>
+    <div class="layout">
+      <!-- left controls -->
+      <aside class="panel" aria-label="controls">
+        <div class="upload" id="upload" tabindex="0">
+          <input id="fileInput" type="file" accept="image/*" multiple />
+          <div><strong>Choose images</strong> or drag & drop here</div>
+          <div class="small">Supports JPEG/PNG/WEBP. EXIF orientation auto-applied.</div>
+        </div>
 
-  <!-- FILE INPUT -->
-  <input type="file" id="fileInput" class="mb-4 p-2 border rounded w-full" accept="image/*">
+        <div style="margin-top:10px">
+          <label class="small">Aspect Ratios</label>
+          <div class="ratios" id="ratiosContainer" aria-hidden="false"></div>
+          <div class="small" style="margin-top:6px">Double-click any ratio to autofill recommended pixels (e.g. 480×672 for 5:7)</div>
+        </div>
 
-  <!-- MODE BUTTONS -->
-  <div class="flex gap-2 mb-4">
-    <button id="cropMode" class="px-3 py-2 bg-sky-500 text-white rounded">Crop</button>
-    <button id="fitMode" class="px-3 py-2 bg-slate-100 rounded">Fit</button>
-    <button id="adjustMode" class="px-3 py-2 bg-slate-100 rounded">Adjust</button>
+        <div style="margin-top:10px">
+          <label class="small">Output Pixels</label>
+          <div class="row" style="margin-top:6px">
+            <input id="outW" type="number" placeholder="Width" style="flex:1" />
+            <input id="outH" type="number" placeholder="Height" style="flex:1" />
+          </div>
+          <div class="small" style="margin-top:6px">If only one dimension set, other is computed from ratio.</div>
+        </div>
+
+        <div style="margin-top:10px">
+          <label class="small">Format & Quality</label>
+          <div class="row" style="margin-top:6px">
+            <select id="format">
+              <option value="image/jpeg">JPEG</option>
+              <option value="image/png">PNG</option>
+              <option value="image/webp">WEBP</option>
+            </select>
+            <select id="quality">
+              <option value="0.92">92%</option>
+              <option value="0.85">85%</option>
+              <option value="0.75">75%</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:10px">
+          <label class="small">Mode</label>
+          <div class="row" style="margin-top:6px">
+            <label class="small" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="contain"> Fit (contain)</label>
+            <label class="small" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="showGrid"> Show grid</label>
+          </div>
+        </div>
+
+        <div class="controls" style="margin-top:10px">
+          <button id="addToQueue" class="primary">Add Selected → Queue</button>
+          <button id="batchConvert">Convert Queue</button>
+        </div>
+
+        <div style="margin-top:10px">
+          <label class="small">Batch Queue</label>
+          <div id="queueList" class="small" style="max-height:140px;overflow:auto;padding:8px;border-radius:6px;background:rgba(255,255,255,0.01);margin-top:6px">No items</div>
+        </div>
+
+        <div style="margin-top:10px" class="small">
+          <label>Controls (for current image)</label>
+          <div style="display:flex;gap:8px;margin-top:6px">
+            <button id="rotateLeft">⟲ Rotate</button>
+            <button id="rotateRight">⟳ Rotate</button>
+            <button id="flipH">↔ Flip</button>
+            <button id="flipV">↕ Flip</button>
+          </div>
+        </div>
+
+        <div style="margin-top:10px" class="small">
+          <button id="downloadAllZip" style="width:100%">Download All as ZIP</button>
+        </div>
+
+        <footer class="small">
+          Pro tip: For exact 480×672 use ratio <strong>5:7</strong>. All processing is client-side — MultiImageX.
+        </footer>
+      </aside>
+
+      <!-- right preview & crop -->
+      <main class="panel preview-wrap" aria-live="polite">
+        <div class="preview" id="previewArea">
+          <!-- Canvas will be inserted here by Cropper or fallback -->
+          <img id="currentImage" style="max-width:100%;max-height:100%;display:none" alt="current" />
+          <div id="canvasContainer" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center"></div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+          <div class="small">Selected: <span id="selectedRatio">—</span> | Output: <span id="outInfo">—</span></div>
+          <div>
+            <button id="previewExport" class="primary">Preview Export</button>
+            <button id="downloadCurrent">Download Current</button>
+          </div>
+        </div>
+
+        <div class="thumbs" id="thumbs"></div>
+      </main>
+    </div>
   </div>
 
-  <!-- WIDTH & HEIGHT -->
-  <div class="grid grid-cols-2 gap-3 mb-4">
-    <div>
-      <label class="block">Width (px)</label>
-      <input type="number" id="customWidth" class="w-full p-2 border rounded" value="800">
-    </div>
-    <div>
-      <label class="block">Height (px)</label>
-      <input type="number" id="customHeight" class="w-full p-2 border rounded" value="600" readonly>
-    </div>
-  </div>
+  <!-- External libs -->
+  <script src="https://cdn.jsdelivr.net/npm/exif-js@2.3.0"></script>
+  <script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
-  <!-- SEARCH & RATIO LIST -->
-  <input type="search" id="ratioSearch" placeholder="Search ratio (e.g., 5:7, 16:9)" class="w-full p-2 border rounded mb-4">
-  <div id="ratioList" class="max-h-64 overflow-auto mb-4"></div>
-
-  <!-- DOWNLOAD -->
-  <button id="downloadBtn" class="px-4 py-2 bg-green-600 text-white rounded">Download</button>
-</div>
-
-<script>
-const RATIO_PRESETS=[
+  <script>
+  // ---------------------------
+  // RATIOS (as provided)
+  // ---------------------------
+  const RATIOS = [
 { id:'1:1', label:'1:1', ratio:1 }, { id:'3:2', label:'3:2', ratio:3/2 }, { id:'4:3', label:'4:3', ratio:4/3 },
 { id:'5:7', label:'5:7', ratio:5/7 }, { id:'4:5', label:'4:5', ratio:4/5 }, { id:'5:6', label:'5:6', ratio:5/6 },
 { id:'11:14', label:'11:14', ratio:11/14 }, { id:'2:1', label:'2:1', ratio:2 }, { id:'3:1', label:'3:1', ratio:3 },
@@ -103,112 +210,456 @@ const RATIO_PRESETS=[
 { id:'9:16', label:'9:16', ratio:9/16 }, { id:'2:3', label:'2:3', ratio:2/3 }, { id:'10:7', label:'10:7', ratio:10/7 },
 { id:'14:9', label:'14:9', ratio:14/9 }, { id:'25:16', label:'25:16', ratio:25/16 }, { id:'32:15', label:'32:15', ratio:32/15 },
 { id:'9:8', label:'9:8', ratio:9/8 }, { id:'7:5', label:'7:5', ratio:7/5 }
-];
+  ];
 
-let selectedRatio=RATIO_PRESETS[0], mode='crop', imgEl=null;
-let imgX=0,imgY=0,imgScale=1,startX=0,startY=0,dragging=false,lastDist=0;
+  // ---------------------------
+  // Elements
+  // ---------------------------
+  const ratiosContainer = document.getElementById('ratiosContainer');
+  const fileInput = document.getElementById('fileInput');
+  const upload = document.getElementById('upload');
+  const thumbs = document.getElementById('thumbs');
+  const currentImage = document.getElementById('currentImage');
+  const canvasContainer = document.getElementById('canvasContainer');
+  const outW = document.getElementById('outW');
+  const outH = document.getElementById('outH');
+  const formatSelect = document.getElementById('format');
+  const qualitySelect = document.getElementById('quality');
+  const containCheckbox = document.getElementById('contain');
+  const showGrid = document.getElementById('showGrid');
+  const rotateLeftBtn = document.getElementById('rotateLeft');
+  const rotateRightBtn = document.getElementById('rotateRight');
+  const flipHBtn = document.getElementById('flipH');
+  const flipVBtn = document.getElementById('flipV');
+  const previewExportBtn = document.getElementById('previewExport');
+  const downloadCurrentBtn = document.getElementById('downloadCurrent');
+  const addToQueueBtn = document.getElementById('addToQueue');
+  const batchConvertBtn = document.getElementById('batchConvert');
+  const queueList = document.getElementById('queueList');
+  const downloadAllZipBtn = document.getElementById('downloadAllZip');
+  const selectedRatioLabel = document.getElementById('selectedRatio');
+  const outInfo = document.getElementById('outInfo');
 
-const fileInput=document.getElementById('fileInput');
-const frameContainer=document.getElementById('frameContainer');
-const customWidth=document.getElementById('customWidth');
-const customHeight=document.getElementById('customHeight');
-const ratioList=document.getElementById('ratioList');
-const ratioSearch=document.getElementById('ratioSearch');
+  // state
+  let selectedRatio = RATIOS.find(r=>r.id==='5:7') || RATIOS[0];
+  let images = []; // {file, src, orientedImg (Image object), name, id}
+  let currentIndex = -1;
+  let cropper = null;
+  let flipH = false, flipV = false, rotation = 0; // rotation in degrees
+  let queue = []; // array of indices from images[]
 
-// RATIO LIST
-function renderRatioList(filter=''){
-  ratioList.innerHTML='';
-  RATIO_PRESETS.filter(r=>r.label.includes(filter)).forEach(r=>{
-    const btn=document.createElement('button');
-    btn.textContent=r.label;
-    btn.className='w-full text-left p-2 rounded border mb-1';
-    btn.onclick=()=>{ selectedRatio=r; setFrameSize(); };
-    ratioList.appendChild(btn);
-  });
-}
-ratioSearch.addEventListener('input',()=>{renderRatioList(ratioSearch.value)});
-renderRatioList();
+  // helper: unique id
+  const uid = ()=> Math.random().toString(36).slice(2,9);
 
-// SET FRAME SIZE
-function setFrameSize(){
-  const w=parseInt(customWidth.value);
-  const h=Math.round(w/selectedRatio.ratio);
-  frameContainer.style.width=w+'px';
-  frameContainer.style.height=h+'px';
-  customHeight.value=h;
-  if(imgEl) fitOrCrop();
-}
-customWidth.addEventListener('change',setFrameSize);
-
-// FILE INPUT
-fileInput.addEventListener('change',e=>{
-  const file=e.target.files[0];
-  if(!file) return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    if(imgEl) frameContainer.removeChild(imgEl);
-    imgEl=document.createElement('img');
-    imgEl.src=ev.target.result;
-    imgEl.style.transform='translate(0px,0px) scale(1)';
-    frameContainer.appendChild(imgEl);
-    imgX=0; imgY=0; imgScale=1;
-    setFrameSize();
+  // render ratio buttons
+  function renderRatios(){
+    ratiosContainer.innerHTML = '';
+    RATIOS.forEach(r=>{
+      const btn = document.createElement('button');
+      btn.className = 'ratio-btn' + (r.id === selectedRatio.id ? ' active':'' );
+      btn.textContent = r.label;
+      btn.dataset.rid = r.id;
+      btn.onclick = ()=> {
+        selectedRatio = r;
+        document.querySelectorAll('.ratio-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedRatioLabel.textContent = selectedRatio.label;
+        updateOutInfo();
+      };
+      btn.ondblclick = ()=> { // autofill recommended dims
+        if(r.id === '5:7'){
+          outW.value = 480; outH.value = 672;
+        } else if(r.ratio >= 1){
+          outW.value = 1600;
+          outH.value = Math.round(1600 / r.ratio);
+        } else {
+          outH.value = 1600;
+          outW.value = Math.round(1600 * r.ratio);
+        }
+        updateOutInfo();
+      };
+      ratiosContainer.appendChild(btn);
+    });
+    selectedRatioLabel.textContent = selectedRatio.label;
   }
-  reader.readAsDataURL(file);
-});
+  renderRatios();
 
-// MODE BUTTONS
-document.getElementById('cropMode').onclick=()=>{mode='crop'; setModeButtons(); fitOrCrop();}
-document.getElementById('fitMode').onclick=()=>{mode='fit'; setModeButtons(); fitOrCrop();}
-document.getElementById('adjustMode').onclick=()=>{mode='adjust'; setModeButtons();};
+  // drag & drop / file input handling
+  upload.addEventListener('click', ()=> fileInput.click());
+  upload.addEventListener('keydown', (e)=> { if(e.key==='Enter' || e.key===' ') fileInput.click(); });
 
-function setModeButtons(){
-  document.getElementById('cropMode').className='px-3 py-2 rounded '+(mode==='crop'?'bg-sky-500 text-white':'bg-slate-100');
-  document.getElementById('fitMode').className='px-3 py-2 rounded '+(mode==='fit'?'bg-sky-500 text-white':'bg-slate-100');
-  document.getElementById('adjustMode').className='px-3 py-2 rounded '+(mode==='adjust'?'bg-sky-500 text-white':'bg-slate-100');
-}
+  ['dragenter','dragover'].forEach(ev=> upload.addEventListener(ev, e=>{ e.preventDefault(); upload.style.borderColor = 'rgba(94,234,212,0.25)'; }));
+  ['dragleave','drop'].forEach(ev=> upload.addEventListener(ev, e=>{ e.preventDefault(); upload.style.borderColor=''; }));
+  upload.addEventListener('drop', (e)=>{
+    const f = e.dataTransfer.files;
+    if(f && f.length) handleFiles(f);
+  });
 
-function fitOrCrop(){
-  if(!imgEl) return;
-  const w=frameContainer.clientWidth, h=frameContainer.clientHeight;
-  const rImg=imgEl.naturalWidth/imgEl.naturalHeight, rFrame=w/h;
-  if(mode==='fit'){ if(rImg>rFrame){ imgEl.style.width=w+'px'; imgEl.style.height='auto'; } else { imgEl.style.height=h+'px'; imgEl.style.width='auto'; } }
-  else { imgEl.style.width=w+'px'; imgEl.style.height='auto'; if(imgEl.clientHeight<h) imgEl.style.height=h+'px'; imgEl.style.width='auto'; }
-  imgEl.style.transform='translate(0px,0px) scale(1)';
-  imgX=0; imgY=0; imgScale=1;
-}
+  fileInput.addEventListener('change', (e)=> {
+    if(e.target.files && e.target.files.length) handleFiles(e.target.files);
+  });
 
-// ADJUST MODE
-frameContainer.addEventListener('mousedown', e=>{ if(mode!=='adjust') return; dragging=true; startX=e.clientX-imgX; startY=e.clientY-imgY;});
-window.addEventListener('mouseup', e=>{dragging=false;});
-window.addEventListener('mousemove', e=>{ if(mode!=='adjust'||!dragging) return; imgX=e.clientX-startX; imgY=e.clientY-startY; imgEl.style.transform=`translate(${imgX}px,${imgY}px) scale(${imgScale})`;});
-frameContainer.addEventListener('wheel', e=>{ if(mode!=='adjust') return; e.preventDefault(); imgScale += e.deltaY*-0.001; if(imgScale<0.1) imgScale=0.1; imgEl.style.transform=`translate(${imgX}px,${imgY}px) scale(${imgScale})`;});
+  function handleFiles(fileList){
+    const list = Array.from(fileList);
+    list.forEach(file=>{
+      if(!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = (ev)=>{
+        // get ArrayBuffer for EXIF orientation
+        const dataURL = ev.target.result;
+        // create image and apply EXIF orientation
+        const img = new Image();
+        img.onload = ()=>{
+          // use EXIF to get orientation, then create a properly rotated canvas image
+          EXIF.getData(file, function(){
+            const orientation = EXIF.getTag(this, 'Orientation') || 1;
+            const orientedSrc = orientImageCanvas(img, orientation);
+            images.push({ id: uid(), file, src: orientedSrc, name: file.name });
+            renderThumbs();
+            if(currentIndex === -1) setCurrent(0);
+          });
+        };
+        img.onerror = ()=> { alert('Could not load image: ' + file.name); };
+        img.src = dataURL;
+      };
+      // For EXIF.getData to work on File, we still read as DataURL but EXIF reads file directly.
+      reader.readAsDataURL(file);
+    });
+  }
 
-// TOUCH SUPPORT
-frameContainer.addEventListener('touchstart', e=>{
-  if(mode!=='adjust'||!imgEl) return;
-  if(e.touches.length===1){ dragging=true; startX=e.touches[0].clientX-imgX; startY=e.touches[0].clientY-imgY; }
-  else if(e.touches.length===2){ dragging=false; const dx=e.touches[0].clientX-e.touches[1].clientX, dy=e.touches[0].clientY-e.touches[1].clientY; lastDist=Math.hypot(dx,dy);}
-});
-frameContainer.addEventListener('touchmove', e=>{
-  if(mode!=='adjust'||!imgEl) return; e.preventDefault();
-  if(e.touches.length===1 && dragging){ imgX=e.touches[0].clientX-startX; imgY=e.touches[0].clientY-startY; }
-  else if(e.touches.length===2){ const dx=e.touches[0].clientX-e.touches[1].clientX, dy=e.touches[0].clientY-e.touches[1].clientY; const dist=Math.hypot(dx,dy); let delta=dist/lastDist; imgScale*=delta; if(imgScale<0.1) imgScale=0.1; lastDist=dist;}
-  imgEl.style.transform=`translate(${imgX}px,${imgY}px) scale(${imgScale})`;
-});
-window.addEventListener('touchend', e=>{dragging=false;});
+  // orientation helper: returns dataURL of oriented image
+  function orientImageCanvas(image, orientation){
+    // orientation values from EXIF standard
+    const w = image.width, h = image.height;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
 
-// DOWNLOAD
-document.getElementById('downloadBtn').onclick=()=>{
-  if(!imgEl) return;
-  const w=parseInt(customWidth.value), h=parseInt(customHeight.value);
-  const canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
-  const ctx=canvas.getContext('2d');
-  const scaleX=imgEl.naturalWidth/imgEl.width, scaleY=imgEl.naturalHeight/imgEl.height;
-  const dx=-imgX*scaleX, dy=-imgY*scaleY;
-  ctx.drawImage(imgEl, dx, dy, imgEl.naturalWidth*imgScale, imgEl.naturalHeight*imgScale);
-  const a=document.createElement('a'); a.href=canvas.toDataURL('image/jpeg',0.92); a.download=`multiimagex-${selectedRatio.id}.jpg`; a.click();
-}
-</script>
+    if([5,6,7,8].includes(orientation)){
+      canvas.width = h; canvas.height = w;
+    } else {
+      canvas.width = w; canvas.height = h;
+    }
+
+    // transform context according to orientation
+    switch(orientation){
+      case 2: ctx.translate(w,0); ctx.scale(-1,1); break; // horizontal flip
+      case 3: ctx.translate(w,h); ctx.rotate(Math.PI); break; // 180
+      case 4: ctx.translate(0,h); ctx.scale(1,-1); break; // vertical flip
+      case 5: ctx.rotate(0.5*Math.PI); ctx.scale(1,-1); break; // rotate 90 + vflip
+      case 6: ctx.rotate(0.5*Math.PI); ctx.translate(0,-h); break; // rotate 90
+      case 7: ctx.rotate(0.5*Math.PI); ctx.translate(w,-h); ctx.scale(-1,1); break; // rotate 90 + hflip
+      case 8: ctx.rotate(-0.5*Math.PI); ctx.translate(-w,0); break; // rotate -90
+      default: break;
+    }
+
+    ctx.drawImage(image, 0, 0);
+    return canvas.toDataURL('image/png');
+  }
+
+  // render thumbnails
+  function renderThumbs(){
+    thumbs.innerHTML = '';
+    images.forEach((it, idx)=>{
+      const d = document.createElement('div');
+      d.className = 'thumb';
+      d.title = it.name;
+      d.dataset.index = idx;
+      const im = document.createElement('img');
+      im.src = it.src;
+      d.appendChild(im);
+      d.onclick = ()=> setCurrent(idx);
+      thumbs.appendChild(d);
+    });
+  }
+
+  // set current image by index
+  function setCurrent(idx){
+    if(idx < 0 || idx >= images.length) return;
+    currentIndex = idx;
+    const item = images[idx];
+    currentImage.style.display = 'none';
+    // destroy previous cropper
+    if(cropper){ cropper.destroy(); cropper = null; }
+    // create an img element for cropper with oriented src
+    const imgEl = document.createElement('img');
+    imgEl.id = 'activeImg';
+    imgEl.style.maxWidth = '100%';
+    imgEl.style.display = 'block';
+    imgEl.src = item.src;
+    canvasContainer.innerHTML = '';
+    canvasContainer.appendChild(imgEl);
+
+    imgEl.onload = ()=>{
+      cropper = new Cropper(imgEl, {
+        viewMode: 1,
+        background: false,
+        autoCropArea: 1,
+        responsive: true,
+        movable: true,
+        zoomable: true,
+        rotatable: false, // we'll handle rotation via transform
+        scalable: false,
+        dragMode: 'move',
+        ready(){
+          // reset transforms state
+          rotation = 0; flipH = false; flipV = false;
+          applyTransformsToCropper();
+          updateOutInfo();
+          renderQueueUI();
+        }
+      });
+    };
+  }
+
+  // apply CSS transform to underlying image for flip/rotate within cropper
+  function applyTransformsToCropper(){
+    if(!cropper) return;
+    const imgEl = cropper.image;
+    if(!imgEl) return;
+    imgEl.style.transform = `rotate(${rotation}deg) scale(${flipH?-1:1},${flipV?-1:1})`;
+    cropper.reset(); // necessary to recalc (reset keeps crop box)
+    // re-apply autoCropArea to ensure it respects new transforms
+    cropper.setCropBoxData(cropper.getCropBoxData());
+  }
+
+  // rotation / flip handlers
+  rotateLeftBtn.addEventListener('click', ()=> { rotation = (rotation - 90) % 360; applyTransformsToCropper(); });
+  rotateRightBtn.addEventListener('click', ()=> { rotation = (rotation + 90) % 360; applyTransformsToCropper(); });
+  flipHBtn.addEventListener('click', ()=> { flipH = !flipH; applyTransformsToCropper(); });
+  flipVBtn.addEventListener('click', ()=> { flipV = !flipV; applyTransformsToCropper(); });
+
+  // compute output dimensions from inputs + ratio
+  function computeOutput(){
+    let w = parseInt(outW.value) || null;
+    let h = parseInt(outH.value) || null;
+    const ratio = selectedRatio.ratio;
+    if(w && !h) h = Math.round(w / ratio);
+    else if(!w && h) w = Math.round(h * ratio);
+    else if(!w && !h){
+      if(ratio >= 1){ w = 1600; h = Math.round(w / ratio);}
+      else{ h = 1600; w = Math.round(h * ratio);}
+    }
+    w = Math.max(1, Math.round(w)); h = Math.max(1, Math.round(h));
+    return { w, h };
+  }
+
+  function updateOutInfo(){
+    const {w,h} = computeOutput();
+    selectedRatioLabel.textContent = selectedRatio.label;
+    outInfo.textContent = `${w}×${h}`;
+  }
+  outW.addEventListener('input', updateOutInfo);
+  outH.addEventListener('input', updateOutInfo);
+
+  // preview export: generate blob for current crop at requested dims
+  async function exportCurrent(){
+    if(!cropper || currentIndex < 0) { alert('No image selected'); return null; }
+    const {w:outWidth, h:outHeight} = computeOutput();
+    // get cropped canvas (Cropper provides getCroppedCanvas with options)
+    const getOptions = {
+      width: outWidth,
+      height: outHeight,
+      imageSmoothingEnabled: true,
+      imageSmoothingQuality: 'high'
+    };
+    // Because we applied CSS transform for rotation/flip, Cropper's getCroppedCanvas won't include transforms.
+    // Workaround: create an offscreen canvas, draw the transformed image manually based on crop box data.
+    const data = cropper.getData(true); // relative to displayed image
+    const imgEl = cropper.image;
+    // natural sizes and transform matrix:
+    const naturalW = imgEl.naturalWidth, naturalH = imgEl.naturalHeight;
+    const displayedW = imgEl.width, displayedH = imgEl.height;
+
+    // scaling factor from displayed to natural
+    const scaleX = naturalW / displayedW;
+    const scaleY = naturalH / displayedH;
+
+    // get crop box in natural pixel coords
+    const sx = Math.round(data.x * scaleX);
+    const sy = Math.round(data.y * scaleY);
+    const sw = Math.round(data.width * scaleX);
+    const sh = Math.round(data.height * scaleY);
+
+    // create an image object from original oriented src to draw with rotation and flips
+    const baseImg = new Image();
+    baseImg.src = images[currentIndex].src;
+    await new Promise((res, rej)=> { baseImg.onload = res; baseImg.onerror = rej; });
+
+    // draw trimmed region with rotation/flip into offscreen canvas at desired output size
+    const off = document.createElement('canvas');
+    off.width = outWidth; off.height = outHeight;
+    const ctx = off.getContext('2d');
+
+    // Create an intermediate canvas containing the cropped source region at natural pixel size,
+    // then apply rotation/flip while drawing to destination.
+    const temp = document.createElement('canvas');
+    temp.width = sw; temp.height = sh;
+    const tctx = temp.getContext('2d');
+
+    // draw the cropped area from baseImg
+    // Note: baseImg is oriented (we corrected EXIF earlier)
+    tctx.drawImage(baseImg, sx, sy, sw, sh, 0, 0, sw, sh);
+
+    // Now draw temp onto off with transform
+    ctx.save();
+    // translate to center
+    ctx.translate(off.width / 2, off.height / 2);
+    // apply rotation
+    ctx.rotate(rotation * Math.PI / 180);
+    // apply flips
+    ctx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
+    // draw image centered
+    // we need to fit temp into destination while preserving orientation (we already have target dims)
+    ctx.drawImage(temp, -off.width/2, -off.height/2, off.width, off.height);
+    ctx.restore();
+
+    // optional grid overlay for preview
+    if(showGrid.checked){
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.lineWidth = 1;
+      for(let i=1;i<3;i++){
+        ctx.beginPath(); ctx.moveTo(off.width*i/3,0); ctx.lineTo(off.width*i/3, off.height); ctx.stroke();
+      }
+      for(let j=1;j<3;j++){
+        ctx.beginPath(); ctx.moveTo(0, off.height*j/3); ctx.lineTo(off.width, off.height*j/3); ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // return blob
+    const mime = formatSelect.value || 'image/jpeg';
+    const quality = parseFloat(qualitySelect.value) || 0.92;
+    return new Promise((resolve, reject)=>{
+      off.toBlob((blob)=>{
+        if(!blob) return reject(new Error('Export failed'));
+        resolve({ blob, width: outWidth, height: outHeight, mime });
+      }, mime, quality);
+    });
+  }
+
+  // previewExport shows result in a new window tab as data URL (for quick check)
+  previewExportBtn.addEventListener('click', async ()=>{
+    try{
+      const res = await exportCurrent();
+      const url = URL.createObjectURL(res.blob);
+      const w = window.open();
+      if(w){
+        w.document.write('<title>Preview Export</title><img src="'+url+'" style="max-width:100%"/>');
+      } else {
+        // fallback: open blob URL directly
+        window.location = url;
+      }
+    } catch(e){ console.error(e); alert('Preview failed'); }
+  });
+
+  // download current
+  downloadCurrentBtn.addEventListener('click', async ()=>{
+    try{
+      const res = await exportCurrent();
+      const ext = res.mime.split('/')[1].split(';')[0];
+      const name = (images[currentIndex] && images[currentIndex].name) ? images[currentIndex].name.replace(/\.[^/.]+$/, '') : 'image';
+      saveAs(res.blob, `multiimagex-${selectedRatio.label}-${res.width}x${res.height}-${name}.${ext}`);
+    } catch(e){ console.error(e); alert('Download failed'); }
+  });
+
+  // queue management
+  addToQueueBtn.addEventListener('click', ()=>{
+    if(currentIndex < 0) return alert('Select an image first');
+    if(queue.includes(currentIndex)) return alert('Already in queue');
+    queue.push(currentIndex);
+    renderQueueUI();
+  });
+
+  function renderQueueUI(){
+    if(queue.length === 0){ queueList.innerHTML = 'No items'; return; }
+    queueList.innerHTML = '';
+    queue.forEach((idx, i)=>{
+      const it = images[idx];
+      const row = document.createElement('div');
+      row.style.display='flex'; row.style.justifyContent='space-between'; row.style.alignItems='center'; row.style.padding='6px 0';
+      row.innerHTML = `<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%">${i+1}. ${it.name}</div>`;
+      const rm = document.createElement('button'); rm.textContent='Remove';
+      rm.onclick = ()=> { queue = queue.filter(x=>x!==idx); renderQueueUI(); };
+      row.appendChild(rm);
+      queueList.appendChild(row);
+    });
+  }
+
+  // batch convert queue -> files array of blobs
+  batchConvertBtn.addEventListener('click', async ()=>{
+    if(queue.length === 0) return alert('Queue is empty. Add items first.');
+    const files = [];
+    // process sequentially to avoid memory spikes
+    for(let i=0;i<queue.length;i++){
+      const idx = queue[i];
+      setCurrent(idx); // switch cropper to the image so user-controlled crop applies
+      // optionally wait a short while to ensure cropper ready
+      await new Promise(r=>setTimeout(r, 120));
+      try{
+        const res = await exportCurrent();
+        const ext = res.mime.split('/')[1].split(';')[0];
+        const name = (images[idx].name) ? images[idx].name.replace(/\.[^/.]+$/, '') : `image${i+1}`;
+        files.push({ blob: res.blob, name: `${name}-${selectedRatio.label}-${res.width}x${res.height}.${ext}` });
+      } catch(e){
+        console.error('Failed converting', images[idx], e);
+      }
+    }
+    if(files.length === 0) return alert('No files converted.');
+    // create a ZIP automatically
+    const zip = new JSZip();
+    files.forEach(f=> zip.file(f.name, f.blob));
+    const content = await zip.generateAsync({ type:'blob' });
+    saveAs(content, `multiimagex-batch-${selectedRatio.label}.zip`);
+  });
+
+  // download all (in queue or all images) as ZIP after exporting current settings for each image
+  downloadAllZipBtn.addEventListener('click', async ()=>{
+    // default: if queue not empty use queue, else all images
+    const indices = (queue.length>0) ? queue.slice() : images.map((_,i)=>i);
+    if(indices.length === 0) return alert('No images loaded.');
+    const zip = new JSZip();
+    for(let i=0;i<indices.length;i++){
+      const idx = indices[i];
+      setCurrent(idx);
+      await new Promise(r=>setTimeout(r, 120));
+      try{
+        const res = await exportCurrent();
+        const ext = res.mime.split('/')[1].split(';')[0];
+        const name = (images[idx].name) ? images[idx].name.replace(/\.[^/.]+$/, '') : `image${i+1}`;
+        zip.file(`${name}-${selectedRatio.label}-${res.width}x${res.height}.${ext}`, res.blob);
+      } catch(e){ console.error(e); }
+    }
+    const content = await zip.generateAsync({ type:'blob' });
+    saveAs(content, `multiimagex-export-${selectedRatio.label}.zip`);
+  });
+
+  // initial small UI states
+  updateOutInfo();
+
+  // keyboard accessibility for upload (Enter to open)
+  upload.addEventListener('keydown', (e)=> { if(e.key==='Enter') fileInput.click(); });
+
+  // small usability: if no cropper but images exist, set first
+  document.addEventListener('DOMContentLoaded', ()=> {
+    if(images.length && currentIndex===-1) setCurrent(0);
+  });
+
+  // prevent large memory blowups: simple guard (not comprehensive)
+  function warnLargeDimensions(w,h){
+    if(w*h > 8000*8000) {
+      if(!confirm('Requested export is very large and may fail in browser. Continue?')) throw new Error('User aborted large export');
+    }
+  }
+
+  // update preview on ratio change or contain toggle
+  containCheckbox.addEventListener('change', ()=> { if(cropper) { cropper.setDragMode(containCheckbox.checked ? 'none' : 'move'); } updateOutInfo(); });
+  showGrid.addEventListener('change', ()=> { /* grid applied on export only */ });
+
+  // expose a helpful message if user hasn't allowed popups for preview
+  window.addEventListener('unhandledrejection', (ev)=> {
+    console.error('Unhandled promise rejection', ev);
+  });
+  </script>
 </body>
 </html>
