@@ -1,210 +1,125 @@
-<!--
-File: /tools/youtube-tags-extractor/index.html
-Purpose: Advanced YouTube Tags Extractor (final)
-Features included:
- - Preferred: Use YouTube Data API v3 (client may supply API key) to reliably get tags
- - Recommended: For production, use server-side proxy (/api/yt-tags) that keeps API key secret or scrapes YouTube page (ytInitialPlayerResponse tags) when API not available
- - Fallback: Try noembed / OpenGraph metadata (may not include tags) and server proxy scrape
- - CSV export, Copy-to-clipboard, suggested keywords, SEO tips
- - Strong SEO meta including brand keywords: multiimagex, multiimagex.online, multi, imagex, photo
- - JSON-LD structured data
- - Example server.js (Node.js + express) included for proxy scraping and optional API proxy
-
-Save as:
-/tools/youtube-tags-extractor/index.html
-/tools/youtube-tags-extractor/server.js  (example)
-
-Legal: Scraping YouTube HTML is fragile and may be blocked; prefer official YouTube Data API. Use server-side proxy to keep API key safe and to avoid CORS.
--->
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>YouTube Tags Extractor — Extract Tags, Title & Description | MultiImageX</title>
-<meta name="description" content="MultiImageX YouTube Tags Extractor — get title, description and full tags list for any public YouTube video. Use YouTube Data API key or our server proxy for reliable extraction. Export CSV, copy tags, and get SEO suggestions." />
-<meta name="keywords" content="youtube tags extractor, extract youtube tags, youtube seo, multiimagex, multiimagex.online, youtube tag finder, video tags extractor" />
-<link rel="canonical" href="https://www.multiimagex.online/tools/youtube-tags-extractor/" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Tag Generator Tool | Multiimagex.online</title>
 
-<!-- Open Graph -->
-<meta property="og:title" content="YouTube Tags Extractor — MultiImageX" />
-<meta property="og:description" content="Extract tags, title and description from any YouTube video. CSV export, copy tags and SEO suggestions — by MultiImageX." />
-<meta property="og:url" content="https://www.multiimagex.online/tools/youtube-tags-extractor/" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="https://www.multiimagex.online/assets/yt-tags-preview.png" />
-<meta name="twitter:card" content="summary_large_image" />
+<!-- SEO Meta Tags -->
+<meta name="title" content="YouTube Tag Generator Tool | Multiimagex.online">
+<meta name="description" content="Generate trending and SEO-optimized YouTube tags instantly with Multiimagex.online's free YouTube Tag Generator. Boost your video ranking!">
+<meta name="keywords" content="YouTube tag generator, free YouTube tags, video SEO, YouTube SEO tool, Multiimagex, YouTube keywords, best tags for YouTube, YouTube tag creator, trending tags, video marketing">
 
-<!-- JSON-LD -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "YouTube Tags Extractor",
-  "url": "https://www.multiimagex.online/tools/youtube-tags-extractor/",
-  "description": "Extract tags, title and description from any public YouTube video. Export CSV and get SEO suggestions.",
-  "applicationCategory": "MultimediaApplication",
-  "keywords": ["youtube tags","tag extractor","multiimagex","youtube seo"]
-}
-</script>
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://multiimagex.online/">
+<meta property="og:title" content="YouTube Tag Generator Tool | Multiimagex.online">
+<meta property="og:description" content="Generate trending and SEO-optimized YouTube tags instantly with Multiimagex.online's free YouTube Tag Generator. Boost your video ranking!">
+<meta property="og:image" content="https://multiimagex.online/og-image.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://multiimagex.online/">
+<meta property="twitter:title" content="YouTube Tag Generator Tool | Multiimagex.online">
+<meta property="twitter:description" content="Generate trending and SEO-optimized YouTube tags instantly with Multiimagex.online's free YouTube Tag Generator. Boost your video ranking!">
+<meta property="twitter:image" content="https://multiimagex.online/og-image.png">
+
+<!-- Favicon -->
+<link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <style>
-  :root{--brand:#2563eb;--muted:#6b7280}
-  *{box-sizing:border-box}
-  body{font-family:Inter,system-ui,Arial,sans-serif;background:#f7fafc;margin:0;color:#0b1220}
-  header{background:linear-gradient(90deg,var(--brand),#7c5cff);color:#fff;padding:18px;text-align:center}
-  main{max-width:980px;margin:18px auto;padding:18px}
-  .card{background:#fff;padding:16px;border-radius:12px;box-shadow:0 10px 30px rgba(12,18,30,0.06)}
-  input,button,textarea,select{padding:10px;border-radius:8px;border:1px solid #e6eef8}
-  .row{display:flex;gap:8px;align-items:center}
-  pre{background:#f8fafc;padding:12px;border-radius:8px;white-space:pre-wrap}
-  .muted{color:var(--muted);font-size:13px}
-  .actions{display:flex;gap:8px;margin-top:12px}
+body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; color:#333; }
+header { background:#ff0000; color:#fff; padding:20px 10px; text-align:center; }
+h1 { margin:0; font-size:2rem; }
+main { padding:20px; max-width:800px; margin:auto; }
+input, button { padding:10px; margin:10px 0; width:100%; font-size:1rem; }
+button { background:#ff0000; color:#fff; border:none; cursor:pointer; }
+button:hover { background:#cc0000; }
+.tags { margin-top:20px; }
+.tag { display:inline-block; background:#e2e2e2; padding:5px 10px; margin:5px; border-radius:5px; font-size:0.9rem; }
+#copyButton { background:#28a745; margin-top:10px; }
+#copyButton:hover { background:#1e7e34; }
+footer { text-align:center; padding:20px; background:#222; color:#fff; margin-top:40px; }
+@media(max-width:600px){h1{font-size:1.5rem;}}
 </style>
 </head>
 <body>
+
 <header>
-  <h1>YouTube Tags Extractor</h1>
-  <div style="opacity:.95;margin-top:6px">Extract title, description and complete tag list from any public YouTube video. Use API key (recommended) or our server proxy.</div>
+<h1>YouTube Tag Generator Tool</h1>
+<p>Boost your YouTube SEO with Multiimagex.online</p>
 </header>
 
 <main>
-  <div class="card">
-    <label for="videoUrl">YouTube URL or Video ID</label>
-    <input id="videoUrl" placeholder="https://www.youtube.com/watch?v=VIDEO_ID or VIDEO_ID" style="width:100%">
-
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <input id="apiKey" placeholder="(Optional) YouTube Data API Key — recommended for full tags" style="flex:1">
-      <select id="mode"><option value="api">Use API (client key)</option><option value="proxy">Use Server Proxy (recommended for production)</option><option value="noembed">Quick fallback (noembed)</option></select>
-      <button id="fetchBtn">Extract Tags</button>
-    </div>
-
-    <div class="muted" style="margin-top:8px">Tip: For reliable full tag extraction use YouTube Data API v3 (server-side proxy keeps key secret). If you don't have an API key use the proxy or noembed fallback.</div>
-
-    <div id="resultArea" style="margin-top:14px"></div>
-
-    <div class="actions">
-      <button id="copyBtn" disabled>Copy Tags</button>
-      <button id="csvBtn" disabled>Export CSV</button>
-      <button id="seoBtn" disabled>SEO Suggestions</button>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:14px">
-    <h3>How this works (engineer's note)</h3>
-    <ol>
-      <li><strong>Preferred:</strong> YouTube Data API v3 — reliable, returns full `snippet.tags` array.</li>
-      <li><strong>Proxy:</strong> Server fetches video page and parses `ytInitialPlayerResponse` JSON which often contains `videoDetails.keywords`/`microformat` fields.</li>
-      <li><strong>Fallback:</strong> noembed or OG meta parsing — may not include all tags.</li>
-    </ol>
-    <p class="muted">For production use a server-side proxy (see <code>/tools/youtube-tags-extractor/server.js</code>) to keep the API key private and avoid CORS issues.</p>
-  </div>
+<input type="text" id="keyword" placeholder="Enter video title or keyword">
+<button onclick="generateTags()">Generate Tags</button>
+<div class="tags" id="tagsOutput"></div>
+<button id="copyButton" onclick="copyTags()">Copy Tags</button>
 </main>
 
+<footer>
+<p>&copy; 2025 Multiimagex.online | Free YouTube Tools & SEO Optimizer</p>
+</footer>
+
 <script>
-function getVideoId(input){ if(!input) return null; const v = input.trim(); if(/^[a-zA-Z0-9_-]{11}$/.test(v)) return v; try{ const u=new URL(v); if(u.hostname.includes('youtu.be')) return u.pathname.slice(1); if(u.searchParams.get('v')) return u.searchParams.get('v'); }catch(e){} const m=v.match(/[?&]v=([a-zA-Z0-9_-]{11})|youtu\.be\/([a-zA-Z0-9_-]{11})/); return m? (m[1]||m[2]) : null; }
+// Generate tags
+async function generateTags() {
+    const keyword = document.getElementById("keyword").value.trim();
+    if(!keyword) return alert("Please enter a keyword or video title");
 
-async function fetchUsingAPI(vid,key){ const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${vid}&key=${encodeURIComponent(key)}`; const r = await fetch(endpoint); if(!r.ok) throw new Error('YouTube API error: '+r.status); const j = await r.json(); if(!j.items || !j.items.length) throw new Error('No video found'); const snip = j.items[0].snippet; return {title:snip.title, description:snip.description, tags: snip.tags || []}; }
+    const words = keyword.split(" ");
+    let tags = [];
 
-async function fetchUsingProxy(vid){ // calls your server proxy: /api/yt-tags?videoId=VID
-  const r = await fetch(`/api/yt-tags?videoId=${encodeURIComponent(vid)}`); if(!r.ok) throw new Error('Proxy error: '+r.status); const j = await r.json(); if(!j.ok) throw new Error(j.error || 'Proxy failed'); return j.data; }
+    // Basic lowercase words
+    words.forEach(word => {
+        if(word.length>2) tags.push(word.toLowerCase());
+    });
 
-async function fetchUsingNoembed(vid){ const url = 'https://noembed.com/embed?url=' + encodeURIComponent('https://www.youtube.com/watch?v='+vid); const r = await fetch(url); if(!r.ok) throw new Error('noembed failed'); const j = await r.json(); return { title: j.title || '', description: j.html || '', tags: [] }; }
+    // Add variations
+    words.forEach(word => {
+        if(word.length>2){
+            tags.push(word.toLowerCase()+" tutorial");
+            tags.push(word.toLowerCase()+" guide");
+            tags.push(word.toLowerCase()+" tips");
+            tags.push(word.toLowerCase()+" tricks");
+            tags.push(word.toLowerCase()+" hack");
+        }
+    });
 
-function renderResult(data){ const area = document.getElementById('resultArea'); area.innerHTML='';
-  const h = document.createElement('h2'); h.textContent = data.title || 'No title'; area.appendChild(h);
-  const p = document.createElement('pre'); p.textContent = data.description || ''; area.appendChild(p);
-  const tagBox = document.createElement('div'); tagBox.style.marginTop='10px';
-  if(data.tags && data.tags.length){ const ul = document.createElement('ul'); data.tags.forEach(t=>{ const li = document.createElement('li'); li.textContent = t; ul.appendChild(li); }); tagBox.appendChild(ul); } else { tagBox.textContent = 'No tags found.'; }
-  area.appendChild(tagBox);
-  // enable actions
-  document.getElementById('copyBtn').disabled = !(data.tags && data.tags.length);
-  document.getElementById('csvBtn').disabled = !(data.tags && data.tags.length);
-  document.getElementById('seoBtn').disabled = false;
-  // store current data
-  window.__mixtags = data;
-}
+    // Popular SEO tags
+    const popularTags = ["youtube seo","video marketing","youtube growth","youtube tag generator","multiimagex","free youtube tools","best youtube tags","trending tags","youtube optimization"];
+    tags = [...new Set([...tags, ...popularTags])];
 
-function downloadCSV(data){ const rows = [['title', 'description', 'tags']]; rows.push([data.title || '', (data.description||'').replace(/\n/g,' '), (data.tags||[]).join('|')]); const csv = rows.map(r=> r.map(c=> '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n'); const blob = new Blob([csv],{type:'text/csv'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'yt-tags-'+Date.now()+'.csv'; a.click(); URL.revokeObjectURL(url);
-}
-
-function suggestSEO(data){ const title = data.title || ''; const tags = data.tags || []; const suggestions = [];
-  // simple heuristics: include brand and long-tail
-  suggestions.push('Include brand: multiimagex, multiimagex.online');
-  if(title) suggestions.push('Add long-tail keywords: "'+title+' tutorial", "how to '+title+'"');
-  if(tags.length<5) suggestions.push('Add 5-10 relevant tags including long-tail and synonyms');
-  alert('SEO Suggestions:\n- '+suggestions.join('\n- '));
-}
-
-document.getElementById('fetchBtn').addEventListener('click', async ()=>{
-  const url = document.getElementById('videoUrl').value.trim(); const mode = document.getElementById('mode').value; const key = document.getElementById('apiKey').value.trim();
-  const vid = getVideoId(url);
-  const area = document.getElementById('resultArea'); area.innerHTML = '<div class="muted">Loading...</div>'; window.__mixtags = null;
-  if(!vid){ area.innerHTML = '<div style="color:#b91c1c">Invalid URL or Video ID</div>'; return; }
-
-  try{
-    if(mode==='api'){
-      if(!key){ area.innerHTML = '<div style="color:#b91c1c">API key required for API mode</div>'; return; }
-      const data = await fetchUsingAPI(vid,key); renderResult(data);
-    } else if(mode==='proxy'){
-      const data = await fetchUsingProxy(vid); renderResult(data);
-    } else {
-      const data = await fetchUsingNoembed(vid); renderResult(data);
+    // Fetch related words from Datamuse API for advanced tags
+    try{
+        const response = await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(keyword)}&max=10`);
+        const data = await response.json();
+        data.forEach(item => {
+            if(item.word.length>2) tags.push(item.word.toLowerCase());
+        });
+        tags = [...new Set(tags)];
+    } catch(err){
+        console.log("Datamuse API error, using default tags.");
     }
-  } catch(err){ area.innerHTML = '<div style="color:#b91c1c">Error: '+err.message+'</div>'; console.error(err); }
-});
 
-// actions
-document.getElementById('copyBtn').addEventListener('click', ()=>{ const data = window.__mixtags || {}; if(!data.tags || !data.tags.length) return alert('No tags to copy'); navigator.clipboard.writeText(data.tags.join(', ')); alert('Tags copied'); });
-document.getElementById('csvBtn').addEventListener('click', ()=>{ const data = window.__mixtags || {}; if(!data.tags || !data.tags.length) return alert('No tags to export'); downloadCSV(data); });
-document.getElementById('seoBtn').addEventListener('click', ()=>{ const data = window.__mixtags || {}; suggestSEO(data); });
+    // Show tags
+    const tagsOutput = document.getElementById("tagsOutput");
+    tagsOutput.innerHTML = tags.map(tag=>`<span class="tag">${tag}</span>`).join(" ");
+}
+
+// Copy tags to clipboard
+function copyTags(){
+    const tagsOutput = document.getElementById("tagsOutput");
+    if(tagsOutput.innerText.trim() === "") return alert("No tags to copy!");
+    const textarea = document.createElement("textarea");
+    textarea.value = tagsOutput.innerText.replace(/\n/g,", ");
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+    alert("Tags copied to clipboard!");
+}
 </script>
 
-<!-- Example server.js for proxy (Node.js + Express). Save as /tools/youtube-tags-extractor/server.js
-  - installs: npm i express node-fetch
-  - run: node server.js
-  - This proxy fetches YouTube page HTML and tries to extract ytInitialPlayerResponse JSON which often contains tags.
-  - Production: add rate-limiting, API key proxy option, caching, and origin checks. -->
-
-<!-- server.js content below (copy to server file) -->
-
-<!--
-const express = require('express');
-const fetch = require('node-fetch');
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-function extractTagsFromHtml(html){
-  // try find ytInitialPlayerResponse
-  const marker = 'ytInitialPlayerResponse = ';
-  const i = html.indexOf(marker);
-  if(i!==-1){
-    const start = i + marker.length;
-    // find the closing }; (rough) - better to match JSON by braces
-    let j = start; let depth = 0; let inString=false; while(j<html.length){ const ch = html[j]; if(ch==='"' && html[j-1] !== '\\') inString = !inString; if(!inString){ if(ch==='{') depth++; if(ch==='}') { depth--; if(depth===0) break; } } j++; }
-    const jsonText = html.substring(start, j+1);
-    try{ const obj = JSON.parse(jsonText); if(obj && obj.videoDetails){ const tags = obj.videoDetails.keywords || (obj.microformat && obj.microformat.playerMicroformatRenderer && obj.microformat.playerMicroformatRenderer.tags) || []; return {title: obj.videoDetails.title, description: obj.videoDetails.shortDescription, tags}; } }catch(e){ /* fail */ }
-  }
-  // fallback: try meta keywords
-  const metaMatch = html.match(/<meta\s+name="keywords"\s+content="([^"]+)"/i);
-  if(metaMatch) return {title:'', description:'', tags: metaMatch[1].split(',').map(s=>s.trim())};
-  return null;
-}
-
-app.get('/api/yt-tags', async (req,res)=>{
-  const videoId = req.query.videoId; if(!videoId) return res.status(400).json({ok:false,error:'videoId required'});
-  try{
-    const url = 'https://www.youtube.com/watch?v=' + encodeURIComponent(videoId);
-    const r = await fetch(url, {headers:{'User-Agent':'Mozilla/5.0 (compatible)'}});
-    const html = await r.text();
-    const data = extractTagsFromHtml(html);
-    if(!data) return res.json({ok:false,error:'tags not found'});
-    return res.json({ok:true, data});
-  }catch(err){ console.error(err); res.status(500).json({ok:false,error:err.message}); }
-});
-
-app.listen(PORT, ()=> console.log('YT tags proxy running on', PORT));
-
--->
-
+</body>
 </html>
