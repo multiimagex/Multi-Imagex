@@ -1,195 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>YouTube Tag Generator Tool | Multiimagex.online</title>
-<meta name="description" content="Generate trending, SEO-optimized, and AI-powered YouTube tags instantly with Multiimagex.online. Boost your video ranking and reach top search results!" />
-<meta name="keywords" content="YouTube tag generator, AI YouTube tags, trending YouTube tags, free YouTube tags, video SEO, YouTube SEO tool, Multiimagex, YouTube keywords, best tags for YouTube, YouTube tag creator, viral video tags, trending tags, video marketing, YouTube optimization" />
-<meta property="og:title" content="YouTube Tag Generator Tool | Multiimagex.online" />
-<meta property="og:description" content="Generate trending, SEO-optimized, and AI-powered YouTube tags instantly with Multiimagex.online." />
-<meta property="og:url" content="https://multiimagex.online" />
-<meta property="og:image" content="https://multiimagex.online/thumbnail.png" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="YouTube Tag Generator Tool | Multiimagex.online" />
-<meta name="twitter:description" content="AI-powered YouTube Tag Generator – Boost your video SEO instantly!" />
-<meta name="twitter:image" content="https://multiimagex.online/thumbnail.png" />
-
-<style>
-:root{
---bg-dark:#0f172a;--card-dark:#1e293b;--text-dark:#f1f5f9;--accent:#38bdf8;--border-dark:#334155;
---bg-light:#f8fafc;--card-light:#ffffff;--text-light:#0f172a;--border-light:#cbd5e1;
---bar-bg:#334155;--bar-fill:#0ea5e9;
-}
-body{font-family:'Inter',sans-serif;background-color:var(--bg-dark);color:var(--text-dark);margin:0;padding:0;display:flex;flex-direction:column;align-items:center;min-height:100vh;transition:0.3s;}
-body.light{background-color:var(--bg-light);color:var(--text-light);}
-header{text-align:center;padding:2rem 1rem 1rem;position:relative;}
-header h1{font-size:2rem;margin-bottom:0.4rem;color:var(--accent);}
-header p{font-size:1rem;opacity:0.8;}
-#themeToggle{position:absolute;right:1rem;top:1rem;background:none;border:2px solid var(--accent);color:var(--accent);border-radius:999px;padding:0.4rem 0.8rem;cursor:pointer;font-size:0.9rem;transition:0.3s;}
-#themeToggle:hover{background:var(--accent);color:#000;}
-main{width:90%;max-width:800px;background:var(--card-dark);border-radius:1rem;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,0.3);display:flex;flex-direction:column;gap:1rem;transition:0.3s;}
-body.light main{background:var(--card-light);box-shadow:0 4px 20px rgba(0,0,0,0.1);}
-input,select,button,textarea{width:100%;padding:0.8rem;border-radius:0.5rem;border:1px solid var(--border-dark);background:#0f172a;color:var(--text-dark);font-size:1rem;resize:none;transition:0.3s;}
-body.light input,body.light select,body.light textarea{background:var(--bg-light);border:1px solid var(--border-light);color:var(--text-light);}
-button{background:var(--accent);color:#000;border:none;cursor:pointer;transition:0.3s;font-weight:bold;}
-button:hover{background:#0ea5e9;transform:scale(1.02);}
-.tags{display:flex;flex-wrap:wrap;gap:0.6rem;position:relative;}
-.tag{background:var(--border-dark);padding:0.5rem 0.8rem;border-radius:1rem;font-size:0.9rem;cursor:default;transition:0.3s;position:relative;}
-.tag:hover{background:var(--accent);color:#000;transform:scale(1.05);}
-.tag .volume-bar{height:4px;background:var(--bar-fill);position:absolute;bottom:0;left:0;border-radius:0 0 0.5rem 0.5rem;}
-body.light .tag{background:var(--border-light);}
-body.light .tag .volume-bar{background:var(--bar-fill);}
-.suggestions{background:var(--card-dark);border:1px solid var(--border-dark);border-radius:0.5rem;position:absolute;z-index:10;max-height:200px;overflow-y:auto;width:calc(100% - 2rem);margin-top:-0.5rem;}
-body.light .suggestions{background:var(--card-light);border:1px solid var(--border-light);}
-.suggestion-item{padding:0.5rem;cursor:pointer;}
-.suggestion-item:hover{background:var(--accent);color:#000;}
-#analytics{background:var(--card-dark);padding:1rem;border-radius:0.8rem;margin-top:1rem;color:var(--text-dark);}
-body.light #analytics{background:var(--card-light);color:var(--text-light);}
-footer{text-align:center;font-size:0.85rem;opacity:0.8;padding:1.5rem;}
-@media(max-width:600px){header h1{font-size:1.6rem;}main{padding:1.5rem;}#themeToggle{top:0.8rem;right:0.8rem;font-size:0.8rem;}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Tag Generator Tool | Multiimagex.online</title>
+  <meta name="description" content="Generate trending, SEO-optimized, and AI-powered YouTube tags instantly with Multiimagex.online. Boost your video ranking and reach top search results!">
+  <meta name="keywords" content="YouTube tag generator, AI YouTube tags, trending YouTube tags, free YouTube tags, video SEO, YouTube SEO tool, Multiimagex, YouTube keywords, best tags for YouTube, YouTube tag creator, viral video tags, trending tags, video marketing, YouTube optimization">
+  <meta property="og:title" content="YouTube Tag Generator Tool | Multiimagex.online">
+  <meta property="og:description" content="AI-powered YouTube tag generator to boost your SEO and video reach. Try it free on Multiimagex.online!">
+  <meta property="og:image" content="https://multiimagex.online/assets/yt-tag-generator-preview.png">
+  <meta property="og:url" content="https://multiimagex.online/tools/youtube-tag-generator/">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #222;
+      --accent: #ff0000;
+      --box-bg: #f5f5f5;
+    }
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #eee;
+      --box-bg: #1e1e1e;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+    header {
+      text-align: center;
+      padding: 30px 20px;
+    }
+    header h1 {
+      color: var(--accent);
+      margin-bottom: 10px;
+      font-size: 2rem;
+    }
+    header p {
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+    main {
+      flex: 1;
+      width: 95%;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+    }
+    input, select {
+      width: 90%;
+      max-width: 600px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+    button {
+      padding: 12px 24px;
+      margin: 8px;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #cc0000;
+    }
+    #tags {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .tag {
+      background: var(--box-bg);
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .tag:hover {
+      transform: scale(1.08);
+      background: var(--accent);
+      color: #fff;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      border-top: 1px solid #ddd;
+    }
+    #suggestions {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    #suggestions span {
+      background: #ffeded;
+      border: 1px solid #ffb3b3;
+      border-radius: 15px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+    .toggle-dark {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 1.3rem;
+    }
+  </style>
 </head>
 <body>
-<header>
-<h1>YouTube Tag Generator Tool</h1>
-<p>Boost your YouTube SEO with Multiimagex.online</p>
-<button id="themeToggle" aria-label="Toggle dark or light mode">🌙</button>
-</header>
+  <span class="toggle-dark" id="themeToggle" title="Toggle Dark Mode">🌙</span>
+  <header>
+    <h1>YouTube Tag Generator Tool</h1>
+    <p>Boost your YouTube SEO with Multiimagex.online</p>
+  </header>
+  <main>
+    <input id="inputText" type="text" placeholder="Enter video title, description, or keywords..." aria-label="Input text">
+    <button id="generateBtn">Generate Tags</button>
+    <div id="suggestions"></div>
+    <div id="tags"></div>
+    <button id="copyBtn">Copy Tags</button>
+    <button id="exportBtn">Export Tags (.txt)</button>
+  </main>
+  <footer>© 2025 Multiimagex.online | Free YouTube Tools & SEO Optimizer</footer>
 
-<main>
-<div style="position:relative;">
-<textarea id="inputText" rows="3" placeholder="Enter your video title, description, or keywords..."></textarea>
-<div id="suggestions" class="suggestions" style="display:none;"></div>
-</div>
-<select id="tagCount">
-<option value="20">Generate 20 Tags</option>
-<option value="40">Generate 40 Tags</option>
-<option value="60" selected>Generate 60 Tags</option>
-</select>
-<button id="generateBtn">Generate Tags</button>
-<div id="tagsContainer" class="tags" aria-live="polite"></div>
-<button id="copyBtn">Copy Tags</button>
-<button id="exportBtn">Export as .txt</button>
+  <script>
+    const input = document.getElementById('inputText');
+    const generateBtn = document.getElementById('generateBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const tagsDiv = document.getElementById('tags');
+    const suggestionsDiv = document.getElementById('suggestions');
+    const themeToggle = document.getElementById('themeToggle');
 
-<div id="analytics">
-<h3>📊 Top Generated Tags Today</h3>
-<ul id="analyticsList" style="padding-left:1rem;"></ul>
-</div>
-</main>
+    const defaultTags = [
+      "youtube seo","video marketing","youtube growth","youtube tag generator","multiimagex",
+      "free youtube tools","best youtube tags","trending tags","youtube optimization",
+      "viral video tags","youtube ranking","seo youtube 2025"
+    ];
 
-<footer>© 2025 Multiimagex.online | Free YouTube Tools & SEO Optimizer</footer>
+    let currentTags = [];
+    let debounceTimer;
 
-<script>
-// Dark/Light Mode
-const toggleBtn=document.getElementById("themeToggle");
-toggleBtn.addEventListener("click",()=>{
-document.body.classList.toggle("light");
-toggleBtn.textContent=document.body.classList.contains("light")?"🌞":"🌙";
-localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");
-});
-if(localStorage.getItem("theme")==="light"){document.body.classList.add("light");toggleBtn.textContent="🌞";}
+    // 🌙 Dark mode toggle
+    themeToggle.addEventListener('click', () => {
+      const theme = document.body.getAttribute('data-theme') === 'dark' ? '' : 'dark';
+      document.body.setAttribute('data-theme', theme);
+      themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+    });
 
-// Debounce helper
-function debounce(func,wait){let timeout;return function(...args){clearTimeout(timeout);timeout=setTimeout(()=>func.apply(this,args),wait);};}
+    // 🔹 Live typing suggestion system
+    input.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const query = input.value.trim();
+        if (query.length > 2) fetchSuggestions(query);
+        else suggestionsDiv.innerHTML = "";
+      }, 500);
+    });
 
-// Fetch trending keywords
-async function fetchTrendingKeywords(query){
-try{const res=await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(query)}&max=10`);
-const data=await res.json();return data.map(item=>item.word);}catch{return[];}
-}
+    // 🔹 Fetch related words from Datamuse
+    async function fetchSuggestions(query) {
+      try {
+        const res = await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(query)}&max=10`);
+        const data = await res.json();
+        suggestionsDiv.innerHTML = data.map(w => `<span>${w.word}</span>`).join('');
+        document.querySelectorAll('#suggestions span').forEach(span => {
+          span.addEventListener('click', () => {
+            input.value += " " + span.textContent;
+          });
+        });
+      } catch {
+        suggestionsDiv.innerHTML = "";
+      }
+    }
 
-// Fetch search volume
-async function fetchSearchVolume(tags){
-const apiKey='YOUR_KEYWORDS_EVERYWHERE_API_KEY';
-const url=`https://api.keywordseverywhere.com/v1/get_keyword_data?keywords=${tags.join(',')}`;
-const headers={'Authorization':`Bearer ${apiKey}`};
-try{const res=await fetch(url,{headers});const data=await res.json();return data.data||{};}catch{return {};}
-}
+    // 🔹 Generate tags
+    generateBtn.addEventListener('click', async () => {
+      const text = input.value.toLowerCase().trim();
+      if (!text) return alert("Please enter a video title or keywords!");
+      const words = [...new Set(text.split(/\s+/))].filter(w => w.length > 2);
+      let allTags = [];
+      words.forEach(w => {
+        allTags.push(w, `${w} tutorial`, `${w} guide`, `${w} tips`, `${w} tricks`, `${w} how to`, `${w} hack`, `${w} secrets`, `${w} 2025`);
+      });
 
-// Generate base tags
-function generateBaseTags(words){
-let combos=[];
-for(let w of words){combos.push(w,`${w} tutorial`,`${w} guide`,`${w} tips`,`${w} tricks`,`${w} hacks`,`${w} 2025`,`how to ${w}`,`${w} secrets`);}
-return combos;
-}
+      try {
+        const trending = await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(words[0])}&max=10`);
+        const trendData = await trending.json();
+        allTags.push(...trendData.map(w => w.word));
+      } catch {}
 
-// Update analytics
-function updateAnalytics(tags){
-let analytics=JSON.parse(localStorage.getItem("tagAnalytics")||"{}");
-tags.forEach(t=>{analytics[t]=(analytics[t]||0)+1;});
-localStorage.setItem("tagAnalytics",JSON.stringify(analytics));
-renderAnalytics();
-}
-function renderAnalytics(){
-let analyticsList=document.getElementById("analyticsList");
-analyticsList.innerHTML="";
-let analytics=JSON.parse(localStorage.getItem("tagAnalytics")||"{}");
-let topTags=Object.entries(analytics).sort((a,b)=>b[1]-a[1]).slice(0,5);
-topTags.forEach(([tag,count])=>{
-let li=document.createElement("li");li.textContent=`${tag} (${count})`;analyticsList.appendChild(li);
-});
-}
+      allTags.push(...defaultTags);
+      currentTags = [...new Set(allTags)].slice(0, 60);
+      renderTags();
+    });
 
-// Render tags with volume
-async function renderTags(input=null){
-const userInput=input||document.getElementById("inputText").value;
-const limit=parseInt(document.getElementById("tagCount").value);
-const container=document.getElementById("tagsContainer");
-container.innerHTML="<p>Generating tags...</p>";
-const words=userInput.toLowerCase().trim().split(/\s+/).filter(w=>w.length>2);
-let tags=[...generateBaseTags(words)];
-let trending=await fetchTrendingKeywords(words[0]||userInput);
-tags=[...new Set([...tags,...trending,"trending tags","viral video tags","youtube optimization","multiimagex","best youtube tags","free youtube tools","video marketing","youtube seo 2025"])];
-tags=tags.slice(0,limit);
-let volumeData=await fetchSearchVolume(tags);
-container.innerHTML="";
-tags.forEach(t=>{
-let div=document.createElement("div");div.className="tag";div.textContent=t;
-if(volumeData[t] && volumeData[t].search_volume){
-let bar=document.createElement("div");bar.className="volume-bar";
-let width=Math.min(volumeData[t].search_volume/10000*100,100); bar.style.width=width+"%";
-div.appendChild(bar);
-}
-container.appendChild(div);
-});
-updateAnalytics(tags);
-}
+    function renderTags() {
+      tagsDiv.innerHTML = currentTags.map(tag => `<span class="tag">${tag}</span>`).join('');
+    }
 
-// Live suggestions
-const suggestionsDiv=document.getElementById("suggestions");
-const inputField=document.getElementById("inputText");
-inputField.addEventListener("input",debounce(async function(){
-const val=this.value.trim();
-if(!val){suggestionsDiv.style.display="none";return;}
-const trending=await fetchTrendingKeywords(val.split(/\s+/)[0]);
-suggestionsDiv.innerHTML="";
-trending.slice(0,10).forEach(word=>{
-let div=document.createElement("div");div.className="suggestion-item";div.textContent=word;
-div.addEventListener("click",()=>{inputField.value+=` ${word}`;suggestionsDiv.style.display="none";renderTags();});
-suggestionsDiv.appendChild(div);
-});
-suggestionsDiv.style.display=trending.length>0?"block":"none";
-},500));
+    // 🔹 Copy tags
+    copyBtn.addEventListener('click', () => {
+      if (!currentTags.length) return alert("No tags to copy!");
+      navigator.clipboard.writeText(currentTags.join(", "));
+      alert("Tags copied to clipboard!");
+    });
 
-// Event listeners
-document.getElementById("generateBtn").addEventListener("click",()=>renderTags());
-document.getElementById("copyBtn").addEventListener("click",()=>{
-const tags=Array.from(document.querySelectorAll(".tag")).map(t=>t.textContent).join(", ");
-if(!tags)return alert("Please generate tags first!");
-navigator.clipboard.writeText(tags);alert("✅ Tags copied!");
-});
-document.getElementById("exportBtn").addEventListener("click",()=>{
-const tags=Array.from(document.querySelectorAll(".tag")).map(t=>t.textContent).join("\n");
-if(!tags)return alert("Please generate tags first!");
-const blob=new Blob([tags],{type:"text/plain"});
-const url=URL.createObjectURL(blob);
-const a=document.createElement("a");a.href=url;a.download="youtube-tags.txt";document.body.appendChild(a);a.click();
-document.body.removeChild(a);URL.revokeObjectURL(url);
-});
-
-// Initial analytics render
-renderAnalytics();
-</script>
+    // 🔹 Export tags as text file
+    exportBtn.addEventListener('click', () => {
+      if (!currentTags.length) return alert("No tags to export!");
+      const blob = new Blob([currentTags.join(", ")], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "youtube_tags.txt";
+      a.click();
+    });
+  </script>
 </body>
 </html>
