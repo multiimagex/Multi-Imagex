@@ -133,7 +133,7 @@ async function fetchWithTimeout(url,opts={},timeout=12000){
     }catch(e){clearTimeout(id);throw e;}
 }
 async function fetchTagsFromHtmlProxy(videoId){
-    const url=`https://r.jina.ai/http://www.youtube.com/watch?v=${videoId}`;
+    const url=`https://youtube-tag-proxy.vercel.app/extract?v=${videoId}`;
     const res=await fetchWithTimeout(url);
     if(!res.ok)throw new Error('Proxy fetch failed');
     const text=await res.text();
