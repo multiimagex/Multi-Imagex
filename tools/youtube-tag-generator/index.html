@@ -4,212 +4,166 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YouTube Tag Generator Tool | Multiimagex.online</title>
-  <meta name="description" content="Generate trending, SEO-optimized YouTube tags instantly with Multiimagex.online. Smart AI detects topic intent and creates powerful video tags to boost ranking.">
-  <meta name="keywords" content="YouTube tag generator, AI YouTube tags, trending YouTube tags, free YouTube tags, video SEO, YouTube SEO tool, Multiimagex, YouTube keywords, best tags for YouTube, YouTube tag creator, viral video tags, trending tags, video marketing, YouTube optimization">
-  <meta property="og:title" content="YouTube Tag Generator Tool | Multiimagex.online">
-  <meta property="og:description" content="AI-powered YouTube tag generator to boost your SEO and video reach. Try it free on Multiimagex.online!">
+  <meta name="description" content="AI-powered YouTube Tag Generator for Hindi & English titles. Generate perfect SEO YouTube tags instantly with Multiimagex.online.">
+  <meta name="keywords" content="YouTube Tag Generator, Hindi YouTube tags, SEO tags, free YouTube SEO, viral tags, YouTube keyword tool, Multiimagex, trending tags, best tags for YouTube, YouTube SEO 2025">
+  <meta property="og:title" content="AI YouTube Tag Generator Tool | Multiimagex.online">
+  <meta property="og:description" content="Generate perfect Hindi & English YouTube tags for SEO, ranking, and reach with Multiimagex.online.">
   <meta property="og:image" content="https://multiimagex.online/assets/yt-tag-generator-preview.png">
   <meta property="og:url" content="https://multiimagex.online/tools/youtube-tag-generator/">
   <meta name="twitter:card" content="summary_large_image">
+
   <style>
-    :root {
-      --bg: #ffffff;
-      --text: #222;
-      --accent: #ff0000;
-      --box-bg: #f5f5f5;
-    }
-    [data-theme="dark"] {
-      --bg: #121212;
-      --text: #eee;
-      --box-bg: #1e1e1e;
-    }
     body {
       font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: #fff;
+      color: #222;
+      text-align: center;
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      transition: background 0.3s, color 0.3s;
     }
     header {
-      text-align: center;
-      padding: 30px 20px;
+      background: #ff0000;
+      color: #fff;
+      padding: 25px 15px;
     }
-    header h1 {
-      color: var(--accent);
-      margin-bottom: 10px;
-      font-size: 2rem;
-    }
-    header p {
-      font-size: 1rem;
-      opacity: 0.8;
-    }
-    main {
-      flex: 1;
-      width: 95%;
-      max-width: 800px;
-      margin: auto;
-      text-align: center;
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
     }
     input {
       width: 90%;
       max-width: 600px;
       padding: 12px;
-      border-radius: 8px;
+      margin: 20px auto;
       border: 1px solid #ccc;
-      margin: 10px 0;
+      border-radius: 6px;
       font-size: 1rem;
     }
     button {
-      padding: 12px 24px;
-      margin: 8px;
-      border: none;
-      border-radius: 8px;
-      background: var(--accent);
+      background: #ff0000;
       color: #fff;
-      font-weight: bold;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.2s;
+      font-weight: bold;
+      margin: 10px;
     }
-    button:hover {
-      background: #cc0000;
-    }
+    button:hover { background: #cc0000; }
     #tags {
-      margin-top: 20px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
+      padding: 10px;
     }
     .tag {
-      background: var(--box-bg);
+      background: #f5f5f5;
       border: 1px solid #ddd;
+      padding: 8px 15px;
       border-radius: 20px;
-      padding: 8px 14px;
       font-size: 0.9rem;
-      cursor: pointer;
-      transition: transform 0.2s;
+      transition: 0.2s;
     }
     .tag:hover {
-      transform: scale(1.08);
-      background: var(--accent);
-      color: #fff;
+      background: #ff0000;
+      color: white;
+      transform: scale(1.05);
     }
     footer {
-      text-align: center;
-      padding: 20px;
       font-size: 0.9rem;
+      padding: 15px;
       border-top: 1px solid #ddd;
-    }
-    .toggle-dark {
-      position: fixed;
-      top: 15px;
-      right: 20px;
-      cursor: pointer;
-      font-size: 1.3rem;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-  <span class="toggle-dark" id="themeToggle" title="Toggle Dark Mode">🌙</span>
   <header>
-    <h1>YouTube Tag Generator Tool</h1>
-    <p>Boost your YouTube SEO with Multiimagex.online</p>
+    <h1>AI YouTube Tag Generator (Hindi + English)</h1>
+    <p>Boost your YouTube SEO with smart, topic-based tags</p>
   </header>
+
   <main>
-    <input id="inputText" type="text" placeholder="Enter video title, description, or keywords..." aria-label="Input text">
+    <input id="inputText" placeholder="Enter your video title (e.g. movie kaise download kare)" />
+    <br>
     <button id="generateBtn">Generate Tags</button>
-    <div id="tags"></div>
     <button id="copyBtn">Copy Tags</button>
-    <button id="exportBtn">Export Tags (.txt)</button>
+    <div id="tags"></div>
   </main>
-  <footer>© 2025 Multiimagex.online | Free YouTube Tools & SEO Optimizer</footer>
+
+  <footer>© 2025 Multiimagex.online | Smart YouTube SEO Tools</footer>
 
   <script>
-    const input = document.getElementById('inputText');
-    const generateBtn = document.getElementById('generateBtn');
-    const copyBtn = document.getElementById('copyBtn');
-    const exportBtn = document.getElementById('exportBtn');
-    const tagsDiv = document.getElementById('tags');
-    const themeToggle = document.getElementById('themeToggle');
+    const input = document.getElementById("inputText");
+    const generateBtn = document.getElementById("generateBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const tagsDiv = document.getElementById("tags");
 
-    const fillerWords = ["kaise", "kare", "hai", "the", "a", "an", "how", "to", "is", "for", "of", "and", "in", "on", "with"];
-    const defaultTags = [
-      "youtube seo","video marketing","youtube growth","youtube tag generator",
-      "multiimagex","free youtube tools","best youtube tags","trending tags",
-      "youtube optimization","viral video tags","youtube ranking","seo youtube 2025"
+    const fillerWords = ["kaise","kare","hai","ka","ke","ki","how","to","the","and","of","in","on","for"];
+    const seoTags = [
+      "youtube seo","trending youtube tags","video marketing","youtube growth",
+      "multiimagex","best youtube tags","viral video tags","free youtube tools",
+      "youtube optimization","video seo","youtube tips 2025"
     ];
 
-    let currentTags = [];
+    // Hindi-English keyword mapping
+    const topicMap = {
+      "movie":["film","cinema","movie download","bollywood","hollywood","latest movies"],
+      "download":["free download","link","tutorial","guide","apk download","mobile download"],
+      "status":["whatsapp status","video status","shorts","trending status","new status 2025"],
+      "song":["mp3 download","music","lyrics","audio","bollywood songs","hindi song","new songs 2025"],
+      "tech":["technology","mobile","gadgets","review","android tips","tricks","tech news"],
+      "game":["gaming","android games","pc games","free fire","pubg","new games 2025"],
+      "photo":["image","editing","background","remove bg","photo editor","photoshop"],
+      "ai":["artificial intelligence","ai tools","ai websites","chatgpt","ai video generator"]
+    };
 
-    // 🌙 Dark mode toggle
-    themeToggle.addEventListener('click', () => {
-      const theme = document.body.getAttribute('data-theme') === 'dark' ? '' : 'dark';
-      document.body.setAttribute('data-theme', theme);
-      themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-    });
+    generateBtn.addEventListener("click", () => {
+      const text = input.value.trim().toLowerCase();
+      if (!text) return alert("Please enter a video title!");
 
-    // 🔹 Smart Tag Generator
-    generateBtn.addEventListener('click', async () => {
-      const text = input.value.toLowerCase().trim();
-      if (!text) return alert("Please enter a video title or keywords!");
+      // Clean text
+      let words = text.split(/\s+/).filter(w => !fillerWords.includes(w));
+      if (!words.length) return alert("Please enter a valid title!");
 
-      let words = text.split(/\s+/).filter(w => w.length > 2 && !fillerWords.includes(w));
-      if (!words.length) return alert("Enter a valid topic or title!");
+      // Detect main topic
+      let mainWord = words.find(w => topicMap[w]);
+      if (!mainWord) mainWord = words[0];
 
-      const mainTopic = words[0];
-      let allTags = [];
+      let related = topicMap[mainWord] || [];
+      let tags = [];
 
-      // Smart combinations
-      allTags.push(
-        `${mainTopic} download`,
-        `how to download ${mainTopic}`,
-        `best ${mainTopic} download sites`,
-        `${mainTopic} downloading tricks`,
-        `${mainTopic} download tips`,
-        `download ${mainTopic} free`,
-        `latest ${mainTopic} download`,
-        `${mainTopic} download app`,
-        `${mainTopic} download for pc`,
-        `${mainTopic} download 2025`
+      // Create meaningful tag variations
+      tags.push(
+        `${mainWord} video`,
+        `how to ${mainWord}`,
+        `${mainWord} tutorial`,
+        `${mainWord} tips`,
+        `${mainWord} tricks`,
+        `${mainWord} 2025`,
+        `best ${mainWord} methods`,
+        `easy ${mainWord} guide`
       );
 
-      try {
-        const res = await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(mainTopic)}&max=10`);
-        const data = await res.json();
-        allTags.push(...data.map(w => `${w.word} download`));
-      } catch {
-        console.warn("Datamuse API failed, using fallback tags");
-      }
+      // Combine with related keywords
+      related.forEach(r => tags.push(`${r}`, `best ${r}`, `${r} tutorial`, `${r} download`));
 
-      allTags.push(...defaultTags);
-      currentTags = [...new Set(allTags)].slice(0, 60);
-      renderTags();
+      // Add some SEO base tags
+      tags.push(...seoTags);
+
+      // Remove duplicates
+      tags = [...new Set(tags)];
+
+      // Render tags
+      tagsDiv.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
     });
 
-    // 🔹 Render tags
-    function renderTags() {
-      tagsDiv.innerHTML = currentTags.map(tag => `<span class="tag">${tag}</span>`).join('');
-    }
-
-    // 🔹 Copy tags
-    copyBtn.addEventListener('click', () => {
-      if (!currentTags.length) return alert("No tags to copy!");
-      navigator.clipboard.writeText(currentTags.join(", "));
-      alert("Tags copied to clipboard!");
-    });
-
-    // 🔹 Export tags
-    exportBtn.addEventListener('click', () => {
-      if (!currentTags.length) return alert("No tags to export!");
-      const blob = new Blob([currentTags.join(", ")], { type: "text/plain" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "youtube_tags.txt";
-      a.click();
+    copyBtn.addEventListener("click", () => {
+      const tags = [...tagsDiv.querySelectorAll(".tag")].map(t => t.textContent).join(", ");
+      if (!tags) return alert("No tags to copy!");
+      navigator.clipboard.writeText(tags);
+      alert("Tags copied!");
     });
   </script>
 </body>
