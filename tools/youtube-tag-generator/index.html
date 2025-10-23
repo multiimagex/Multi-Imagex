@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YouTube Tag Generator Tool | Multiimagex.online</title>
-  <meta name="description" content="Generate trending, SEO-optimized, and AI-powered YouTube tags instantly with Multiimagex.online. Boost your video ranking and reach top search results!">
+  <meta name="description" content="Generate trending, SEO-optimized YouTube tags instantly with Multiimagex.online. Smart AI detects topic intent and creates powerful video tags to boost ranking.">
   <meta name="keywords" content="YouTube tag generator, AI YouTube tags, trending YouTube tags, free YouTube tags, video SEO, YouTube SEO tool, Multiimagex, YouTube keywords, best tags for YouTube, YouTube tag creator, viral video tags, trending tags, video marketing, YouTube optimization">
   <meta property="og:title" content="YouTube Tag Generator Tool | Multiimagex.online">
   <meta property="og:description" content="AI-powered YouTube tag generator to boost your SEO and video reach. Try it free on Multiimagex.online!">
@@ -54,7 +54,7 @@
       margin: auto;
       text-align: center;
     }
-    input, select {
+    input {
       width: 90%;
       max-width: 600px;
       padding: 12px;
@@ -104,21 +104,6 @@
       font-size: 0.9rem;
       border-top: 1px solid #ddd;
     }
-    #suggestions {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-    }
-    #suggestions span {
-      background: #ffeded;
-      border: 1px solid #ffb3b3;
-      border-radius: 15px;
-      padding: 6px 10px;
-      cursor: pointer;
-    }
     .toggle-dark {
       position: fixed;
       top: 15px;
@@ -137,7 +122,6 @@
   <main>
     <input id="inputText" type="text" placeholder="Enter video title, description, or keywords..." aria-label="Input text">
     <button id="generateBtn">Generate Tags</button>
-    <div id="suggestions"></div>
     <div id="tags"></div>
     <button id="copyBtn">Copy Tags</button>
     <button id="exportBtn">Export Tags (.txt)</button>
@@ -150,17 +134,16 @@
     const copyBtn = document.getElementById('copyBtn');
     const exportBtn = document.getElementById('exportBtn');
     const tagsDiv = document.getElementById('tags');
-    const suggestionsDiv = document.getElementById('suggestions');
     const themeToggle = document.getElementById('themeToggle');
 
+    const fillerWords = ["kaise", "kare", "hai", "the", "a", "an", "how", "to", "is", "for", "of", "and", "in", "on", "with"];
     const defaultTags = [
-      "youtube seo","video marketing","youtube growth","youtube tag generator","multiimagex",
-      "free youtube tools","best youtube tags","trending tags","youtube optimization",
-      "viral video tags","youtube ranking","seo youtube 2025"
+      "youtube seo","video marketing","youtube growth","youtube tag generator",
+      "multiimagex","free youtube tools","best youtube tags","trending tags",
+      "youtube optimization","viral video tags","youtube ranking","seo youtube 2025"
     ];
 
     let currentTags = [];
-    let debounceTimer;
 
     // 🌙 Dark mode toggle
     themeToggle.addEventListener('click', () => {
@@ -169,53 +152,45 @@
       themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
     });
 
-    // 🔹 Live typing suggestion system
-    input.addEventListener('input', () => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        const query = input.value.trim();
-        if (query.length > 2) fetchSuggestions(query);
-        else suggestionsDiv.innerHTML = "";
-      }, 500);
-    });
-
-    // 🔹 Fetch related words from Datamuse
-    async function fetchSuggestions(query) {
-      try {
-        const res = await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(query)}&max=10`);
-        const data = await res.json();
-        suggestionsDiv.innerHTML = data.map(w => `<span>${w.word}</span>`).join('');
-        document.querySelectorAll('#suggestions span').forEach(span => {
-          span.addEventListener('click', () => {
-            input.value += " " + span.textContent;
-          });
-        });
-      } catch {
-        suggestionsDiv.innerHTML = "";
-      }
-    }
-
-    // 🔹 Generate tags
+    // 🔹 Smart Tag Generator
     generateBtn.addEventListener('click', async () => {
       const text = input.value.toLowerCase().trim();
       if (!text) return alert("Please enter a video title or keywords!");
-      const words = [...new Set(text.split(/\s+/))].filter(w => w.length > 2);
+
+      let words = text.split(/\s+/).filter(w => w.length > 2 && !fillerWords.includes(w));
+      if (!words.length) return alert("Enter a valid topic or title!");
+
+      const mainTopic = words[0];
       let allTags = [];
-      words.forEach(w => {
-        allTags.push(w, `${w} tutorial`, `${w} guide`, `${w} tips`, `${w} tricks`, `${w} how to`, `${w} hack`, `${w} secrets`, `${w} 2025`);
-      });
+
+      // Smart combinations
+      allTags.push(
+        `${mainTopic} download`,
+        `how to download ${mainTopic}`,
+        `best ${mainTopic} download sites`,
+        `${mainTopic} downloading tricks`,
+        `${mainTopic} download tips`,
+        `download ${mainTopic} free`,
+        `latest ${mainTopic} download`,
+        `${mainTopic} download app`,
+        `${mainTopic} download for pc`,
+        `${mainTopic} download 2025`
+      );
 
       try {
-        const trending = await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(words[0])}&max=10`);
-        const trendData = await trending.json();
-        allTags.push(...trendData.map(w => w.word));
-      } catch {}
+        const res = await fetch(`https://api.datamuse.com/words?ml=${encodeURIComponent(mainTopic)}&max=10`);
+        const data = await res.json();
+        allTags.push(...data.map(w => `${w.word} download`));
+      } catch {
+        console.warn("Datamuse API failed, using fallback tags");
+      }
 
       allTags.push(...defaultTags);
       currentTags = [...new Set(allTags)].slice(0, 60);
       renderTags();
     });
 
+    // 🔹 Render tags
     function renderTags() {
       tagsDiv.innerHTML = currentTags.map(tag => `<span class="tag">${tag}</span>`).join('');
     }
@@ -227,7 +202,7 @@
       alert("Tags copied to clipboard!");
     });
 
-    // 🔹 Export tags as text file
+    // 🔹 Export tags
     exportBtn.addEventListener('click', () => {
       if (!currentTags.length) return alert("No tags to export!");
       const blob = new Blob([currentTags.join(", ")], { type: "text/plain" });
