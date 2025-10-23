@@ -1,349 +1,204 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YouTube Tag Extractor Tool | Multiimagex.online</title>
+<meta name="description" content="Extract YouTube video tags instantly using Multiimagex.online’s free YouTube Tag Extractor Tool. Discover competitors’ SEO strategies and trending keywords easily!">
+<meta name="keywords" content="YouTube tag extractor, YouTube video tags, extract YouTube tags, YouTube SEO tool, Multiimagex, free YouTube tools, best YouTube tags, video SEO, YouTube keyword finder, YouTube competitor analysis">
 
-  <title>YouTube Tag Extractor Tool | Multiimagex.online</title>
-  <meta name="description" content="Extract YouTube video tags instantly using Multiimagex.online’s free YouTube Tag Extractor Tool. Discover your competitors’ SEO strategies and trending keywords easily!" />
-  <meta name="keywords" content="YouTube tag extractor, YouTube video tags, extract YouTube tags, YouTube SEO tool, Multiimagex, free YouTube tools, best YouTube tags, video SEO, YouTube keyword finder, YouTube competitor analysis" />
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="YouTube Tag Extractor Tool | Multiimagex.online">
+<meta property="og:description" content="Extract YouTube video tags instantly using Multiimagex.online’s free YouTube Tag Extractor Tool.">
+<meta property="og:image" content="/assets/og-thumbnail.png">
+<meta property="og:url" content="https://multiimagex.online/">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="YouTube Tag Extractor Tool | Multiimagex.online" />
-  <meta property="og:description" content="Extract YouTube video tags instantly using Multiimagex.online’s free YouTube Tag Extractor Tool." />
-  <meta property="og:image" content="/assets/og-thumbnail.png" />
-  <meta property="og:url" content="https://multiimagex.online/" />
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="YouTube Tag Extractor Tool | Multiimagex.online">
+<meta name="twitter:description" content="Extract YouTube video tags instantly using Multiimagex.online’s free YouTube Tag Extractor Tool.">
+<meta name="twitter:image" content="/assets/og-thumbnail.png">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="YouTube Tag Extractor Tool | Multiimagex.online" />
-  <meta name="twitter:description" content="Extract YouTube video tags instantly using Multiimagex.online’s free YouTube Tag Extractor Tool." />
-  <meta name="twitter:image" content="/assets/og-thumbnail.png" />
-
-  <style>
-    :root{
-      --bg:#f7fafc;
-      --card:#ffffff;
-      --muted:#6b7280;
-      --accent:#0066ff;
-      --success:#10b981;
-      --danger:#ef4444;
-      --glass: rgba(255,255,255,0.6);
-      --radius:14px;
-      --maxw:980px;
-      --shadow: 0 6px 18px rgba(13, 38, 76, 0.08);
-    }
-    @media (prefers-color-scheme: dark){
-      :root{ --bg:#071025; --card:#071426; --muted:#9aa6b2; --glass: rgba(255,255,255,0.02); }
-    }
-    *{box-sizing:border-box}
-    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; margin:0; background:linear-gradient(180deg,var(--bg),#ffffff); color:#0f172a; -webkit-font-smoothing:antialiased}
-    .container{max-width:var(--maxw);margin:28px auto;padding:20px}
-
-    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:16px}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:52px;height:52px;background:linear-gradient(135deg,var(--accent),#8b5cf6);border-radius:12px;display:grid;place-items:center;color:white;font-weight:700;box-shadow:var(--shadow)}
-    h1{font-size:20px;margin:0}
-    p.subtitle{margin:0;color:var(--muted);font-size:13px}
-
-    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
-    .tool{display:grid;gap:12px}
-
-    .input-row{display:flex;gap:10px}
-    input[type=url], input[type=text]{flex:1;padding:12px;border-radius:10px;border:1px solid #e6eef8;background:transparent;outline:none;font-size:14px}
-    button{border:0;padding:10px 14px;border-radius:10px;background:var(--accent);color:white;font-weight:600;cursor:pointer;transition:transform .12s ease, box-shadow .12s}
-    button:active{transform:translateY(1px)}
-    button.secondary{background:transparent;color:var(--accent);border:1px solid rgba(0,102,255,0.12)}
-
-    .tags-wrap{display:flex;flex-wrap:wrap;gap:10px;padding:12px;margin-top:6px}
-    .tag{padding:8px 12px;border-radius:999px;border:1px solid rgba(15,23,42,0.06);background:linear-gradient(180deg,rgba(255,255,255,0.6),transparent);font-size:13px;cursor:pointer;transition:transform .12s ease, box-shadow .12s;user-select:none}
-    .tag:hover{transform:translateY(-4px);box-shadow:0 6px 14px rgba(3,102,214,0.08)}
-
-    .meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:13px}
-    .actions{display:flex;gap:8px}
-    small.hint{color:var(--muted)}
-
-    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
-
-    /* responsive */
-    @media (max-width:640px){.input-row{flex-direction:column}header{align-items:flex-start}.brand h1{font-size:18px}}
-
-    /* animations */
-    .fade-in{animation:fadeIn .36s ease both}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
-    /* small helpers */
-    .row{display:flex;gap:12px;align-items:center}
-    .pill{background:var(--glass);padding:6px 10px;border-radius:999px;font-weight:600}
-
-    .controls{display:flex;gap:10px;flex-wrap:wrap}
-
-    .empty{padding:18px;border-radius:10px;border:1px dashed #e6eef8;color:var(--muted);text-align:center}
-
-    .dark-toggle{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:8px;border-radius:10px}
-
-    .small{font-size:13px}
-  </style>
+<style>
+:root {
+  --bg:#f7fafc; --card:#fff; --muted:#6b7280; --accent:#0066ff; --radius:12px; --shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+@media (prefers-color-scheme: dark){ :root{--bg:#071025;--card:#071426;--muted:#9aa6b2;} }
+body{margin:0;font-family:Inter,sans-serif;background:var(--bg);color:#0f172a;}
+.container{max-width:980px;margin:20px auto;padding:16px;}
+header{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+h1{margin:0;font-size:22px;}
+p.subtitle{margin:0;color:var(--muted);font-size:14px;}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;}
+.input-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+input[type=url], input[type=text]{flex:1;padding:10px;border-radius:8px;border:1px solid #ddd;font-size:14px;}
+button{padding:10px 14px;border:none;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer;transition:0.15s ease;}
+button:hover{opacity:0.9;}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.tag{padding:6px 12px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);background:linear-gradient(180deg, rgba(255,255,255,0.6), transparent);cursor:pointer;font-size:13px;transition:0.12s ease;}
+.tag:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,102,255,0.08);}
+.meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;}
+.pill{background:rgba(0,102,255,0.1);padding:4px 10px;border-radius:999px;font-weight:600;font-size:13px;}
+.actions{display:flex;gap:6px;}
+.empty{padding:12px;border:1px dashed #ccc;color:var(--muted);text-align:center;border-radius:8px;}
+footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px;}
+@media(max-width:640px){.input-row{flex-direction:column;}}
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="brand">
-        <div class="logo">M</div>
-        <div>
-          <h1>YouTube Tag Extractor Tool</h1>
-          <p class="subtitle">Extract YouTube video tags instantly – powered by Multiimagex.online</p>
-        </div>
-      </div>
-      <div class="row">
-        <button class="dark-toggle secondary" id="toggleDark">Toggle Dark</button>
-      </div>
-    </header>
+<div class="container">
+<header>
+<h1>YouTube Tag Extractor Tool</h1>
+<p class="subtitle">Extract YouTube video tags instantly – powered by Multiimagex.online</p>
+</header>
+<main class="card">
+<label>YouTube Video URL</label>
+<div class="input-row">
+<input id="videoUrl" type="url" placeholder="https://www.youtube.com/watch?v=VIDEO_ID">
+<button id="extractBtn">Extract Tags</button>
+</div>
+<label style="margin-top:8px;font-size:13px;color:var(--muted)">Optional API Key (not required)</label>
+<input id="apiKey" type="text" placeholder="Enter YouTube API Key">
+<div class="meta">
+<div class="pill" id="status">Idle</div>
+<div class="pill" id="tagCount">Tags: 0</div>
+<div class="actions">
+<button id="copyAll">Copy All Tags</button>
+<button id="exportTxt">Export .txt</button>
+<button id="exportCsv">Export .csv</button>
+</div>
+</div>
+<section>
+<div id="tagsContainer" class="tags-wrap empty">Paste a YouTube video URL and click "Extract Tags"</div>
+<div id="analysis" style="margin-top:12px"></div>
+</section>
+</main>
+<footer>
+© 2025 Multiimagex.online | Free YouTube Tools & SEO Optimizer
+</footer>
+</div>
 
-    <main class="card tool">
-      <div>
-        <label class="small">YouTube Video URL</label>
-        <div class="input-row" style="margin-top:8px">
-          <input id="videoUrl" type="url" placeholder="https://www.youtube.com/watch?v=VIDEO_ID or youtu.be/VIDEO_ID" />
-          <button id="extractBtn" title="Extract Tags">Extract Tags</button>
-        </div>
-        <div style="margin-top:8px" class="small">
-          <input id="apiKey" type="text" placeholder="Optional: YouTube API Key (recommended for best results)" />
-        </div>
-        <div class="meta" style="margin-top:12px">
-          <div class="row">
-            <div class="pill" id="status">Idle</div>
-            <div class="pill" id="tagCount">Tags: 0</div>
-          </div>
-          <div style="margin-left:auto" class="actions">
-            <button class="secondary" id="copyAll">Copy All Tags</button>
-            <button class="secondary" id="exportTxt">Export .txt</button>
-            <button class="secondary" id="exportCsv">Export .csv</button>
-          </div>
-        </div>
-      </div>
+<script>
+const $ = (s)=>document.querySelector(s);
+const statusEl = $('#status');
+const tagsContainer = $('#tagsContainer');
+const tagCountEl = $('#tagCount');
+const apiKeyInput = $('#apiKey');
 
-      <section style="margin-top:12px">
-        <div id="tagsContainer" class="tags-wrap empty">Paste a YouTube video URL and click "Extract Tags"</div>
-        <div id="analysis" style="margin-top:12px"></div>
-      </section>
-
-      <div style="margin-top:12px;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap">
-        <div class="small hint">Tip: Best results with a valid YouTube Data API v3 key. If you don't have one, tool will try a fallback scraping proxy (may be blocked by CORS).</div>
-        <div class="small hint">© 2025 Multiimagex.online | Free YouTube Tools & SEO Optimizer</div>
-      </div>
-    </main>
-
-    <footer>
-      <small>Built for speed — lightweight, responsive, and SEO-friendly.</small>
-    </footer>
-  </div>
-
-  <script>
-    // tiny helper utilities
-    const $ = (sel) => document.querySelector(sel);
-    const statusEl = $('#status');
-    const tagsContainer = $('#tagsContainer');
-    const tagCountEl = $('#tagCount');
-    const apiKeyInput = $('#apiKey');
-
-    function setStatus(text, type){ statusEl.textContent = text; }
-
-    function extractVideoID(url){
-      try{
-        if(!url) return null;
-        const u = new URL(url.indexOf('http')===0?url:'https://'+url);
+function setStatus(t){statusEl.textContent=t;}
+function extractVideoID(url){
+    try{
+        const u=new URL(url.indexOf('http')===0?url:'https://'+url);
         if(u.hostname.includes('youtu.be')) return u.pathname.slice(1).split(/[?&]/)[0];
-        if(u.searchParams && u.searchParams.get('v')) return u.searchParams.get('v');
-        // sometimes urls like /watch?v=ID in path
-        const m = url.match(/v=([a-zA-Z0-9_-]{5,})/);
-        if(m) return m[1];
-        const alt = url.match(/([a-zA-Z0-9_-]{11})/);
-        return alt ? alt[1] : null;
-      }catch(e){ return null; }
+        if(u.searchParams.get('v')) return u.searchParams.get('v');
+        const m=url.match(/v=([\w_-]{5,})/);
+        if(m)return m[1];
+        const alt=url.match(/([\w_-]{11})/);
+        return alt?alt[1]:null;
+    }catch(e){return null;}
+}
+function cleanTags(arr){
+    if(!arr||!arr.length)return[];
+    const cleaned=arr.map(t=>t.trim()).filter(Boolean);
+    return [...new Set(cleaned)].map(t=>t.replace(/[\n\r]+/g,' ').replace(/\s+/g,' ').trim());
+}
+function renderTags(tags){
+    tags=cleanTags(tags);
+    tagCountEl.textContent=`Tags: ${tags.length}`;
+    tagsContainer.innerHTML='';
+    if(!tags.length){
+        tagsContainer.classList.add('empty');
+        tagsContainer.textContent='No tags found for this video — try another URL.';
+        return;
     }
-
-    function cleanTags(arr){
-      if(!arr || !arr.length) return [];
-      const cleaned = arr.map(t=>t.trim()).filter(Boolean);
-      const unique = [...new Set(cleaned)];
-      return unique.map(t=>t.replace(/[\n\r]+/g,' ').replace(/\s+/g,' ').trim());
-    }
-
-    function renderTags(tags){
-      tags = cleanTags(tags);
-      tagCountEl.textContent = `Tags: ${tags.length}`;
-      tagsContainer.innerHTML = '';
-      if(tags.length===0){ tagsContainer.classList.add('empty'); tagsContainer.textContent = 'No tags found for this video — try another URL or provide an API key.'; return; }
-      tagsContainer.classList.remove('empty');
-      tags.forEach(t=>{
-        const el = document.createElement('div'); el.className='tag fade-in'; el.textContent = t;
-        el.title = 'Click to copy tag';
-        el.addEventListener('click', ()=>{ navigator.clipboard.writeText(t); el.animate([{transform:'scale(1)'},{transform:'scale(0.96)'}],{duration:120}); });
+    tagsContainer.classList.remove('empty');
+    tags.forEach(t=>{
+        const el=document.createElement('div');
+        el.className='tag';
+        el.textContent=t;
+        el.title='Click to copy';
+        el.addEventListener('click',()=>{navigator.clipboard.writeText(t);});
         tagsContainer.appendChild(el);
-      });
-    }
-
-    async function fetchWithTimeout(url, opts={}, timeout=12000){
-      const controller = new AbortController(); opts.signal = controller.signal;
-      const id = setTimeout(()=>controller.abort(), timeout);
-      try{ const res = await fetch(url, opts); clearTimeout(id); return res; }catch(e){ clearTimeout(id); throw e; }
-    }
-
-    // Primary: YouTube Data API v3
-    async function fetchTagsFromAPI(videoId, apiKey){
-      const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${apiKey}`;
-      const res = await fetchWithTimeout(url, {}, 12000);
-      if(!res.ok) throw new Error('YouTube API error: '+res.status);
-      const json = await res.json();
-      if(json.items && json.items[0] && json.items[0].snippet){
-        return {tags: json.items[0].snippet.tags || [], title: json.items[0].snippet.title||'', description: json.items[0].snippet.description||''};
-      }
-      return {tags: [], title:'', description:''};
-    }
-
-    // Fallback: try a text-proxy that returns HTML as text (r.jina.ai often works)
-    async function fetchTagsFromHtmlProxy(videoId){
-      const url = `https://r.jina.ai/http://www.youtube.com/watch?v=${videoId}`;
-      const res = await fetchWithTimeout(url, {}, 12000);
-      if(!res.ok) throw new Error('Proxy fetch failed: '+res.status);
-      const text = await res.text();
-      // attempt to find "keywords" meta tag or the initial JSON data
-      const metaMatch = text.match(/<meta name=\"keywords\" content=\"([^\"]+)\">/i);
-      if(metaMatch) return {tags: metaMatch[1].split(',').map(s=>s.trim()), title:'', description:''};
-
-      // search for ytInitialPlayerResponse JSON blob
-      const jsonMatch = text.match(/ytInitialPlayerResponse\s*=\s*(\{.*?\})\s*;\s*var\s+meta/si);
-      if(jsonMatch){
+    });
+}
+async function fetchWithTimeout(url,opts={},timeout=12000){
+    const controller=new AbortController();
+    opts.signal=controller.signal;
+    const id=setTimeout(()=>controller.abort(),timeout);
+    try{
+        const res=await fetch(url,opts);
+        clearTimeout(id);
+        return res;
+    }catch(e){clearTimeout(id);throw e;}
+}
+async function fetchTagsFromHtmlProxy(videoId){
+    const url=`https://r.jina.ai/http://www.youtube.com/watch?v=${videoId}`;
+    const res=await fetchWithTimeout(url);
+    if(!res.ok)throw new Error('Proxy fetch failed');
+    const text=await res.text();
+    const metaMatch=text.match(/<meta name="keywords" content="([^"]+)">/i);
+    if(metaMatch) return metaMatch[1].split(',').map(s=>s.trim());
+    const jsonMatch=text.match(/ytInitialPlayerResponse\s*=\s*(\{.*?\})\s*;/s);
+    if(jsonMatch){
         try{
-          const obj = JSON.parse(jsonMatch[1]);
-          const tags = (obj && obj.videoDetails && obj.videoDetails.keywords) ? obj.videoDetails.keywords : [];
-          const title = obj.videoDetails && obj.videoDetails.title ? obj.videoDetails.title : '';
-          return {tags, title, description: ''};
-        }catch(e){ }
-      }
-
-      // last resort, try meta property og:description and extract hashtags/words
-      const descMatch = text.match(/<meta property=\"og:description\" content=\"([^\"]+)\"/i);
-      if(descMatch){
-        // pick words that look like tags (longer than 2 chars), plus hashtags
-        const words = descMatch[1].split(/[\s,\.\-\[\]\(\)\:\;]+/).map(w=>w.trim()).filter(Boolean);
-        const cand = words.filter(w=>w.length>2).slice(0,30);
-        return {tags: cand, title:'', description:descMatch[1]};
-      }
-
-      return {tags:[], title:'', description:''};
+            const obj=JSON.parse(jsonMatch[1]);
+            return (obj.videoDetails && obj.videoDetails.keywords)?obj.videoDetails.keywords:[];
+        }catch(e){}
     }
-
-    function simpleAISuggestions(tags, title, desc){
-      // naive AI-like suggestions using title and description words
-      const stop = new Set(['the','and','for','with','that','this','from','you','your','have','was','were','are','but','not','what','who','when','where','how','a','an','in','on','at','to','of','by','it']);
-      const pool = [];
-      (title||'').split(/[^A-Za-z0-9]+/).forEach(w=>w=w.trim().toLowerCase()).filter(Boolean).forEach(w=>pool.push(w));
-      (desc||'').split(/[^A-Za-z0-9]+/).forEach(w=>w=w.trim().toLowerCase()).filter(Boolean).forEach(w=>pool.push(w));
-      const freq = {};
-      pool.forEach(w=>{ if(w.length<3 || stop.has(w)) return; freq[w]=(freq[w]||0)+1; });
-      const suggestions = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,8).map(x=>x[0]).filter(s=>!tags.map(t=>t.toLowerCase()).includes(s));
-      return suggestions;
+    const descMatch=text.match(/<meta property="og:description" content="([^"]+)"/i);
+    if(descMatch){
+        const words=descMatch[1].split(/[^A-Za-z0-9]+/).map(w=>w.trim()).filter(Boolean);
+        return Array.from(new Set(words)).slice(0,30);
     }
+    return [];
+}
 
-    async function extractTags(){
-      const url = $('#videoUrl').value.trim();
-      const apiKey = apiKeyInput.value.trim();
-      const videoId = extractVideoID(url);
-      if(!videoId){ setStatus('Invalid URL', 'error'); tagsContainer.classList.add('empty'); tagsContainer.textContent='Please paste a valid YouTube URL.'; return; }
-
-      setStatus('Fetching…');
-      renderTags([]);
-
-      let data = {tags:[], title:'', description:''};
-      // try API key first
-      if(apiKey){
-        try{
-          setStatus('Using YouTube Data API');
-          data = await fetchTagsFromAPI(videoId, apiKey);
-          if(data.tags && data.tags.length>0){ setStatus('Tags loaded via API'); renderTags(data.tags); analyzeAndSuggest(data.tags, data.title, data.description); return; }
-        }catch(e){ console.warn('API failed', e); }
-      }
-
-      // try proxy fetch
-      try{
-        setStatus('Trying HTML proxy fallback');
-        data = await fetchTagsFromHtmlProxy(videoId);
-        if(data.tags && data.tags.length>0){ setStatus('Tags loaded via fallback'); renderTags(data.tags); analyzeAndSuggest(data.tags, data.title, data.description); return; }
-      }catch(e){ console.warn('Fallback failed', e); }
-
-      // nothing found
-      setStatus('No tags found');
-      renderTags([]);
-      analyzeAndSuggest([], '', '');
+$('#extractBtn').addEventListener('click',async()=>{
+    const url=$('#videoUrl').value.trim();
+    if(!url){alert('Enter a valid YouTube URL'); return;}
+    const vid=extractVideoID(url);
+    if(!vid){alert('Could not extract video ID'); return;}
+    setStatus('Extracting...');
+    try{
+        const tags = await fetchTagsFromHtmlProxy(vid);
+        renderTags(tags);
+        setStatus('Done');
+    }catch(e){
+        console.error(e);
+        setStatus('Error fetching tags');
+        tagsContainer.classList.add('empty');
+        tagsContainer.textContent='Failed to extract tags — try another URL.';
     }
+});
 
-    function analyzeAndSuggest(tags, title, desc){
-      const suggestions = simpleAISuggestions(tags, title, desc);
-      const analysis = document.getElementById('analysis');
-      analysis.innerHTML = '';
-      const box = document.createElement('div'); box.className='card'; box.style.marginTop='10px';
-      const h = document.createElement('div'); h.innerHTML = `<strong>Analysis & AI Suggestions</strong> <div style="color:var(--muted);font-size:13px">Tag count: ${tags.length}</div>`;
-      box.appendChild(h);
+// Copy all
+$('#copyAll').addEventListener('click',()=>{
+    const tags = Array.from(tagsContainer.querySelectorAll('.tag')).map(t=>t.textContent);
+    if(!tags.length)return;
+    navigator.clipboard.writeText(tags.join(','));
+    alert('Tags copied to clipboard');
+});
 
-      const por = document.createElement('div'); por.style.marginTop='8px';
-      por.innerHTML = `<div style="font-size:13px;color:var(--muted)">Suggestions to improve tags (auto-generated):</div>`;
+// Export .txt
+$('#exportTxt').addEventListener('click',()=>{
+    const tags = Array.from(tagsContainer.querySelectorAll('.tag')).map(t=>t.textContent);
+    if(!tags.length)return;
+    const blob=new Blob([tags.join('\n')],{type:'text/plain'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='tags.txt'; a.click();
+    URL.revokeObjectURL(url);
+});
 
-      const sugWrap = document.createElement('div'); sugWrap.className='tags-wrap';
-      if(suggestions.length===0) sugWrap.innerHTML = `<div class="empty small">No AI suggestions available.</div>`;
-      suggestions.forEach(s=>{
-        const el = document.createElement('div'); el.className='tag'; el.textContent = s; el.addEventListener('click', ()=>{ navigator.clipboard.writeText(s); }); sugWrap.appendChild(el);
-      });
-
-      box.appendChild(por);
-      box.appendChild(sugWrap);
-      analysis.appendChild(box);
-    }
-
-    // copy/export features
-    function getAllTagsText(){
-      const tags = Array.from(document.querySelectorAll('.tag')).map(el=>el.textContent).filter(Boolean);
-      return tags.join(', ');
-    }
-
-    document.getElementById('extractBtn').addEventListener('click', extractTags);
-    document.getElementById('copyAll').addEventListener('click', ()=>{
-      const all = getAllTagsText();
-      if(!all){ setStatus('No tags to copy'); return; }
-      navigator.clipboard.writeText(all).then(()=>setStatus('Copied to clipboard'));
-    });
-
-    function download(filename, content){
-      const a = document.createElement('a'); const blob = new Blob([content], {type:'text/plain'});
-      a.href = URL.createObjectURL(blob); a.download = filename; document.body.appendChild(a); a.click(); a.remove();
-    }
-    document.getElementById('exportTxt').addEventListener('click', ()=>{
-      const all = getAllTagsText(); if(!all) { setStatus('No tags to export'); return; }
-      download('youtube-tags.txt', all.split(',').map(s=>s.trim()).join('\n'));
-    });
-    document.getElementById('exportCsv').addEventListener('click', ()=>{
-      const all = getAllTagsText(); if(!all) { setStatus('No tags to export'); return; }
-      download('youtube-tags.csv', 'tags\n' + all.split(',').map(s=>`"${s.trim().replace(/"/g,'""')}"`).join('\n'));
-    });
-
-    // misc
-    document.getElementById('toggleDark').addEventListener('click', ()=>{
-      const dark = document.documentElement.hasAttribute('data-dark');
-      if(dark) document.documentElement.removeAttribute('data-dark'); else document.documentElement.setAttribute('data-dark','1');
-      document.body.style.transition='background .18s';
-    });
-
-    // allow Enter key to extract
-    $('#videoUrl').addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ extractTags(); } });
-
-    // SEO-friendly visible content for crawlers
-    // (a few static examples that reinforce the page keywords)
-    const seoBlock = document.createElement('div'); seoBlock.style.display='none'; seoBlock.innerHTML = 'YouTube Tag Extractor, Extract YouTube tags, Free YouTube Tools, YouTube SEO Tool, Multiimagex'; document.body.appendChild(seoBlock);
-
-    // friendly initial focus on mobile
-    setTimeout(()=>{ $('#videoUrl').focus(); }, 300);
-  </script>
+// Export .csv
+$('#exportCsv').addEventListener('click',()=>{
+    const tags = Array.from(tagsContainer.querySelectorAll('.tag')).map(t=>t.textContent);
+    if(!tags.length)return;
+    const blob=new Blob([tags.join(',')],{type:'text/csv'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='tags.csv'; a.click();
+    URL.revokeObjectURL(url);
+});
+</script>
 </body>
 </html>
