@@ -1,170 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Tag Generator Tool | Multiimagex.online</title>
-  <meta name="description" content="AI-powered YouTube Tag Generator for Hindi & English titles. Generate perfect SEO YouTube tags instantly with Multiimagex.online.">
-  <meta name="keywords" content="YouTube Tag Generator, Hindi YouTube tags, SEO tags, free YouTube SEO, viral tags, YouTube keyword tool, Multiimagex, trending tags, best tags for YouTube, YouTube SEO 2025">
-  <meta property="og:title" content="AI YouTube Tag Generator Tool | Multiimagex.online">
-  <meta property="og:description" content="Generate perfect Hindi & English YouTube tags for SEO, ranking, and reach with Multiimagex.online.">
-  <meta property="og:image" content="https://multiimagex.online/assets/yt-tag-generator-preview.png">
-  <meta property="og:url" content="https://multiimagex.online/tools/youtube-tag-generator/">
-  <meta name="twitter:card" content="summary_large_image">
-
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #fff;
-      color: #222;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #ff0000;
-      color: #fff;
-      padding: 25px 15px;
-    }
-    h1 {
-      margin: 0;
-      font-size: 1.8rem;
-    }
-    input {
-      width: 90%;
-      max-width: 600px;
-      padding: 12px;
-      margin: 20px auto;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-    button {
-      background: #ff0000;
-      color: #fff;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      margin: 10px;
-    }
-    button:hover { background: #cc0000; }
-    #tags {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px;
-    }
-    .tag {
-      background: #f5f5f5;
-      border: 1px solid #ddd;
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      transition: 0.2s;
-    }
-    .tag:hover {
-      background: #ff0000;
-      color: white;
-      transform: scale(1.05);
-    }
-    footer {
-      font-size: 0.9rem;
-      padding: 15px;
-      border-top: 1px solid #ddd;
-      margin-top: 30px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YouTube Tag Generator Tool | Multiimagex.online</title>
+<meta name="description" content="Generate smart, SEO-optimized YouTube tags (Hindi + English) instantly with Multiimagex.online. Boost your video reach now!" />
+<meta name="keywords" content="YouTube tag generator, AI YouTube tags, Hindi YouTube tags, trending YouTube tags, free YouTube tools, Multiimagex, YouTube SEO tool, viral video tags" />
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: #fff;
+    color: #222;
+    text-align: center;
+  }
+  header {
+    background: #ff0000;
+    color: #fff;
+    padding: 25px 15px;
+  }
+  input {
+    width: 90%;
+    max-width: 600px;
+    padding: 12px;
+    margin-top: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  button {
+    background: #ff0000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  button:hover { background: #cc0000; }
+  #tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+  }
+  .tag {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: 0.2s;
+  }
+  .tag:hover { background: #ff0000; color: #fff; transform: scale(1.05); }
+  footer {
+    padding: 15px;
+    font-size: 0.9rem;
+    border-top: 1px solid #eee;
+  }
+</style>
 </head>
 <body>
   <header>
-    <h1>AI YouTube Tag Generator (Hindi + English)</h1>
-    <p>Boost your YouTube SEO with smart, topic-based tags</p>
+    <h1>YouTube Tag Generator Tool</h1>
+    <p>Boost your YouTube SEO with Multiimagex.online</p>
   </header>
 
   <main>
-    <input id="inputText" placeholder="Enter your video title (e.g. movie kaise download kare)" />
+    <input id="titleInput" placeholder="Enter your video title (e.g. movie kaise download kare)" />
     <br>
     <button id="generateBtn">Generate Tags</button>
     <button id="copyBtn">Copy Tags</button>
     <div id="tags"></div>
   </main>
 
-  <footer>© 2025 Multiimagex.online | Smart YouTube SEO Tools</footer>
+  <footer>© 2025 Multiimagex.online | Free YouTube Tools & SEO Optimizer</footer>
 
-  <script>
-    const input = document.getElementById("inputText");
-    const generateBtn = document.getElementById("generateBtn");
-    const copyBtn = document.getElementById("copyBtn");
-    const tagsDiv = document.getElementById("tags");
+<script>
+  const baseTags = [
+    "youtube seo","video marketing","youtube growth","youtube tag generator","multiimagex",
+    "free youtube tools","best youtube tags","trending tags","youtube optimization","viral video tags"
+  ];
 
-    const fillerWords = ["kaise","kare","hai","ka","ke","ki","how","to","the","and","of","in","on","for"];
-    const seoTags = [
-      "youtube seo","trending youtube tags","video marketing","youtube growth",
-      "multiimagex","best youtube tags","viral video tags","free youtube tools",
-      "youtube optimization","video seo","youtube tips 2025"
-    ];
+  const intentTemplates = {
+    download: [
+      "how to download movies","movie download site","free movie download","best movie downloader app",
+      "movie download link","bollywood movie download","new movie download 2025","hd movie download",
+      "movie kaise download kare","movie download tutorial"
+    ],
+    status: [
+      "whatsapp status","status video","new status 2025","trending short video","30 second video status",
+      "love status","sad status","romantic status","new trending status","status editing tutorial"
+    ],
+    song: [
+      "hindi song","latest songs","music video","lyrics video","new song 2025",
+      "song download","best bollywood songs","trending music","audio video","song remix"
+    ],
+    tech: [
+      "technology","tech news","android tips","mobile tricks","tech guide",
+      "gadgets review","tech shorts","latest tech 2025","how to use app","smartphone review"
+    ],
+    ai: [
+      "ai tools","chatgpt","ai website","ai video generator","ai image tool","ai tutorial",
+      "best ai tools 2025","ai content creation","artificial intelligence"
+    ],
+    photo: [
+      "photo editing","remove background","photo editor","snapseed tutorial",
+      "background changer","canva tutorial","lightroom editing","photoshop tips","mobile photo editing"
+    ],
+    game: [
+      "gaming video","free fire","pubg","mobile games","new games 2025",
+      "gameplay","how to play","gaming tricks","game review","android games"
+    ],
+    movie: [
+      "film","cinema","hollywood","bollywood","movie trailer","new movies 2025",
+      "movie review","movie explanation","movie facts","best movies"
+    ]
+  };
 
-    // Hindi-English keyword mapping
-    const topicMap = {
-      "movie":["film","cinema","movie download","bollywood","hollywood","latest movies"],
-      "download":["free download","link","tutorial","guide","apk download","mobile download"],
-      "status":["whatsapp status","video status","shorts","trending status","new status 2025"],
-      "song":["mp3 download","music","lyrics","audio","bollywood songs","hindi song","new songs 2025"],
-      "tech":["technology","mobile","gadgets","review","android tips","tricks","tech news"],
-      "game":["gaming","android games","pc games","free fire","pubg","new games 2025"],
-      "photo":["image","editing","background","remove bg","photo editor","photoshop"],
-      "ai":["artificial intelligence","ai tools","ai websites","chatgpt","ai video generator"]
-    };
+  const detectIntent = title => {
+    title = title.toLowerCase();
+    if(title.includes("download")) return "download";
+    if(title.includes("status")) return "status";
+    if(title.includes("song") || title.includes("music") || title.includes("gana")) return "song";
+    if(title.includes("tech") || title.includes("mobile") || title.includes("app")) return "tech";
+    if(title.includes("ai") || title.includes("chatgpt")) return "ai";
+    if(title.includes("photo") || title.includes("edit") || title.includes("image")) return "photo";
+    if(title.includes("game")) return "game";
+    if(title.includes("movie") || title.includes("film")) return "movie";
+    return "general";
+  };
 
-    generateBtn.addEventListener("click", () => {
-      const text = input.value.trim().toLowerCase();
-      if (!text) return alert("Please enter a video title!");
+  const generateTags = title => {
+    const intent = detectIntent(title);
+    let tags = [];
+    if(intentTemplates[intent]) tags.push(...intentTemplates[intent]);
+    else tags.push(title);
 
-      // Clean text
-      let words = text.split(/\s+/).filter(w => !fillerWords.includes(w));
-      if (!words.length) return alert("Please enter a valid title!");
+    // Add common SEO tags
+    tags.push(...baseTags);
 
-      // Detect main topic
-      let mainWord = words.find(w => topicMap[w]);
-      if (!mainWord) mainWord = words[0];
+    // Remove duplicates and trim
+    return [...new Set(tags.map(t => t.trim()))];
+  };
 
-      let related = topicMap[mainWord] || [];
-      let tags = [];
+  document.getElementById("generateBtn").onclick = () => {
+    const title = document.getElementById("titleInput").value.trim();
+    if(!title) return alert("Please enter a title!");
+    const tags = generateTags(title);
+    document.getElementById("tags").innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join("");
+  };
 
-      // Create meaningful tag variations
-      tags.push(
-        `${mainWord} video`,
-        `how to ${mainWord}`,
-        `${mainWord} tutorial`,
-        `${mainWord} tips`,
-        `${mainWord} tricks`,
-        `${mainWord} 2025`,
-        `best ${mainWord} methods`,
-        `easy ${mainWord} guide`
-      );
-
-      // Combine with related keywords
-      related.forEach(r => tags.push(`${r}`, `best ${r}`, `${r} tutorial`, `${r} download`));
-
-      // Add some SEO base tags
-      tags.push(...seoTags);
-
-      // Remove duplicates
-      tags = [...new Set(tags)];
-
-      // Render tags
-      tagsDiv.innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join('');
-    });
-
-    copyBtn.addEventListener("click", () => {
-      const tags = [...tagsDiv.querySelectorAll(".tag")].map(t => t.textContent).join(", ");
-      if (!tags) return alert("No tags to copy!");
-      navigator.clipboard.writeText(tags);
-      alert("Tags copied!");
-    });
-  </script>
+  document.getElementById("copyBtn").onclick = () => {
+    const allTags = [...document.querySelectorAll(".tag")].map(t => t.textContent).join(", ");
+    if(!allTags) return alert("No tags to copy!");
+    navigator.clipboard.writeText(allTags);
+    alert("Tags copied!");
+  };
+</script>
 </body>
 </html>
