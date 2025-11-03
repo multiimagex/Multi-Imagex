@@ -105,47 +105,59 @@
   </main>
   <footer>© 2025 Multiimagex.online | Free YouTube Tools & SEO Optimizer</footer>
 
-  <script>
-    const backendURL = "https://youtube-tag-proxy.vercel.app"; // ✅ Replace if your Vercel URL changes
+<script>
+const backendURL = "https://youtube-tag-proxy.vercel.app";
 
-    document.getElementById("extractBtn").addEventListener("click", async () => {
-      const input = document.getElementById("videoUrl").value.trim();
-      const videoId = extractVideoID(input);
-      const status = document.getElementById("status");
-      const container = document.getElementById("tagsContainer");
-      container.innerHTML = "";
-      status.textContent = "Fetching tags...";
+function extractVideoID(url){
+  try{
+    const m = url.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }catch(e){ return null; }
+}
 
-      if (!videoId) {
-        status.textContent = "❌ Invalid YouTube URL!";
-        return;
-      }
+document.getElementById("extractBtn").addEventListener("click", async () => {
+  const input = document.getElementById("videoUrl").value.trim();
+  const status = document.getElementById("status");
+  const container = document.getElementById("tagsContainer");
+  container.innerHTML = "";
+  status.textContent = "Fetching tags...";
 
-      try {
-        const res = await fetch(`${backendURL}/extract?v=${videoId}`);
-        if (!res.ok) throw new Error("Network error");
-        const data = await res.json();
-        if (!data.tags || !data.tags.length) {
-          status.textContent = "⚠️ No tags found for this video.";
-          return;
-        }
-        status.textContent = `✅ ${data.tags.length} tags found:`;
-        data.tags.forEach(tag => {
-          const div = document.createElement("div");
-          div.className = "tag";
-          div.textContent = tag;
-          container.appendChild(div);
-        });
-      } catch (err) {
-        console.error(err);
-        status.textContent = "❌ Error fetching tags. Try again later.";
-      }
+  const vid = extractVideoID(input);
+  if(!vid){ status.textContent = "❌ Invalid YouTube URL"; return; }
+
+  try {
+    const resp = await fetch(`${backendURL}/extract?v=${vid}`, { method: 'GET' });
+    const text = await resp.text(); // read raw
+    let data;
+    try { data = JSON.parse(text); } catch(e) { throw new Error("Invalid JSON from proxy: " + text.slice(0,200)); }
+
+    if (!data.ok) {
+      // show server-provided message if any
+      const errMsg = data.error || data.message || JSON.stringify(data);
+      status.textContent = "❌ Proxy error: " + errMsg;
+      console.error("Proxy error details:", data);
+      return;
+    }
+
+    if (!data.tags || !data.tags.length) {
+      status.textContent = "⚠️ No tags found for this video";
+      return;
+    }
+
+    status.textContent = `✅ ${data.count || data.tags.length} tags found`;
+    data.tags.forEach(t => {
+      const el = document.createElement("div");
+      el.className = "tag";
+      el.textContent = t;
+      el.addEventListener("click", ()=> navigator.clipboard.writeText(t));
+      container.appendChild(el);
     });
 
-    function extractVideoID(url) {
-      const match = url.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
-      return match ? match[1] : null;
-    }
-  </script>
+  } catch (err) {
+    console.error("Fetch error:", err);
+    status.textContent = "❌ Error fetching tags: " + (err.message || err);
+  }
+});
+</script>
 </body>
 </html>
