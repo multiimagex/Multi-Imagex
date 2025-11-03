@@ -114,7 +114,7 @@ async function fetchTags(videoUrl) {
     // ✅ Backend proxy URL
     const backendURL = "https://youtube-tag-proxy.vercel.app";
 
-    const resp = await fetch(`${backendURL}/extract?v=${videoId}`);
+    const res = await fetch(`https://youtube-tag-proxy.vercel.app/extract?v=${vid}`);
     if (!resp.ok) throw new Error("Server error");
 
     const data = await resp.json();
