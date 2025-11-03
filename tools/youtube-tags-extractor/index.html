@@ -3,138 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YouTube Tag Extractor Tool | Multiimagex.online</title>
-  <meta name="description" content="Extract YouTube video tags instantly using Multiimagex.online’s free YouTube Tag Extractor Tool. Discover your competitors’ SEO strategies and trending keywords easily!">
-  <meta name="keywords" content="YouTube tag extractor, extract YouTube tags, YouTube SEO, Multiimagex, free YouTube tools, YouTube keyword finder">
-  <meta property="og:title" content="YouTube Tag Extractor Tool | Multiimagex.online" />
-  <meta property="og:description" content="Extract YouTube video tags instantly using Multiimagex.online’s free YouTube Tag Extractor Tool." />
-  <meta property="og:image" content="https://multiimagex.online/og-image.jpg" />
-  <meta property="og:url" content="https://multiimagex.online/youtube-tag-extractor" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <title>YouTube Tag Extractor</title>
   <style>
     body {
-      font-family: "Poppins", sans-serif;
-      margin: 0;
-      background: #f7f8fa;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    header {
-      text-align: center;
-      padding: 40px 20px 10px;
-    }
-    h1 {
-      font-size: 2rem;
-      margin: 0;
-    }
-    h2 {
-      font-size: 1rem;
-      color: #666;
-    }
-    main {
-      flex: 1;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
+      justify-content: center;
+      height: 100vh;
     }
     input {
-      width: 90%;
-      max-width: 500px;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      font-size: 1rem;
-      outline: none;
+      width: 300px;
+      padding: 10px;
+      margin-bottom: 10px;
     }
     button {
-      padding: 12px 25px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
+      padding: 10px 20px;
       cursor: pointer;
-      transition: background 0.3s;
+      background: #ff0000;
+      border: none;
+      color: white;
+      border-radius: 5px;
     }
-    button:hover {
-      background: #0056b3;
-    }
-    #tagsContainer {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
+    .tags {
       margin-top: 20px;
+      width: 80%;
+      max-width: 600px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .tag {
-      background: #e9f5ff;
-      border: 1px solid #007bff;
-      color: #007bff;
-      border-radius: 20px;
-      padding: 8px 15px;
-      font-size: 0.9rem;
-      transition: all 0.3s;
-    }
-    .tag:hover {
-      background: #007bff;
-      color: white;
-    }
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #222;
-      color: white;
-      font-size: 0.9rem;
+      display: inline-block;
+      background: #eee;
+      padding: 5px 10px;
+      margin: 4px;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>YouTube Tag Extractor Tool</h1>
-    <h2>Extract YouTube video tags instantly – powered by Multiimagex.online</h2>
-  </header>
-  <main>
-    <input type="text" id="videoUrl" placeholder="Paste YouTube video URL here..." />
-    <button id="extractBtn">Extract Tags</button>
-    <div id="status"></div>
-    <div id="tagsContainer"></div>
-  </main>
-  <footer>© 2025 Multiimagex.online | Free YouTube Tools & SEO Optimizer</footer>
 
-<script>
-async function fetchTags(videoUrl) {
-  try {
-    const videoId = extractVideoID(videoUrl);
-    if (!videoId) throw new Error("Invalid video URL");
+  <h2>YouTube Tag Extractor</h2>
+  <input type="text" id="videoUrl" placeholder="Enter YouTube video URL" />
+  <button id="extractBtn">Extract Tags</button>
 
-    // ✅ Backend proxy URL
-    const backendURL = "https://youtube-tag-proxy.vercel.app";
+  <div class="tags" id="tagContainer"></div>
 
-    const res = await fetch(`https://youtube-tag-proxy.vercel.app/extract?v=${vid}`);
-    if (!resp.ok) throw new Error("Server error");
+  <script>
+    // ✅ Function to extract YouTube video ID
+    function extractVideoID(url) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return match && match[2].length === 11 ? match[2] : null;
+    }
 
-    const data = await resp.json();
-    if (!data.tags || !data.tags.length) throw new Error("No tags found");
+    // ✅ Fetch tags using the proxy backend
+    async function fetchTags(videoUrl) {
+      try {
+        const videoId = extractVideoID(videoUrl);
+        if (!videoId) throw new Error("Invalid YouTube URL");
 
-    return data.tags;
-  } catch (err) {
-    console.error("Error fetching tags:", err.message);
-    alert("Error fetching tags: " + err.message);
-    return [];
-  }
-}
+        const backendURL = "https://youtube-tag-proxy.vercel.app";
+        const resp = await fetch(`${backendURL}/extract?v=${videoId}`);
+        if (!resp.ok) throw new Error("Server error");
 
-// Example: button click event
-document.getElementById("extractBtn").addEventListener("click", async () => {
-  const url = document.getElementById("videoUrl").value.trim();
-  if (!url) return alert("Please enter a YouTube URL");
-  const tags = await fetchTags(url);
-  console.log("Extracted Tags:", tags);
-});
-</script>
+        const data = await resp.json();
+        if (!data.tags || !data.tags.length) throw new Error("No tags found");
+
+        return data.tags;
+      } catch (err) {
+        console.error("Error fetching tags:", err.message);
+        alert("Error fetching tags: " + err.message);
+        return [];
+      }
+    }
+
+    // ✅ Handle button click
+    document.getElementById("extractBtn").addEventListener("click", async () => {
+      const url = document.getElementById("videoUrl").value.trim();
+      if (!url) return alert("Please enter a YouTube URL");
+
+      document.getElementById("tagContainer").innerHTML = "Extracting tags...";
+      const tags = await fetchTags(url);
+
+      if (tags.length) {
+        document.getElementById("tagContainer").innerHTML = tags.map(t => `<span class="tag">${t}</span>`).join("");
+      } else {
+        document.getElementById("tagContainer").innerHTML = "No tags found.";
+      }
+    });
+  </script>
+
 </body>
 </html>
