@@ -134,7 +134,8 @@ async function fetchWithTimeout(url,opts={},timeout=12000){
 }
 async function fetchTagsFromHtmlProxy(videoId){
     const url=`https://youtube-tag-proxy.vercel.app/extract?v=${videoId}`;
-    const res=await fetchWithTimeout(url);
+    const res = await fetch(url);
+    const data = await res.json();
     if(!res.ok)throw new Error('Proxy fetch failed');
     const text=await res.text();
     const metaMatch=text.match(/<meta name="keywords" content="([^"]+)">/i);
