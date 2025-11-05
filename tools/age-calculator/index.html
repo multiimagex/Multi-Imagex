@@ -1,39 +1,585 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <link rel="icon" href="favicon-16x16.png" type="image/x-icon">
-  <meta charset="utf-8">
-  <title>Age Calculator — Calculate Exact Age | multiimagex</title>
-  <meta name="description" content="Calculate exact age from date of birth with multiimagex Age Calculator. Shows years, months, days, and next birthday countdown. Mobile-friendly and fast.">
-  <meta name="keywords" content="age calculator, calculate age, age from dob, years months days, next birthday countdown">
-  <link rel="canonical" href="https://www.multiimagex.online/tools/age-calculator/" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>body{font-family:Inter,Arial;margin:0;color:#222}header{background:#6c63ff;color:#fff;padding:14px;text-align:center}.container{max-width:720px;margin:18px auto;padding:16px} label,input,button{display:block;width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc} .result{margin-top:12px;padding:12px;border-radius:8px;background:#f9f9ff;border:1px solid #eee}</style>
-</head>
-<body>
-  <header><h1>multiimagex — Age Calculator</h1></header>
-  <main class="container">
-    <h2>Calculate exact age from Date of Birth</h2>
-    <p>Enter a date of birth to get precise age in years, months, and days. Also shows days until next birthday.</p>
-    <label for="dob">Date of Birth</label>
-    <input id="dob" type="date">
-    <button id="calcBtn">Calculate Age</button>
-    <div id="result" class="result" style="display:none"></div>
-  </main>
-  <footer style="text-align:center;padding:16px;border-top:1px solid #eee">© 2025 <a href="https://www.multiimagex.online/">multiimagex</a></footer>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Age Calculator – multiimagex.online | Calculate exact age in years, months, days & more</title>
+  <meta name="description" content="Use multiimagex's free online Age Calculator to instantly calculate your age in years, months, days, hours & seconds, find days until next birthday, get zodiac sign, life path number, download results & share." />
+  <meta name="keywords" content="age calculator, calculate age, online age calculator, how old am I, age in years months days, next birthday countdown, age difference calculator, zodiac calculator, life path number, multiimagex, multiimagex.online" />
+  <link rel="canonical" href="https://multiimagex.online/" />
+  <meta property="og:title" content="Age Calculator – multiimagex.online" />
+  <meta property="og:description" content="Free online Age Calculator: calculate your age precisely in years, months, days, hours, minutes & seconds. Includes zodiac, life path number and downloadable result." />
+  <meta property="og:url" content="https://multiimagex.online/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="multiimagex" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
 
+  <!-- Tailwind via CDN for quick single-file styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Day.js + plugins via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
   <script>
-    document.getElementById('calcBtn').addEventListener('click', ()=>{
-      const dob=document.getElementById('dob').value; if(!dob){alert('Choose Date of Birth');return}
-      const birth=new Date(dob); const today=new Date(); if(birth>today){alert('DOB is in future');return}
-      let years=today.getFullYear()-birth.getFullYear(); let months=today.getMonth()-birth.getMonth(); let days=today.getDate()-birth.getDate();
-      if(days<0){ months--; const prevMonth=new Date(today.getFullYear(), today.getMonth(), 0); days += prevMonth.getDate(); }
-      if(months<0){ years--; months += 12; }
-      const nextBirthday = new Date(today.getFullYear(), birth.getMonth(), birth.getDate()); if(nextBirthday < today) nextBirthday.setFullYear(nextBirthday.getFullYear()+1);
-      const diffDays = Math.ceil((nextBirthday - today)/(1000*60*60*24));
-      const res = `Age: ${years} years, ${months} months, ${days} days.<br>Days until next birthday: ${diffDays}`;
-      const out=document.getElementById('result'); out.innerHTML = res; out.style.display='block';
-    });
+    dayjs.extend(window.dayjs_plugin_utc);
+    dayjs.extend(window.dayjs_plugin_timezone);
+  </script>
+
+  <!-- html2canvas & jsPDF for export -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <!-- Structured data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "WebApplication",
+    "name": "multiimagex – Age Calculator",
+    "url": "https://multiimagex.online/",
+    "description": "Free online Age Calculator to calculate exact age in years, months, days, hours & seconds, with zodiac, life path number and download/share options.",
+    "applicationCategory": "Tools",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <style>
+    /* Small custom CSS for results count-up & subtle polish */
+    .num-animate { transition: all .6s cubic-bezier(.2,.9,.3,1); }
+    .fade-in { animation: fadeIn .45s ease both; }
+    @keyframes fadeIn { from {opacity:0; transform: translateY(6px)} to {opacity:1; transform:none} }
+    /* Keep max width */
+    .max-w-page { max-width: 980px; margin-left:auto; margin-right:auto; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen antialiased">
+
+  <main class="max-w-page p-4 md:p-8">
+    <header class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-semibold">Free Age Calculator — <span class="text-indigo-600">multiimagex.online</span></h1>
+        <p class="text-sm text-slate-600">Calculate your exact age in years, months, days, hours, minutes & seconds. No signup — instant & free.</p>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button id="themeToggle" class="px-3 py-2 rounded-md border text-sm">Dark</button>
+        <a class="text-sm text-slate-500" href="#" id="aboutToggle">About</a>
+      </div>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Inputs -->
+      <form id="ageForm" class="bg-white p-4 rounded-2xl shadow-sm space-y-4">
+        <div>
+          <label class="text-sm font-medium">Date of Birth</label>
+          <div class="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <input id="dobDate" type="date" class="p-2 border rounded-md" required />
+            <input id="dobTime" type="time" class="p-2 border rounded-md" placeholder="Optional time" />
+            <select id="dobTZ" class="p-2 border rounded-md">
+              <option value="">Detect Timezone (default)</option>
+              <option value="UTC">UTC</option>
+              <option value="Asia/Kolkata">Asia/Kolkata</option>
+              <option value="America/New_York">America/New_York</option>
+              <option value="Europe/London">Europe/London</option>
+              <!-- Add more common zones; user can type zone in console for advanced usage -->
+            </select>
+          </div>
+          <p id="formatHint" class="text-xs text-slate-500 mt-1">Supported formats: YYYY-MM-DD (native). You can optionally enter time & timezone.</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="calcBtn" type="button" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Calculate Age</button>
+          <button id="resetBtn" type="button" class="px-4 py-2 border rounded-md">Reset</button>
+          <label class="ml-auto flex items-center gap-2 text-sm">
+            <input id="liveToggle" type="checkbox" class="form-checkbox" /> Live mode (update seconds)
+          </label>
+        </div>
+
+        <div class="pt-2 border-t mt-2">
+          <label class="text-sm font-medium">Compare with (optional)</label>
+          <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input id="compareDate" type="date" class="p-2 border rounded-md" />
+            <input id="compareTime" type="time" class="p-2 border rounded-md" />
+          </div>
+          <button id="compareBtn" type="button" class="mt-3 px-3 py-2 text-sm border rounded-md">Compare Ages</button>
+        </div>
+
+        <div class="mt-3 text-xs text-slate-500">
+          Tip: Results are calculated client-side in your browser. Your last DOB is saved locally for convenience.
+        </div>
+      </form>
+
+      <!-- Results / Actions -->
+      <div class="space-y-4">
+        <article id="resultCard" class="bg-white p-4 rounded-2xl shadow-sm hidden">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 id="resultTitle" class="text-lg font-semibold">Your Age</h2>
+              <p id="bornOn" class="text-sm text-slate-500">Born on —</p>
+            </div>
+            <div class="text-right">
+              <div id="ageMain" class="text-2xl font-bold text-indigo-600">—</div>
+              <div class="text-xs text-slate-500">years / months / days</div>
+            </div>
+          </div>
+
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="p-3 bg-slate-50 rounded-lg">
+              <div class="text-sm text-slate-600">Exact (Y-M-D)</div>
+              <div id="exactYMD" class="text-xl font-semibold num-animate">—</div>
+              <div class="text-xs text-slate-500 mt-1">Also shows hours, minutes & seconds when Live mode is on.</div>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-lg">
+              <div class="text-sm text-slate-600">Next Birthday</div>
+              <div id="nextBirthday" class="text-lg font-semibold">—</div>
+              <div id="countdown" class="text-sm text-slate-500 mt-1">—</div>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-lg">
+              <div class="text-sm text-slate-600">Total Lived</div>
+              <div id="totalLived" class="text-lg font-semibold">—</div>
+              <div class="text-xs text-slate-500">days / hours / minutes / seconds</div>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-lg">
+              <div class="text-sm text-slate-600">Fun & Zodiac</div>
+              <div id="zodiacBox" class="text-lg font-semibold">—</div>
+              <div class="text-xs text-slate-500 mt-1">Zodiac · Chinese Zodiac · Birthstone · Life Path</div>
+            </div>
+          </div>
+
+          <div class="mt-4 flex items-center gap-2">
+            <button id="copyBtn" class="px-3 py-2 border rounded-md text-sm">Copy Result</button>
+            <button id="shareBtn" class="px-3 py-2 border rounded-md text-sm">Share</button>
+            <button id="downloadImgBtn" class="px-3 py-2 border rounded-md text-sm">Download Image</button>
+            <button id="downloadPdfBtn" class="px-3 py-2 border rounded-md text-sm">Download PDF</button>
+            <button id="printBtn" class="px-3 py-2 border rounded-md text-sm">Print</button>
+            <div class="ml-auto text-xs text-slate-500">Saved to localStorage · <span id="savedHint">—</span></div>
+          </div>
+        </article>
+
+        <article id="compareCard" class="bg-white p-4 rounded-2xl shadow-sm hidden">
+          <h3 class="font-semibold">Age Comparison</h3>
+          <div id="compareResult" class="mt-2 text-sm text-slate-700">—</div>
+        </article>
+
+        <!-- About & FAQ -->
+        <article id="aboutSection" class="bg-white p-4 rounded-2xl shadow-sm hidden">
+          <h3 class="font-semibold">About this Age Calculator</h3>
+          <p class="mt-2 text-sm text-slate-600">multiimagex.online provides a fast, accurate, and privacy-conscious age calculator. Everything runs in your browser — no signup, no servers. Use the download & share options freely.</p>
+          <h4 class="mt-3 font-medium">FAQ</h4>
+          <dl class="mt-2 text-sm text-slate-600 space-y-2">
+            <div>
+              <dt class="font-semibold">Is it free?</dt>
+              <dd>Yes — completely free.</dd>
+            </div>
+            <div>
+              <dt class="font-semibold">Is my data saved?</dt>
+              <dd>Only the DOB is saved locally in your browser if you allow it. Nothing is sent to our servers.</dd>
+            </div>
+            <div>
+              <dt class="font-semibold">How accurate is it?</dt>
+              <dd>All calculations use standard civil calendar math. If you set birth time & timezone, the seconds/hours calculation uses that reference.</dd>
+            </div>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <footer class="mt-8 text-xs text-slate-500">
+      <div>© <strong>multiimagex</strong> — <a href="https://multiimagex.online" class="text-indigo-600">multiimagex.online</a>. Built for fast, accurate age calculations. Share & link to help others find this tool.</div>
+    </footer>
+  </main>
+
+  <!-- Inline JS implementing logic -->
+  <script>
+  (function(){
+    /* Elements */
+    const dobDate = document.getElementById('dobDate');
+    const dobTime = document.getElementById('dobTime');
+    const dobTZ = document.getElementById('dobTZ');
+    const calcBtn = document.getElementById('calcBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const liveToggle = document.getElementById('liveToggle');
+    const resultCard = document.getElementById('resultCard');
+    const resultTitle = document.getElementById('resultTitle');
+    const bornOn = document.getElementById('bornOn');
+    const ageMain = document.getElementById('ageMain');
+    const exactYMD = document.getElementById('exactYMD');
+    const nextBirthday = document.getElementById('nextBirthday');
+    const countdown = document.getElementById('countdown');
+    const totalLived = document.getElementById('totalLived');
+    const zodiacBox = document.getElementById('zodiacBox');
+    const copyBtn = document.getElementById('copyBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const downloadImgBtn = document.getElementById('downloadImgBtn');
+    const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+    const printBtn = document.getElementById('printBtn');
+    const savedHint = document.getElementById('savedHint');
+    const compareDate = document.getElementById('compareDate');
+    const compareTime = document.getElementById('compareTime');
+    const compareBtn = document.getElementById('compareBtn');
+    const compareCard = document.getElementById('compareCard');
+    const compareResult = document.getElementById('compareResult');
+    const aboutToggle = document.getElementById('aboutToggle');
+    const aboutSection = document.getElementById('aboutSection');
+    const compareToggleBtn = compareBtn;
+
+    const themeToggle = document.getElementById('themeToggle');
+
+    /* Storage keys */
+    const STORAGE_DOB = 'multiimagex_last_dob';
+    const STORAGE_THEME = 'multiimagex_theme';
+
+    /* Timezone detection */
+    const defaultTZ = dayjs.tz.guess();
+
+    /* Live interval handle */
+    let liveInterval = null;
+    let currentBirth = null;
+    let currentBirthTZ = '';
+
+    /* Initialize */
+    function init() {
+      // Load saved DOB
+      const saved = localStorage.getItem(STORAGE_DOB);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed.date) {
+            dobDate.value = parsed.date.split('T')[0];
+            if (parsed.time) dobTime.value = parsed.time;
+            if (parsed.tz) dobTZ.value = parsed.tz;
+            savedHint.textContent = 'Last saved on this device';
+          } else {
+            savedHint.textContent = 'No saved DOB';
+          }
+        } catch(e) { savedHint.textContent = '—'; }
+      } else {
+        savedHint.textContent = '—';
+      }
+
+      // Theme
+      const theme = localStorage.getItem(STORAGE_THEME) || 'light';
+      setTheme(theme);
+
+      // About toggle
+      aboutToggle.addEventListener('click', (e)=>{ e.preventDefault(); aboutSection.classList.toggle('hidden'); });
+      themeToggle.addEventListener('click', toggleTheme);
+
+      // Buttons
+      calcBtn.addEventListener('click', handleCalculate);
+      resetBtn.addEventListener('click', handleReset);
+      copyBtn.addEventListener('click', handleCopy);
+      shareBtn.addEventListener('click', handleShare);
+      downloadImgBtn.addEventListener('click', handleDownloadImage);
+      downloadPdfBtn.addEventListener('click', handleDownloadPDF);
+      printBtn.addEventListener('click', ()=> window.print());
+      compareBtn.addEventListener('click', handleCompare);
+
+      // Pre-populate timezone hint
+      if (!dobTZ.value) {
+        dobTZ.querySelector('option').textContent = `Detect Timezone (${defaultTZ})`;
+      }
+    }
+
+    function setTheme(t) {
+      if (t === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.body.classList.remove('bg-slate-50');
+        document.body.classList.add('bg-slate-900','text-slate-100');
+        themeToggle.textContent = 'Light';
+        localStorage.setItem(STORAGE_THEME,'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.body.classList.remove('bg-slate-900','text-slate-100');
+        document.body.classList.add('bg-slate-50','text-slate-900');
+        themeToggle.textContent = 'Dark';
+        localStorage.setItem(STORAGE_THEME,'light');
+      }
+    }
+    function toggleTheme(){ const cur = localStorage.getItem(STORAGE_THEME) === 'dark' ? 'light' : 'dark'; setTheme(cur); }
+
+    /* Helper: build dayjs from input */
+    function buildBirthDay(dateStr, timeStr, tzStr) {
+      if (!dateStr) return null;
+      let iso = dateStr;
+      if (timeStr) iso += 'T' + timeStr;
+      else iso += 'T00:00:00';
+      try {
+        const tz = tzStr || defaultTZ;
+        const dt = dayjs.tz(iso, tz);
+        return { dt, tz };
+      } catch(e) { return null; }
+    }
+
+    /* Compute precise years, months, days using step subtraction */
+    function computeYMD(birth, now) {
+      // birth, now are dayjs objects
+      let years = now.diff(birth,'year');
+      let temp = birth.add(years,'year');
+      let months = now.diff(temp,'month');
+      temp = temp.add(months,'month');
+      let days = now.diff(temp,'day');
+      return { years, months, days, temp };
+    }
+
+    /* Life path number */
+    function calcLifePath(dateStr) {
+      // dateStr expected YYYY-MM-DD
+      const digits = (dateStr.replace(/-/g,'')||'').split('').map(Number);
+      function reduce(n){
+        while(n>9 && n!==11 && n!==22){
+          n = String(n).split('').reduce((s,ch)=>s+Number(ch),0);
+        }
+        return n;
+      }
+      const total = digits.reduce((s,d)=>s+d,0);
+      return reduce(total);
+    }
+
+    /* Western zodiac by month/day */
+    function westernZodiac(month, day) {
+      // month: 1-12
+      const z = [
+        {name:'Capricorn', end:19},{name:'Aquarius',end:18},{name:'Pisces',end:20},
+        {name:'Aries',end:19},{name:'Taurus',end:20},{name:'Gemini',end:20},
+        {name:'Cancer',end:22},{name:'Leo',end:22},{name:'Virgo',end:22},
+        {name:'Libra',end:22},{name:'Scorpio',end:21},{name:'Sagittarius',end:21}
+      ];
+      const idx = month-1;
+      if (day <= z[idx].end) return z[idx].name;
+      return z[(idx+1)%12].name;
+    }
+
+    /* Chinese zodiac */
+    function chineseZodiac(year) {
+      const animals = ['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+      const idx = (year - 1900) % 12;
+      return animals[(idx+12)%12];
+    }
+
+    /* Birthstone by month */
+    function birthstone(month) {
+      const stones = ['Garnet','Amethyst','Aquamarine','Diamond','Emerald','Pearl / Alexandrite','Ruby','Peridot','Sapphire','Opal','Topaz','Tanzanite'];
+      return stones[month-1] || '—';
+    }
+
+    /* Next milestone (e.g., 10000 days) */
+    function nextMilestoneDays(birth, now) {
+      const daysLived = now.diff(birth,'day');
+      const milestones = [1000,2000,5000,10000,15000,20000,25000,30000,36500]; // sample
+      for (let m of milestones) {
+        if (m > daysLived) {
+          const date = birth.add(m,'day');
+          return { milestone: m, date };
+        }
+      }
+      const m = Math.ceil((daysLived+1)/10000)*10000;
+      return { milestone: m, date: birth.add(m,'day') };
+    }
+
+    /* Format plural */
+    function plural(n, s) { return `${n} ${s}${n===1?'':''}`; }
+
+    /* Main calculate function */
+    function handleCalculate() {
+      const dateVal = dobDate.value;
+      if (!dateVal) {
+        alert('Please enter a date of birth.');
+        return;
+      }
+      const timeVal = dobTime.value || '';
+      const tzVal = dobTZ.value || defaultTZ;
+      const built = buildBirthDay(dateVal, timeVal, tzVal);
+      if (!built) { alert('Invalid date/time or timezone'); return; }
+      const birth = built.dt;
+      currentBirth = birth;
+      currentBirthTZ = tzVal;
+
+      // Prevent future date
+      const now = dayjs().tz(defaultTZ);
+      if (birth.isAfter(now)) { alert('Date of birth cannot be in the future.'); return; }
+
+      // Save to localStorage
+      localStorage.setItem(STORAGE_DOB, JSON.stringify({ date: birth.toISOString(), time: timeVal, tz: tzVal }));
+
+      // Show results card
+      renderResults(birth, now, { timeVal, tzVal });
+
+      // Start live if toggled
+      if (liveToggle.checked) startLive(birth);
+      else stopLive();
+    }
+
+    function renderResults(birth, now, opts={}) {
+      resultCard.classList.remove('hidden');
+
+      // Born on text
+      const bornWeekday = birth.format('dddd, MMM D, YYYY HH:mm z');
+      bornOn.textContent = `Born on ${bornWeekday}`;
+
+      // Compute YMD
+      const ymd = computeYMD(birth, now);
+      ageMain.textContent = `${ymd.years}y ${ymd.months}m ${ymd.days}d`;
+      exactYMD.textContent = `${ymd.years} years, ${ymd.months} months, ${ymd.days} days`;
+
+      // Next birthday
+      let nextBD = birth.add(ymd.years,'year').add(1,'year').startOf('day');
+      // fix: if next occurs later same year
+      const thisYearBD = birth.add(ymd.years,'year');
+      if (thisYearBD.isAfter(now)) nextBD = thisYearBD.startOf('day');
+      nextBirthday.textContent = `${nextBD.format('dddd, MMM D, YYYY')}`;
+      updateCountdown(nextBD, now);
+
+      // total lived
+      const daysLived = now.diff(birth,'day');
+      const hoursLived = now.diff(birth,'hour');
+      const minsLived = now.diff(birth,'minute');
+      const secsLived = now.diff(birth,'second');
+      totalLived.textContent = `${daysLived} days · ${hoursLived} hours · ${minsLived} minutes`;
+
+      // Fun / zodiac
+      const wZ = westernZodiac(birth.month()+1, birth.date());
+      const cZ = chineseZodiac(birth.year());
+      const stone = birthstone(birth.month()+1);
+      const life = calcLifePath(birth.format('YYYY-MM-DD'));
+      zodiacBox.innerHTML = `${wZ} · ${cZ} · ${stone} · Life Path ${life}`;
+
+      // milestone
+      const milestone = nextMilestoneDays(birth, now);
+      const msText = `Next milestone: ${milestone.milestone} days on ${milestone.date.format('MMM D, YYYY')}`;
+      // append
+      const node = document.createElement('div'); node.className='text-xs text-slate-500 mt-2'; node.textContent = msText;
+      if (!document.getElementById('msnote')) { node.id='msnote'; resultCard.querySelector('.mt-4.grid')?.appendChild(node); }
+      else document.getElementById('msnote').textContent = msText;
+
+      // Save subtitle
+      resultTitle.textContent = `Your Age — multiimagex`;
+
+      // saved hint
+      savedHint.textContent = 'Saved on this device';
+    }
+
+    function updateCountdown(target, nowRef=null) {
+      const now = nowRef || dayjs().tz(defaultTZ);
+      const diffSec = target.diff(now,'second');
+      if (diffSec <= 0) {
+        countdown.textContent = 'Happy Birthday! 🎂';
+        return;
+      }
+      const d = Math.floor(diffSec / 86400);
+      const h = Math.floor((diffSec % 86400) / 3600);
+      const m = Math.floor((diffSec % 3600) / 60);
+      const s = diffSec % 60;
+      countdown.textContent = `${d} days ${h} hrs ${m} min ${s} sec`;
+    }
+
+    /* Live update every second for seconds precision */
+    function startLive(birth) {
+      stopLive();
+      liveInterval = setInterval(()=>{
+        const now = dayjs().tz(defaultTZ);
+        const ymd = computeYMD(birth, now);
+        ageMain.textContent = `${ymd.years}y ${ymd.months}m ${ymd.days}d`;
+        exactYMD.textContent = `${ymd.years} years, ${ymd.months} months, ${ymd.days} days ${now.diff(birth,'hour')%24}h ${now.diff(birth,'minute')%60}m ${now.diff(birth,'second')%60}s`;
+        // update countdown
+        const nextBD = birth.add(ymd.years + (birth.add(ymd.years,'year').isAfter(now)?0:1),'year').startOf('day');
+        updateCountdown(nextBD, now);
+        // total lived
+        const daysLived = now.diff(birth,'day');
+        const hoursLived = now.diff(birth,'hour');
+        const minsLived = now.diff(birth,'minute');
+        totalLived.textContent = `${daysLived} days · ${hoursLived} hours · ${minsLived} minutes`;
+      }, 1000);
+    }
+    function stopLive() { if (liveInterval) clearInterval(liveInterval); liveInterval = null; }
+
+    function handleReset() {
+      stopLive();
+      resultCard.classList.add('hidden');
+      compareCard.classList.add('hidden');
+      dobDate.value=''; dobTime.value=''; compareDate.value=''; compareTime.value='';
+      localStorage.removeItem(STORAGE_DOB);
+      savedHint.textContent = '—';
+    }
+
+    async function handleCopy() {
+      const text = gatherResultText();
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('Result copied to clipboard');
+      } catch(e) { alert('Copy failed — please allow clipboard permission.'); }
+    }
+
+    function gatherResultText() {
+      return `${resultTitle.textContent}\n${bornOn.textContent}\n${ageMain.textContent}\n${exactYMD.textContent}\nNext birthday: ${nextBirthday.textContent}\n${countdown.textContent}\n${zodiacBox.textContent}\nmultiimagex.online`;
+    }
+
+    async function handleShare() {
+      const text = gatherResultText();
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: 'My Age — multiimagex', text, url: location.href });
+        } catch(e) { /* user cancelled */ }
+      } else {
+        alert('Share not supported on this device — use Copy instead.');
+      }
+    }
+
+    async function handleDownloadImage() {
+      const node = resultCard;
+      if (!node) return alert('No result to download.');
+      try {
+        const canvas = await html2canvas(node, { scale: 2 });
+        const dataUrl = canvas.toDataURL('image/png');
+        const link = document.createElement('a'); link.href = dataUrl; link.download = 'age-result.png'; link.click();
+      } catch(e) { alert('Image download failed.'); console.error(e); }
+    }
+
+    async function handleDownloadPDF() {
+      const node = resultCard;
+      if (!node) return alert('No result to download.');
+      try {
+        const canvas = await html2canvas(node, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ unit: 'px', format: [canvas.width, canvas.height] });
+        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+        pdf.save('age-result.pdf');
+      } catch(e) { alert('PDF download failed.'); console.error(e); }
+    }
+
+    /* Compare two dates */
+    function handleCompare() {
+      const primary = dobDate.value;
+      const primaryTime = dobTime.value || '';
+      const compDateVal = compareDate.value;
+      if (!primary || !compDateVal) { alert('Please enter both primary DOB and comparison date.'); return; }
+      const primaryBuilt = buildBirthDay(primary, primaryTime, dobTZ.value || defaultTZ);
+      const compBuilt = buildBirthDay(compDateVal, compareTime.value || '', defaultTZ);
+      if (!primaryBuilt || !compBuilt) return alert('Invalid dates.');
+      const p = primaryBuilt.dt;
+      const c = compBuilt.dt;
+      // determine difference absolute
+      const diff = dayjs.duration(Math.abs(p.diff(c)));
+      // Use computeYMD to give human friendly
+      const older = p.isBefore(c) ? p : c;
+      const newer = p.isBefore(c) ? c : p;
+      const ymd = computeYMD(older, newer);
+      compareResult.innerHTML = `Difference: <strong>${ymd.years} years, ${ymd.months} months, ${ymd.days} days</strong> (${Math.abs(p.diff(c,'day'))} days)`;
+      compareCard.classList.remove('hidden');
+    }
+
+    /* init */
+    init();
+
+  })();
   </script>
 </body>
 </html>
