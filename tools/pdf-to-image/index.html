@@ -1,90 +1,89 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>multiimagex.online — Free Online PDF to Image Converter (PNG, JPG)</title>
-  <meta name="description" content="multiimagex.online - Free online PDF to Image converter. Convert PDF pages to PNG or JPG in the browser. No upload, fast, mobile-friendly.">
-  <meta name="keywords" content="pdf to image, pdf to jpg, pdf to png, convert pdf to image, free pdf to image online, multiimagex.online">
+  <meta name="description" content="multiimagex.online - Free online PDF to Image converter. Convert PDF pages to PNG or JPG in the browser. No upload, fast, mobile-friendly." />
+  <meta name="keywords" content="pdf to image, pdf to jpg, pdf to png, convert pdf to image, free pdf to image online, multiimagex.online" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="multiimagex.online — Free Online PDF to Image Converter (PNG, JPG)">
-  <meta property="og:description" content="Convert PDF to high-quality PNG or JPG in your browser. No upload. Fast. Mobile-friendly.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://multiimagex.online">
-  <meta property="og:image" content="https://multiimagex.online/og-image.png">
+  <meta property="og:title" content="multiimagex.online — Free Online PDF to Image Converter (PNG, JPG)" />
+  <meta property="og:description" content="Convert PDF to high-quality PNG or JPG in your browser. No upload. Fast. Mobile-friendly." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://multiimagex.online" />
+  <meta property="og:image" content="https://multiimagex.online/og-image.png" />
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="multiimagex.online — Free Online PDF to Image Converter">
-  <meta name="twitter:description" content="Convert PDF to PNG/JPG entirely in your browser. Fast & private.">
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="multiimagex.online — Free Online PDF to Image Converter" />
+  <meta name="twitter:description" content="Convert PDF to PNG/JPG entirely in your browser. Fast & private." />
 
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "multiimagex.online",
-    "url": "https://multiimagex.online",
-    "description": "Free online PDF to Image converter (PNG, JPG) — convert pages in your browser.",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://multiimagex.online/?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"multiimagex.online",
+    "url":"https://multiimagex.online",
+    "description":"Free online PDF to Image converter (PNG, JPG) — convert pages in your browser."
   }
   </script>
 
   <style>
-    /* Google Font */
+    /* Fonts */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-    :root{--bg:#f7f9fc;--card:#ffffff;--accent:#0066ff;--muted:#6b7280;--radius:12px}
+
+    :root{
+      --bg:#f7f9fc;
+      --card:#ffffff;
+      --accent:#0066ff;
+      --accent-2:#3b82f6;
+      --muted:#6b7280;
+      --radius:12px;
+    }
+
     *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
     body{margin:0;background:var(--bg);color:#0f172a;line-height:1.4}
-    .container{max-width:1100px;margin:32px auto;padding:20px}
+    .container{max-width:1100px;margin:28px auto;padding:18px}
     header{display:flex;align-items:center;gap:16px}
-    .brand{display:flex;flex-direction:column}
     .brand h1{margin:0;font-size:20px;color:var(--accent)}
     .brand p{margin:0;color:var(--muted);font-size:13px}
 
-    .card{background:var(--card);border-radius:var(--radius);box-shadow:0 6px 18px rgba(15,23,42,0.06);padding:18px;margin-top:18px}
-    .uploader{border:2px dashed rgba(15,23,42,0.06);border-radius:10px;padding:20px;text-align:center;cursor:pointer}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:0 6px 18px rgba(15,23,42,0.06);padding:16px;margin-top:16px}
+    .uploader{border:2px dashed rgba(15,23,42,0.06);border-radius:10px;padding:18px;text-align:center;cursor:pointer;position:relative}
     .uploader.drag{border-color:var(--accent);background:linear-gradient(90deg,rgba(0,102,255,0.03),rgba(0,0,0,0))}
-    .uploader input{display:none}
-    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#3b82f6);color:white;font-weight:600;text-decoration:none;border:none;cursor:pointer}
+    /* make file input cover the uploader so clicks never get swallowed */
+    #fileInput{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:6}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;font-weight:600;text-decoration:none;border:none;cursor:pointer}
     .small{font-size:13px;color:var(--muted)}
+    .tiny{font-size:12px;color:var(--muted)}
 
     .layout{display:grid;grid-template-columns:360px 1fr;gap:18px;margin-top:18px}
     @media(max-width:900px){.layout{grid-template-columns:1fr}}
 
-    /* left panel */
     .thumbs{height:520px;overflow:auto;padding:8px;display:flex;flex-direction:column;gap:8px}
     .thumb{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;cursor:pointer}
     .thumb img{width:80px;height:110px;object-fit:cover;border-radius:6px}
     .thumb.selected{outline:3px solid rgba(0,102,255,0.12);background:linear-gradient(90deg,rgba(0,102,255,0.03),transparent)}
-
-    /* right panel */
     .preview{height:520px;border-radius:8px;overflow:auto;display:flex;flex-direction:column}
     .canvas-wrap{flex:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff,#f8fafc);border-radius:8px;padding:12px}
-    canvas{max-width:100%;height:auto;border-radius:6px}
+    .preview-canvas{max-width:100%;height:auto;border-radius:6px;border:1px solid #eef6ff;display:block;max-height:480px;object-fit:contain}
 
     .settings{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
     .field{background:#fbfdff;border-radius:8px;padding:10px;min-width:150px}
     label{display:block;font-weight:600;font-size:13px;margin-bottom:6px}
     select,input[type="text"],input[type="number"],textarea{width:100%;padding:8px;border-radius:6px;border:1px solid #e6eef8}
 
-    .actions{display:flex;gap:8px;align-items:center;margin-top:12px}
     .progress{height:10px;background:#eef2ff;border-radius:6px;overflow:hidden}
     .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);width:0%}
 
     footer{margin-top:24px;font-size:13px;color:var(--muted)}
-
-    /* SEO content */
     .seo{margin-top:24px;padding:16px;background:linear-gradient(180deg,#fff,#fcfdfd);border-radius:10px}
     .faq{margin-top:12px}
-    .faq h3{margin:8px 0}
-
-    .tiny{font-size:12px;color:var(--muted)}
+    a.link{color:var(--accent);text-decoration:none;font-weight:600}
+    .controls-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .small-btn{padding:8px 10px;border-radius:8px;background:#f1f8ff;border:1px solid #e6f0ff;cursor:pointer}
   </style>
 </head>
 <body>
@@ -97,25 +96,34 @@
       </div>
     </header>
 
-    <div class="card uploader" id="uploader" tabindex="0">
-      <input type="file" id="fileInput" accept="application/pdf">
+    <!-- UPLOADER -->
+    <div class="card uploader" id="uploader" tabindex="0" aria-label="Upload PDF">
+      <!-- Invisible input sits on top, so clicks always reach it -->
+      <input type="file" id="fileInput" accept="application/pdf" aria-label="Choose PDF file">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
         <div>
           <strong>Drag & Drop your PDF here</strong>
-          <div class="tiny">or click to browse • Works offline • No upload</div>
+          <div class="tiny">or click the Choose File button • Works offline • No upload</div>
         </div>
-        <div>
-          <button class="btn" id="chooseBtn">Choose File</button>
+        <div style="position:relative; z-index:1">
+          <button class="btn" id="chooseBtn" type="button">Choose File</button>
         </div>
       </div>
-      <div id="fileInfo" class="small" style="margin-top:12px"></div>
+      <div id="fileInfo" class="small" style="margin-top:12px">No file chosen.</div>
     </div>
 
     <div class="layout">
+      <!-- LEFT: Thumbnails & options -->
       <div>
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center"><strong>Pages</strong><button class="small" id="selectAllBtn">Select All</button></div>
-          <div class="thumbs" id="thumbs"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>Pages</strong>
+            <div class="controls-row">
+              <button class="small-btn" id="selectAllBtn" type="button">Select All</button>
+              <button class="small-btn" id="clearSelectBtn" type="button">Clear</button>
+            </div>
+          </div>
+          <div class="thumbs card" id="thumbs" style="margin-top:8px"></div>
         </div>
 
         <div class="card" style="margin-top:12px">
@@ -125,18 +133,22 @@
               <label for="format">Format</label>
               <select id="format"><option value="png">PNG</option><option value="jpeg">JPEG</option></select>
             </div>
+
             <div class="field">
               <label for="quality">JPEG Quality</label>
               <select id="quality"><option value="80">High (80)</option><option value="60">Medium (60)</option><option value="40">Low (40)</option></select>
             </div>
+
             <div class="field">
               <label for="scale">Resolution Scale</label>
               <select id="scale"><option value="1">Normal (1×)</option><option value="1.5">Medium (1.5×)</option><option value="2">High (2×)</option></select>
             </div>
+
             <div class="field">
               <label for="range">Page Range</label>
               <input type="text" id="range" placeholder="e.g., 1-3,5,7">
             </div>
+
             <div class="field">
               <label for="rotate">Rotate</label>
               <select id="rotate"><option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select>
@@ -162,8 +174,8 @@
           </div>
 
           <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-            <button class="btn" id="convertBtn">Convert Selected</button>
-            <button class="btn" id="downloadZipBtn" style="background:linear-gradient(90deg,#10b981,#34d399)">Download All (.zip)</button>
+            <button class="btn" id="convertBtn" type="button">Convert Selected</button>
+            <button class="btn" id="downloadZipBtn" style="background:linear-gradient(90deg,#10b981,#34d399)" type="button">Download All (.zip)</button>
             <div style="flex:1"></div>
           </div>
 
@@ -174,15 +186,24 @@
         </div>
       </div>
 
+      <!-- RIGHT: Preview & controls -->
       <div>
         <div class="card preview">
-          <div style="display:flex;justify-content:space-between;align-items:center"><strong>Preview</strong><div class="tiny">Tap thumbnail to preview</div></div>
-          <div class="canvas-wrap" id="canvasWrap"><canvas id="pdfCanvas"></canvas></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong>Preview</strong>
+            <div class="tiny">Tap thumbnail to preview</div>
+          </div>
+
+          <div class="canvas-wrap" id="canvasWrap">
+            <!-- We render preview image element instead of keeping a single <canvas> tag visible -->
+            <img id="previewImg" class="preview-canvas" alt="PDF preview" />
+          </div>
+
           <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
-            <button class="small" id="downloadPageBtn">Download Page</button>
-            <button class="small" id="mergeBtn">Merge Selected</button>
-            <button class="small" id="autocropBtn">Auto Crop</button>
-            <button class="small" id="clearBtn">Clear</button>
+            <button class="small-btn" id="downloadPageBtn" type="button">Download Page</button>
+            <button class="small-btn" id="mergeBtn" type="button">Merge Selected</button>
+            <button class="small-btn" id="autocropBtn" type="button">Auto Crop</button>
+            <button class="small-btn" id="clearBtn" type="button">Clear</button>
           </div>
         </div>
 
@@ -192,7 +213,8 @@
       </div>
     </div>
 
-    <div class="seo card">
+    <!-- SEO content -->
+    <div class="seo card" id="seoContent">
       <h2>Convert PDF to Image — Free and Fast (PNG, JPG)</h2>
       <p class="small">multiimagex.online provides a simple, reliable PDF to Image converter that runs completely in your browser. No uploads. No servers. Just fast conversions and full privacy.</p>
 
@@ -227,30 +249,31 @@
         <p>A: This client-only version does not include OCR. For OCR and advanced features, visit other tools on multiimagex.online.</p>
       </section>
 
-      <p class="tiny">Explore more tools at <a href="https://multiimagex.online">multiimagex.online</a></p>
+      <p class="tiny">Explore more tools at <a class="link" href="https://multiimagex.online">multiimagex.online</a></p>
     </div>
 
     <footer class="tiny">© <strong>multiimagex.online</strong> — PDF to Image Converter. Built for privacy & speed.</footer>
   </div>
 
-  <!-- External libraries (PDF.js + JSZip) loaded from CDN for a single-file feel. -->
+  <!-- External libraries (CDN) - stable versions -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.835/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.835/pdf.worker.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <script>
-  // Basic variables
+  // ---- DOM refs ----
   const fileInput = document.getElementById('fileInput');
   const chooseBtn = document.getElementById('chooseBtn');
   const uploader = document.getElementById('uploader');
   const fileInfo = document.getElementById('fileInfo');
   const thumbs = document.getElementById('thumbs');
-  const pdfCanvas = document.getElementById('pdfCanvas');
-  const canvasWrap = document.getElementById('canvasWrap');
+  const previewImg = document.getElementById('previewImg');
   const convertBtn = document.getElementById('convertBtn');
   const downloadZipBtn = document.getElementById('downloadZipBtn');
   const progressBar = document.getElementById('progressBar');
   const statusText = document.getElementById('statusText');
   const selectAllBtn = document.getElementById('selectAllBtn');
+  const clearSelectBtn = document.getElementById('clearSelectBtn');
   const downloadPageBtn = document.getElementById('downloadPageBtn');
   const mergeBtn = document.getElementById('mergeBtn');
   const autocropBtn = document.getElementById('autocropBtn');
@@ -265,63 +288,124 @@
   const wmPos = document.getElementById('wm_pos');
   const wmOpacity = document.getElementById('wm_opacity');
 
+  // ---- state ----
   let pdfDoc = null;
   let pdfName = '';
   let pageCount = 0;
   let thumbsState = [];
   let currentPage = 1;
 
-  // PDF.js worker setup
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.835/pdf.worker.min.js';
-
-  chooseBtn.addEventListener('click', ()=>fileInput.click());
-  uploader.addEventListener('click', ()=>fileInput.click());
-
-  // Drag and drop
-  ['dragenter','dragover'].forEach(e=>{uploader.addEventListener(e,(ev)=>{ev.preventDefault();uploader.classList.add('drag')})});
-  ['dragleave','drop'].forEach(e=>{uploader.addEventListener(e,(ev)=>{ev.preventDefault();uploader.classList.remove('drag')})});
-  uploader.addEventListener('drop', async (ev)=>{const f=ev.dataTransfer.files[0];if(f) await handleFile(f)});
-
-  fileInput.addEventListener('change', async (e)=>{const f=e.target.files[0]; if(f) await handleFile(f)});
-
-  async function handleFile(file){
-    if(!file.type || !file.type.includes('pdf')){alert('Please select a PDF file.');return}
-    if(file.size>80*1024*1024){ // 80MB warning
-      if(!confirm('This PDF is large and may be slow or cause browser issues. Continue?')) return;
-    }
-    pdfName = file.name.replace(/\.pdf$/i, '');
-    fileInfo.textContent = `${file.name} • ${(file.size/1024/1024).toFixed(2)} MB`;
-    statusText.textContent = 'Loading PDF...';
-    const arrayBuffer = await file.arrayBuffer();
-    try{
-      pdfDoc = await pdfjsLib.getDocument({data:arrayBuffer}).promise;
-      pageCount = pdfDoc.numPages;
-      statusText.textContent = `Loaded ${pageCount} pages.`;
-      thumbsState = new Array(pageCount).fill(false);
-      renderThumbnails();
-      await renderPage(1);
-    }catch(err){console.error(err);alert('Failed to load PDF (it may be corrupted or password-protected).');statusText.textContent='Failed to load PDF.'}
+  // Setup pdf.js worker (if library exposes pdfjsLib)
+  if(window.pdfjsLib && window.pdfjsLib.GlobalWorkerOptions){
+    // Use worker from the loaded worker script
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.10.835/pdf.worker.min.js';
   }
 
+  // Ensure uploader overlay is positioned (CSS already sets this but keep safe)
+  uploader.style.position = uploader.style.position || 'relative';
+
+  // Make Choose button trigger file input (fileInput is on top of uploader so this is optional but keeps UX consistent)
+  chooseBtn.addEventListener('click', () => fileInput.click());
+
+  // Accessibility: Enter key opens file dialog when uploader focused
+  uploader.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+
+  // Prevent default global drag/drop to avoid navigation
+  window.addEventListener('dragover', e => e.preventDefault());
+  window.addEventListener('drop', e => e.preventDefault());
+
+  // Highlight uploader on dragenter/dragover + remove on leave/drop
+  ['dragenter','dragover'].forEach(evName => {
+    uploader.addEventListener(evName, (ev) => { ev.preventDefault(); ev.stopPropagation(); uploader.classList.add('drag'); });
+  });
+  ['dragleave','drop'].forEach(evName => {
+    uploader.addEventListener(evName, (ev) => { ev.preventDefault(); ev.stopPropagation(); uploader.classList.remove('drag'); });
+  });
+
+  // Handle drop robustly (some browsers use dataTransfer.items)
+  uploader.addEventListener('drop', async (ev) => {
+    try{
+      ev.preventDefault(); ev.stopPropagation();
+      const dt = ev.dataTransfer;
+      let file = null;
+      if(dt.files && dt.files.length) file = dt.files[0];
+      else if(dt.items && dt.items.length) file = dt.items[0].getAsFile();
+      if(file) await handleFile(file);
+    }catch(err){ console.error('Drop handling error', err); alert('Failed to read dropped file. Try using Choose File.') }
+  });
+
+  // file input change
+  fileInput.addEventListener('change', async (e) => {
+    const f = e.target.files && e.target.files[0];
+    if(f) await handleFile(f);
+  });
+
+  // small helpers
+  function setStatus(text){ statusText.textContent = text || ''; }
+  function updateProgress(pct){ progressBar.style.width = `${pct}%`; }
+
+  // handle file
+  async function handleFile(file){
+    if(!file) return;
+    if(!file.type || !file.type.includes('pdf')){ alert('Please select a PDF file.'); return; }
+    // file size note
+    if(file.size > 80 * 1024 * 1024){
+      if(!confirm('This PDF is large and may be slow or cause browser issues. Continue?')) return;
+    }
+    pdfName = file.name.replace(/\.pdf$/i, '') || 'document';
+    fileInfo.textContent = `${file.name} • ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+    setStatus('Loading PDF...');
+    updateProgress(5);
+    try{
+      const arrayBuffer = await file.arrayBuffer();
+      // load pdf
+      const loadingTask = pdfjsLib.getDocument({data: arrayBuffer});
+      pdfDoc = await loadingTask.promise;
+      pageCount = pdfDoc.numPages;
+      thumbsState = new Array(pageCount).fill(false);
+      setStatus(`Loaded ${pageCount} pages.`);
+      updateProgress(10);
+      await renderThumbnails();
+      await renderPage(1);
+      updateProgress(0);
+    }catch(err){
+      console.error(err);
+      alert('Failed to load PDF (it may be corrupted or password-protected).');
+      setStatus('Failed to load PDF.');
+    }
+  }
+
+  // render thumbnails
   async function renderThumbnails(){
-    thumbs.innerHTML='';
+    thumbs.innerHTML = '';
     for(let i=1;i<=pageCount;i++){
-      const t = document.createElement('div');t.className='thumb';t.dataset.page=i;
-      const img = document.createElement('img');img.alt=`Page ${i}`;
-      const meta = document.createElement('div');meta.innerHTML=`<div style="font-weight:600">Page ${i}</div><div class=\"tiny\">Tap to select</div>`;
-      t.appendChild(img);t.appendChild(meta);
-      thumbs.appendChild(t);
-      // render small thumbnail
+      const block = document.createElement('div');
+      block.className = 'thumb';
+      block.dataset.page = i;
+      const img = document.createElement('img'); img.alt = `Page ${i}`;
+      const meta = document.createElement('div');
+      meta.innerHTML = `<div style="font-weight:600">Page ${i}</div><div class="tiny">Tap to select</div>`;
+      block.appendChild(img); block.appendChild(meta);
+      thumbs.appendChild(block);
+
+      // render thumbnail (small)
       try{
         const page = await pdfDoc.getPage(i);
-        const vp = page.getViewport({scale:0.25});
-        const canvas = document.createElement('canvas');
-        canvas.width = Math.floor(vp.width);canvas.height = Math.floor(vp.height);
-        const ctx = canvas.getContext('2d');
-        await page.render({canvasContext:ctx,viewport:vp}).promise;
-        img.src = canvas.toDataURL('image/png');
-      }catch(e){img.alt='?'}
-      t.addEventListener('click',()=>{toggleSelect(i);renderPage(i)});
+        const vp = page.getViewport({scale: 0.25});
+        const c = document.createElement('canvas');
+        c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+        const ctx = c.getContext('2d');
+        await page.render({canvasContext: ctx, viewport: vp}).promise;
+        img.src = c.toDataURL('image/png');
+      }catch(e){
+        img.alt = '?';
+      }
+
+      // click behavior
+      block.addEventListener('click', async () => {
+        toggleSelect(i);
+        await renderPage(i);
+      });
     }
   }
 
@@ -332,164 +416,274 @@
   }
 
   selectAllBtn.addEventListener('click', ()=>{
-    const all = thumbsState.every(v=>v);
-    thumbsState = thumbsState.map(()=>!all);
-    thumbs.querySelectorAll('.thumb').forEach((el,idx)=>el.classList.toggle('selected', thumbsState[idx]));
+    thumbsState = thumbsState.map(()=>true);
+    thumbs.querySelectorAll('.thumb').forEach((el,idx)=>el.classList.add('selected'));
+  });
+  clearSelectBtn.addEventListener('click', ()=>{
+    thumbsState = thumbsState.map(()=>false);
+    thumbs.querySelectorAll('.thumb').forEach((el,idx)=>el.classList.remove('selected'));
   });
 
-  async function renderPage(pageNum){
-    currentPage = pageNum;
-    statusText.textContent = `Rendering page ${pageNum}...`;
-    const page = await pdfDoc.getPage(pageNum);
-    const scale = 1.0; // base scale for preview
-    const vp = page.getViewport({scale});
-    const canvas = pdfCanvas; const ctx = canvas.getContext('2d');
-    canvas.width = Math.floor(vp.width); canvas.height = Math.floor(vp.height);
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    await page.render({canvasContext:ctx,viewport:vp}).promise;
-    statusText.textContent = `Preview - Page ${pageNum}`;
-  }
-
-  // Helper: parse range string
+  // parse range string -> array of page numbers
   function parseRange(str){
-    if(!str) return thumbsState.map((v,i)=>v?i+1:null).filter(Boolean);
-    const parts = str.split(',').map(s=>s.trim());
+    if(!str || !str.trim()) return []; // empty => use selected thumbs
+    const parts = str.split(',').map(s=>s.trim()).filter(Boolean);
     const out = new Set();
     for(const p of parts){
-      if(p.includes('-')){const [a,b]=p.split('-').map(n=>parseInt(n)); if(a&&b) for(let i=a;i<=b;i++) out.add(i)}else{const n=parseInt(p); if(n) out.add(n)}
+      if(p.includes('-')){
+        const [a,b] = p.split('-').map(n=>parseInt(n,10)).filter(Boolean);
+        if(a && b){
+          for(let i=a;i<=b;i++) out.add(i);
+        }
+      } else {
+        const n = parseInt(p,10);
+        if(n) out.add(n);
+      }
     }
     return Array.from(out).filter(n=>n>=1 && n<=pageCount).sort((a,b)=>a-b);
   }
 
-  // Convert selected pages to images
-  convertBtn.addEventListener('click', async ()=>{
-    if(!pdfDoc){alert('No PDF loaded.');return}
-    let pages = parseRange(rangeInput.value);
-    if(pages.length===0){ // use selected thumbs
-      pages = thumbsState.map((v,i)=>v?i+1:null).filter(Boolean);
+  // render preview page into an image element (we'll draw canvas offscreen then set src)
+  async function renderPage(pageNum){
+    if(!pdfDoc) return;
+    currentPage = pageNum;
+    setStatus(`Rendering page ${pageNum}...`);
+    updateProgress(10);
+    try{
+      const page = await pdfDoc.getPage(pageNum);
+      const scale = 1.0;
+      const vp = page.getViewport({scale});
+      // create offscreen canvas
+      const c = document.createElement('canvas');
+      c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+      const ctx = c.getContext('2d');
+      await page.render({canvasContext: ctx, viewport: vp}).promise;
+      // set preview image
+      previewImg.src = c.toDataURL('image/png');
+      setStatus(`Preview - Page ${pageNum}`);
+      updateProgress(0);
+    }catch(err){
+      console.error(err);
+      setStatus('Render failed.');
     }
-    if(pages.length===0){alert('No pages selected. Use thumbnails or range input.');return}
+  }
+
+  // Convert pages (array) -> zip and download
+  convertBtn.addEventListener('click', async () => {
+    if(!pdfDoc){ alert('No PDF loaded.'); return; }
+    let pages = parseRange(rangeInput.value);
+    if(pages.length === 0){
+      // use selected thumbs
+      pages = thumbsState.map((v,i)=>v? i+1 : null).filter(Boolean);
+    }
+    if(pages.length === 0){ alert('No pages selected. Use thumbnails or range input.'); return; }
     await convertPages(pages);
   });
 
   async function convertPages(pages){
-    const fmt = formatSel.value; const quality = parseInt(qualitySel.value); const scale = parseFloat(scaleSel.value); const rotate = parseInt(rotateSel.value);
-    const wm = (wmText.value||'').trim(); const wmPosVal = wmPos.value; const wmOp = parseFloat(wmOpacity.value);
-    const zip = new JSZip();
-    progressBar.style.width='0%';
+    const fmt = formatSel.value;
+    const quality = parseInt(qualitySel.value,10) || 80;
+    const scale = parseFloat(scaleSel.value) || 1;
+    const rotate = parseInt(rotateSel.value,10) || 0;
+    const wm = (wmText.value||'').trim();
+    const wmPosVal = wmPos.value;
+    const wmOp = parseFloat(wmOpacity.value) || 0.6;
 
+    const zip = new JSZip();
+    setStatus('Starting conversion...');
     for(let i=0;i<pages.length;i++){
       const pnum = pages[i];
-      statusText.textContent = `Converting page ${pnum} (${i+1}/${pages.length})`;
-      progressBar.style.width = `${Math.round((i/pages.length)*100)}%`;
-      const imgBlob = await renderPageToBlob(pnum, {fmt,quality,scale,rotate,wm,wmPosVal,wmOp});
-      const ext = fmt==='png'?'png':'jpg';
-      const name = `${pdfName}_page_${pnum}.${ext}`;
-      zip.file(name, imgBlob);
-      // update thumbnail to show selected output (small overlay)
+      setStatus(`Converting page ${pnum} (${i+1}/${pages.length})`);
+      updateProgress(Math.round((i/pages.length)*80));
+      try{
+        const blob = await renderPageToBlob(pnum, {fmt, quality, scale, rotate, wm, wmPosVal, wmOp});
+        const ext = fmt === 'png' ? 'png' : 'jpg';
+        const name = `${pdfName}_page_${pnum}.${ext}`;
+        zip.file(name, blob);
+      }catch(err){
+        console.error('Convert error page', pnum, err);
+      }
     }
-    progressBar.style.width='100%';
-    statusText.textContent = 'Packaging ZIP...';
-    const content = await zip.generateAsync({type:'blob'});
+    updateProgress(90);
+    setStatus('Packaging ZIP...');
+    const content = await zip.generateAsync({type:'blob'}, (meta) => {
+      // meta.percent available but not necessary
+    });
+    updateProgress(100);
     const url = URL.createObjectURL(content);
-    const a = document.createElement('a'); a.href=url; a.download = `${pdfName}_images.zip`; a.click();
+    const a = document.createElement('a');
+    a.href = url; a.download = `${pdfName}_images.zip`;
+    document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
-    statusText.textContent = 'Done. Download started.';
+    setStatus('Done. Download started.');
+    updateProgress(0);
   }
 
+  // render single page to Blob using offscreen canvas (applies scale, rotate, watermark)
   async function renderPageToBlob(pageNum, opts){
     const page = await pdfDoc.getPage(pageNum);
     const baseScale = 1;
     const vp = page.getViewport({scale: baseScale * opts.scale});
-    const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
-    canvas.width = Math.floor(vp.width); canvas.height = Math.floor(vp.height);
-    await page.render({canvasContext:ctx,viewport:vp}).promise;
-    // rotate if needed
-    if(opts.rotate && opts.rotate!==0){
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = Math.floor(vp.width);
+    canvas.height = Math.floor(vp.height);
+    await page.render({canvasContext: ctx, viewport: vp}).promise;
+
+    // rotate
+    if(opts.rotate && opts.rotate !== 0){
       const rcanvas = document.createElement('canvas');
-      if(opts.rotate===180){rcanvas.width=canvas.width; rcanvas.height=canvas.height} else {rcanvas.width=canvas.height; rcanvas.height=canvas.width}
+      if(opts.rotate === 180){
+        rcanvas.width = canvas.width; rcanvas.height = canvas.height;
+      } else {
+        rcanvas.width = canvas.height; rcanvas.height = canvas.width;
+      }
       const rctx = rcanvas.getContext('2d');
-      rctx.translate(rcanvas.width/2, rcanvas.height/2); rctx.rotate(opts.rotate*Math.PI/180); rctx.drawImage(canvas, -canvas.width/2, -canvas.height/2);
-      canvas.width = rcanvas.width; canvas.height = rcanvas.height; ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(rcanvas,0,0);
+      rctx.translate(rcanvas.width/2, rcanvas.height/2);
+      rctx.rotate(opts.rotate * Math.PI / 180);
+      rctx.drawImage(canvas, -canvas.width/2, -canvas.height/2);
+      // copy back
+      canvas.width = rcanvas.width; canvas.height = rcanvas.height;
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.drawImage(rcanvas, 0, 0);
     }
-    // watermark
+
+    // watermark (simple text overlay)
     if(opts.wm){
-      ctx.save(); ctx.globalAlpha = opts.wmOp; ctx.fillStyle = '#ffffff'; ctx.font = `${Math.max(14, Math.round(canvas.width*0.03))}px sans-serif`; ctx.textBaseline='middle';
-      const text = opts.wm;
-      let x=20,y=canvas.height-40;
-      if(opts.wmPosVal==='br'){x=canvas.width-20; ctx.textAlign='right'}
-      else if(opts.wmPosVal==='bl'){x=20; ctx.textAlign='left'}
-      else if(opts.wmPosVal==='tr'){x=canvas.width-20; y=40; ctx.textAlign='right'}
-      else if(opts.wmPosVal==='tl'){x=20; y=40; ctx.textAlign='left'}
-      else {x=canvas.width/2; y=canvas.height/2; ctx.textAlign='center'}
-      // shadow for contrast
-      ctx.strokeStyle='rgba(0,0,0,0.4)'; ctx.lineWidth=3; ctx.strokeText(text,x,y); ctx.fillStyle='rgba(255,255,255,0.95)'; ctx.fillText(text,x,y);
+      ctx.save();
+      ctx.globalAlpha = opts.wmOp;
+      // determine font size relative to canvas
+      const fontSize = Math.max(14, Math.round(canvas.width * 0.03));
+      ctx.font = `${fontSize}px sans-serif`;
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+      ctx.lineWidth = Math.max(2, Math.round(canvas.width * 0.003));
+      let x = 20, y = canvas.height - 40;
+      if(opts.wmPosVal === 'br'){ x = canvas.width - 20; ctx.textAlign = 'right'; }
+      else if(opts.wmPosVal === 'bl'){ x = 20; ctx.textAlign = 'left'; }
+      else if(opts.wmPosVal === 'tr'){ x = canvas.width - 20; y = 40; ctx.textAlign = 'right'; }
+      else if(opts.wmPosVal === 'tl'){ x = 20; y = 40; ctx.textAlign = 'left'; }
+      else { x = canvas.width/2; y = canvas.height/2; ctx.textAlign = 'center'; }
+      ctx.strokeText(opts.wm, x, y);
+      ctx.fillText(opts.wm, x, y);
       ctx.restore();
     }
+
     // convert to blob
-    return await new Promise(resolve=>{
-      if(opts.fmt==='png') canvas.toBlob(resolve,'image/png');
-      else canvas.toBlob(blob=>resolve(blob),'image/jpeg', opts.quality/100);
+    return await new Promise((resolve) => {
+      if(opts.fmt === 'png'){
+        canvas.toBlob((b) => resolve(b), 'image/png');
+      } else {
+        canvas.toBlob((b) => resolve(b), 'image/jpeg', opts.quality / 100);
+      }
     });
   }
 
-  // Download current preview page
-  downloadPageBtn.addEventListener('click', async ()=>{
-    if(!pdfDoc) return alert('No PDF loaded.');
-    const blob = await renderPageToBlob(currentPage, {fmt:formatSel.value,quality:parseInt(qualitySel.value),scale:parseFloat(scaleSel.value),rotate:parseInt(rotateSel.value),wm:wmText.value,wmPosVal:wmPos.value,wmOp:parseFloat(wmOpacity.value)});
-    const ext = formatSel.value==='png'?'png':'jpg'; const name = `${pdfName}_page_${currentPage}.${ext}`;
-    const url = URL.createObjectURL(blob); const a=document.createElement('a');a.href=url;a.download=name;a.click();URL.revokeObjectURL(url);
+  // Download current preview page as chosen format
+  downloadPageBtn.addEventListener('click', async () => {
+    if(!pdfDoc){ alert('No PDF loaded.'); return; }
+    const blob = await renderPageToBlob(currentPage, {
+      fmt: formatSel.value, quality: parseInt(qualitySel.value,10), scale: parseFloat(scaleSel.value), rotate: parseInt(rotateSel.value,10),
+      wm: wmText.value, wmPosVal: wmPos.value, wmOp: parseFloat(wmOpacity.value)
+    });
+    const ext = formatSel.value === 'png' ? 'png' : 'jpg';
+    const name = `${pdfName}_page_${currentPage}.${ext}`;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
-  // Merge selected pages into long image
-  mergeBtn.addEventListener('click', async ()=>{
-    if(!pdfDoc) return alert('No PDF loaded.');
+  // Merge selected pages vertically
+  mergeBtn.addEventListener('click', async () => {
+    if(!pdfDoc){ alert('No PDF loaded.'); return; }
     let pages = parseRange(rangeInput.value);
-    if(pages.length===0) pages = thumbsState.map((v,i)=>v?i+1:null).filter(Boolean);
-    if(pages.length===0) return alert('No pages selected to merge.');
-    statusText.textContent = 'Merging pages...';
+    if(pages.length === 0) pages = thumbsState.map((v,i)=>v? i+1 : null).filter(Boolean);
+    if(pages.length === 0){ alert('No pages selected to merge.'); return; }
+    setStatus('Merging pages...');
     const canvases = [];
     for(const p of pages){
       const page = await pdfDoc.getPage(p);
-      const vp = page.getViewport({scale:1});
-      const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
-      await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise; canvases.push(c);
+      const vp = page.getViewport({scale: 1});
+      const c = document.createElement('canvas');
+      c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+      await page.render({canvasContext: c.getContext('2d'), viewport: vp}).promise;
+      canvases.push(c);
     }
-    const totalH = canvases.reduce((s,c)=>s+c.height,0); const w = canvases[0].width;
-    const big = document.createElement('canvas'); big.width = w; big.height = totalH; const bctx = big.getContext('2d');
-    let y=0; for(const c of canvases){bctx.drawImage(c,0,y); y+=c.height}
-    // download
-    big.toBlob(blob=>{const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download = `${pdfName}_merged.png`; a.click(); URL.revokeObjectURL(url)}, 'image/png');
-    statusText.textContent = 'Merged image created.';
+    const totalH = canvases.reduce((s, c) => s + c.height, 0);
+    const w = canvases[0].width;
+    const big = document.createElement('canvas'); big.width = w; big.height = totalH;
+    const bctx = big.getContext('2d');
+    let y = 0;
+    for(const c of canvases){ bctx.drawImage(c, 0, y); y += c.height; }
+    big.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `${pdfName}_merged.png`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      setStatus('Merged image created.');
+    }, 'image/png');
   });
 
-  // Auto-crop (naive): trim uniform white margin
-  autocropBtn.addEventListener('click', async ()=>{
-    if(!pdfDoc) return; statusText.textContent='Auto-cropping preview...';
-    const page = await pdfDoc.getPage(currentPage); const vp = page.getViewport({scale:1});
+  // Auto-crop preview (naive)
+  autocropBtn.addEventListener('click', async () => {
+    if(!pdfDoc){ alert('No PDF loaded.'); return; }
+    setStatus('Auto-cropping preview...');
+    const page = await pdfDoc.getPage(currentPage);
+    const vp = page.getViewport({scale: 1});
     const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
-    await page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
+    await page.render({canvasContext: c.getContext('2d'), viewport: vp}).promise;
     const ctx = c.getContext('2d'); const img = ctx.getImageData(0,0,c.width,c.height); const data = img.data;
-    let top=c.height,bottom=0,left=c.width,right=0;
-    for(let y=0;y<c.height;y++){for(let x=0;x<c.width;x++){const idx=(y*c.width+x)*4; const r=data[idx],g=data[idx+1],b=data[idx+2]; const brightness=(r+g+b)/3; if(brightness<250){top=Math.min(top,y);bottom=Math.max(bottom,y);left=Math.min(left,x);right=Math.max(right,x)}}}
-    if(bottom===0){statusText.textContent='No crop needed or page is blank.';return}
-    const w = right-left+1, h = bottom-top+1; const cropCan = document.createElement('canvas'); cropCan.width=w; cropCan.height=h; cropCan.getContext('2d').putImageData(ctx.getImageData(left,top,w,h),0,0);
-    // show cropped in preview
-    const previewCtx = pdfCanvas.getContext('2d'); pdfCanvas.width = w; pdfCanvas.height = h; previewCtx.clearRect(0,0,w,h); previewCtx.drawImage(cropCan,0,0);
-    statusText.textContent = 'Preview cropped.';
+    let top = c.height, bottom = 0, left = c.width, right = 0;
+    for(let y=0;y<c.height;y++){
+      for(let x=0;x<c.width;x++){
+        const idx = (y*c.width + x)*4; const r = data[idx], g = data[idx+1], b = data[idx+2];
+        const brightness = (r+g+b)/3;
+        if(brightness < 250){
+          top = Math.min(top, y);
+          bottom = Math.max(bottom, y);
+          left = Math.min(left, x);
+          right = Math.max(right, x);
+        }
+      }
+    }
+    if(bottom === 0){ setStatus('No crop needed or page is blank.'); return; }
+    const w = right - left + 1, h = bottom - top + 1;
+    const cropCan = document.createElement('canvas'); cropCan.width = w; cropCan.height = h;
+    cropCan.getContext('2d').putImageData(ctx.getImageData(left, top, w, h), 0, 0);
+    previewImg.src = cropCan.toDataURL('image/png');
+    setStatus('Preview cropped.');
   });
 
-  clearBtn.addEventListener('click', ()=>{pdfDoc=null;thumbs.innerHTML='';fileInfo.textContent='';statusText.textContent='No file loaded.';pdfCanvas.getContext('2d').clearRect(0,0,pdfCanvas.width,pdfCanvas.height);});
+  // Clear all
+  clearBtn.addEventListener('click', ()=> {
+    pdfDoc = null;
+    pageCount = 0;
+    thumbsState = [];
+    previewImg.src = '';
+    thumbs.innerHTML = '';
+    fileInfo.textContent = 'No file chosen.';
+    setStatus('No file loaded.');
+    updateProgress(0);
+    fileInput.value = '';
+  });
 
-  // Download all zip (convert every page)
+  // Download all pages as zip (convert all)
   downloadZipBtn.addEventListener('click', async ()=>{
-    if(!pdfDoc) return alert('No PDF loaded.');
-    const pages = Array.from({length:pageCount},(_,i)=>i+1);
+    if(!pdfDoc){ alert('No PDF loaded.'); return; }
+    const pages = Array.from({length: pageCount}, (_, i) => i+1);
     await convertPages(pages);
   });
 
-  // small keyboard support
-  document.addEventListener('keydown', (e)=>{ if(e.ctrlKey && e.key==='o'){ fileInput.click(); } if(e.key==='Delete'){ clearBtn.click(); } });
+  // keyboard helpers
+  document.addEventListener('keydown', (e) => {
+    if(e.ctrlKey && e.key.toLowerCase() === 'o'){ fileInput.click(); }
+    if(e.key === 'Delete'){ clearBtn.click(); }
+  });
+
+  // ensure uploader click also triggers file input if user clicks around inside the box
+  uploader.addEventListener('click', (e) => {
+    // don't double trigger if user clicked the input itself
+    if(e.target && e.target.id === 'fileInput') return;
+    fileInput.click();
+  });
 
   </script>
 </body>
