@@ -1,1713 +1,464 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image to Text OCR Tool | Extract Text from Images Free – multiimagex.online</title>
-    <meta name="description" content="Free online Image to Text OCR tool by multiimagex.online. Extract text from images (JPG, PNG, GIF, WEBP) with high accuracy. Supports English, Hindi, Urdu, Bengali. 100% client-side, private, and fast.">
-    <meta name="keywords" content="image to text, image to text converter, image to text ocr, extract text from image, online image to text tool, free ocr tool, best image to text, photo to text extractor, text recognition online, OCR online free, multiimagex.online image tools, optical character recognition tool">
-    <meta name="author" content="multiimagex.online">
-    <link rel="canonical" href="https://multiimagex.online/image-to-text-ocr-tool">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="Image to Text OCR Tool | Extract Text from Images Free – multiimagex.online">
-    <meta property="og:description" content="Free online Image to Text OCR tool by multiimagex.online. Extract text from images (JPG, PNG, GIF, WEBP) with high accuracy. Supports English, Hindi, Urdu, Bengali. 100% client-side, private, and fast.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://multiimagex.online/image-to-text-ocr-tool">
-    <meta property="og:image" content="https://multiimagex.online/ocr-tool-preview.png"> <!-- Replace with an actual image URL -->
-    <meta property="og:site_name" content="multiimagex.online">
+  <!-- SEO Meta -->
+  <title>Image to Text Converter (OCR) | Extract Text from Any Image - multiimagex.online</title>
+  <meta name="description" content="Free Image to Text OCR Tool on multiimagex.online. Convert photos, screenshots and scanned documents to editable text. Supports Hindi, English and 100+ languages. Offline, secure, no login.">
+  <meta name="keywords" content="image to text, image to text converter, ocr online, free ocr tool, extract text from image, hindi ocr, multiimagex.online">
+  <meta name="author" content="multiimagex.online">
+  <link rel="icon" href="data:,"><!-- small perf trick -->
 
-    <!-- Twitter Card Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@multiimagex"> <!-- Replace with actual Twitter handle if available -->
-    <meta name="twitter:creator" content="@multiimagex">
-    <meta name="twitter:title" content="Image to Text OCR Tool | Extract Text from Images Free – multiimagex.online">
-    <meta name="twitter:description" content="Free online Image to Text OCR tool by multiimagex.online. Extract text from images (JPG, PNG, GIF, WEBP) with high accuracy. Supports English, Hindi, Urdu, Bengali. 100% client-side, private, and fast.">
-    <meta name="twitter:image" content="https://multiimagex.online/ocr-tool-preview.png"> <!-- Replace with an actual image URL -->
+  <!-- Open Graph (for better sharing) -->
+  <meta property="og:title" content="Image to Text Converter (OCR) - multiimagex.online">
+  <meta property="og:description" content="Convert images to editable text instantly. Supports Hindi, English & 100+ languages. No upload, processes offline in your browser.">
+  <meta property="og:type" content="website">
 
-    <!-- JSON-LD Schema Markup -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Image to Text OCR Tool",
-      "url": "https://multiimagex.online/image-to-text-ocr-tool",
-      "description": "Free online Image to Text OCR tool by multiimagex.online. Extract text from images with high accuracy for multiple languages.",
-      "applicationCategory": "Productivity",
-      "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "1200"
-      },
-      "softwareHelp": {
-        "@type": "CreativeWork",
-        "url": "https://multiimagex.online/help"
-      },
-      "screenshot": "https://multiimagex.online/ocr-tool-screenshot.png",
-      "featureList": [
-        "Multi-image upload",
-        "High accuracy OCR",
-        "Multi-language support (English, Hindi, Urdu, Bengali)",
-        "Client-side processing",
-        "Text editing",
-        "TXT, PDF, DOCX download"
-      ]
+  <!-- Minimal styling (light, clear, attractive) -->
+  <style>
+    :root{--bg:#ffffff;--card:#f8f9fb;--text:#0b1a2b;--muted:#556;--accent:#2563eb;--radius:14px}
+    [data-theme="dark"]{--bg:#0b1220;--card:#0f1724;--text:#e6eef8;--muted:#9fb2d9;--accent:#60a5fa}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:var(--text);background:linear-gradient(180deg,var(--bg),#f3f6fb);}
+    .wrap{max-width:1100px;margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+    .card{background:var(--card);border-radius:var(--radius);padding:16px;margin-top:18px;box-shadow:0 6px 20px rgba(20,30,48,0.06)}
+    .grid{display:grid;grid-template-columns:1fr 420px;gap:16px}
+
+    /* left (uploader + controls) */
+    .uploader{border:2px dashed rgba(8,14,30,0.06);padding:16px;border-radius:10px;text-align:center;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+    .uploader.dragover{border-color:var(--accent);background:linear-gradient(180deg,rgba(38,99,235,0.03),transparent)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;border:none;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(37,99,235,0.14)}
+    .small{padding:6px 10px;font-size:13px}
+
+    .preview{display:flex;flex-direction:column;gap:10px}
+    .imgbox{border-radius:10px;overflow:hidden;border:1px solid rgba(15,23,42,0.04);background:#fff}
+    canvas,img{max-width:100%;display:block}
+
+    .controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .range{display:flex;align-items:center;gap:8px}
+
+    /* right (result) */
+    .result{display:flex;flex-direction:column;height:100%}
+    .result .toolbar{display:flex;gap:8px;align-items:center;justify-content:space-between}
+    .textarea{width:100%;height:420px;margin-top:10px;padding:12px;border-radius:10px;border:1px solid rgba(10,20,40,0.05);resize:vertical;background:transparent;color:var(--text);font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* responsive */
+    @media (max-width:980px){.grid{grid-template-columns:1fr;}
+      .result .toolbar{flex-direction:column;align-items:stretch;gap:8px}
+      .textarea{height:260px}
     }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is an Image to Text OCR tool?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "An Image to Text OCR (Optical Character Recognition) tool converts text found in images into editable, searchable digital text. Instead of manually typing out content from scanned documents or photos, an OCR tool automates the process, making the text usable."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How does multiimagex.online's OCR tool work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Our multiimagex.online OCR tool uses advanced client-side technologies like Tesseract.js to analyze the pixels in your uploaded image. It identifies characters, words, and sentences, then converts them into digital text. All processing happens directly in your browser, ensuring privacy and speed."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is this OCR tool free to use?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, the multiimagex.online Image to Text OCR tool is completely free, with no hidden costs or subscription fees. Enjoy unlimited text extraction from your images."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do my images get uploaded to a server?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Absolutely not. Our tool is 100% client-side, meaning all image processing and text extraction occur directly within your web browser. Your images and data never leave your device, guaranteeing maximum privacy and security."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What image formats are supported for OCR?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "You can upload images in JPG, JPEG, PNG, GIF, and WEBP formats. Our tool is designed to handle various image types for text recognition."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Which languages does the OCR tool support?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Our advanced OCR engine supports multiple languages, including English, Hindi, Urdu, and Bengali. It also features auto-detection for the text language in your images."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I extract text from multiple images at once?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, our batch OCR feature allows you to upload and process several images simultaneously. The extracted text for each image will be displayed separately, ready for individual download."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How accurate is the text extraction?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We strive for the highest accuracy using Tesseract.js, a leading OCR engine. For clear, printed text, accuracy is generally very high. Features like contrast enhancement and grayscale conversion are available to further improve recognition on challenging images."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I download the extracted text in different formats?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, you can download your extracted text as a plain TXT file, a PDF document, or even a basic DOCX file for easy editing in word processors."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is handwritten text supported?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "While our tool primarily excels with printed text, it does offer experimental support for handwritten text. Accuracy for handwritten content can vary significantly based on legibility and style."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the 'Auto-enhance' feature?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The 'Auto-enhance' feature automatically applies image pre-processing steps like contrast adjustment and grayscale conversion to optimize the image for better text recognition by the OCR engine, especially useful for lower-quality scans or photos."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How can I copy the extracted text?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Once the OCR process is complete, the extracted text appears in a clean editor. You can either manually select and copy the text, or simply click the 'Copy Text' button provided for convenience."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does the tool preserve text formatting like line breaks?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, our OCR engine aims to extract text line-by-line and maintain original spacing and formatting as much as possible, providing an accurate representation of the source image text."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is there a limit to the number of images I can upload?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No, there is no limit to the number of images you can upload. You can process single or multiple images in batch mode, all client-side and free."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What if my image is very large (e.g., 5000px+)?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Our tool is designed to handle HD images. For very large images, it intelligently compresses them in RAM before passing them to the OCR engine, ensuring optimal performance without compromising quality or exhausting browser memory."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How long does OCR processing take?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Processing time varies depending on image size, text density, and your computer's performance. Our tool provides a real-time progress indicator and estimated processing time. Client-side processing is generally very fast for most images."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What happens to my data if I close the browser?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Since all processing is client-side, your images and extracted text are temporary and are cleared from your browser's memory once you close the tab or refresh the page, ensuring complete data privacy."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I use this tool on my mobile phone?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, our OCR tool features a responsive and mobile-friendly design, allowing you to easily extract text from images directly from your smartphone or tablet browser."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why is client-side OCR better for privacy?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Client-side OCR is superior for privacy because your images never leave your device. There's no server upload, no third-party access, and no data storage on our end, making it the most secure way to process sensitive documents."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is the difference between 'Improve Contrast' and 'Convert to Grayscale'?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "'Improve Contrast' enhances the distinction between text and background, making characters stand out more clearly. 'Convert to Grayscale' removes all color, presenting the image in shades of black and white, which can simplify processing for the OCR engine, especially for color documents with non-text elements."
-          }
-        }
-      ]
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Website",
-      "name": "multiimagex.online",
-      "url": "https://multiimagex.online/",
-      "logo": "https://multiimagex.online/logo.png",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://multiimagex.online/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://multiimagex.online/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Tools",
-          "item": "https://multiimagex.online/tools"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Image to Text OCR",
-          "item": "https://multiimagex.online/image-to-text-ocr-tool"
-        }
-      ]
-    }
-    </script>
-
-    <style>
-        /* CSS INLINE START */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --info-color: #17a2b8;
-            --light-bg: #f8f9fa;
-            --dark-bg: #343a40;
-            --white: #ffffff;
-            --light-gray: #e9ecef;
-            --medium-gray: #dee2e6;
-            --dark-gray: #adb5bd;
-            --text-color: #343a40;
-            --border-radius: 8px;
-            --shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-            --transition-speed: 0.3s ease;
-        }
-
-        /* Dark Theme Variables */
-        body.dark-theme {
-            --light-bg: #282c34;
-            --dark-bg: #1e2127;
-            --white: #3a3f4a;
-            --light-gray: #4a505c;
-            --medium-gray: #5e6471;
-            --dark-gray: #aeb4be;
-            --text-color: #e0e6ed;
-            --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            --primary-color: #61afef; /* Adjusted for dark theme visibility */
-            --secondary-color: #8a93a1;
-            --success-color: #98c379;
-            --danger-color: #e06c75;
-            --info-color: #56b6c2;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--light-bg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 50px;
-            transition: background-color var(--transition-speed), color var(--transition-speed);
-        }
-
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            padding: 20px;
-            margin: 20px auto;
-        }
-
-        header {
-            width: 100%;
-            background-color: var(--white);
-            padding: 20px 0;
-            box-shadow: var(--shadow);
-            text-align: center;
-            border-bottom-left-radius: var(--border-radius);
-            border-bottom-right-radius: var(--border-radius);
-            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-        }
-
-        header h1 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            font-weight: 700;
-            transition: color var(--transition-speed);
-        }
-
-        header p {
-            color: var(--secondary-color);
-            font-size: 1.1em;
-            transition: color var(--transition-speed);
-        }
-
-        .theme-toggle-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-
-        .theme-toggle {
-            cursor: pointer;
-            width: 50px;
-            height: 26px;
-            background-color: var(--medium-gray);
-            border-radius: 13px;
-            position: relative;
-            transition: background-color var(--transition-speed);
-        }
-
-        .theme-toggle::before {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: var(--white);
-            transition: transform var(--transition-speed), background-color var(--transition-speed);
-        }
-
-        .dark-theme .theme-toggle {
-            background-color: var(--primary-color);
-        }
-
-        .dark-theme .theme-toggle::before {
-            transform: translateX(24px);
-            background-color: var(--light-bg);
-        }
-
-
-        .card {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 25px;
-            margin-bottom: 25px;
-            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-        }
-
-        .card-header {
-            font-size: 1.4em;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--light-gray);
-            padding-bottom: 15px;
-            transition: border-color var(--transition-speed), color var(--transition-speed);
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 20px;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color var(--transition-speed), transform 0.1s ease, color var(--transition-speed);
-            font-weight: 500;
-            gap: 8px;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3; /* Darker blue */
-            color: var(--white);
-        }
-
-        .dark-theme .btn-primary:hover {
-            background-color: #4a91c8; /* Darker blue for dark theme */
-        }
-
-
-        .btn-secondary {
-            background-color: var(--secondary-color);
-            color: var(--white);
-        }
-
-        .btn-secondary:hover {
-            background-color: #545b62;
-        }
-
-        .btn-danger {
-            background-color: var(--danger-color);
-            color: var(--white);
-        }
-
-        .btn-danger:hover {
-            background-color: #bd2130;
-        }
-
-        .btn-success {
-            background-color: var(--success-color);
-            color: var(--white);
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-        }
-
-        .btn-info {
-            background-color: var(--info-color);
-            color: var(--white);
-        }
-
-        .btn-info:hover {
-            background-color: #117a8b;
-        }
-
-        .btn-outline-primary {
-            background-color: transparent;
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
-        }
-
-        .btn-outline-primary:hover {
-            background-color: var(--primary-color);
-            color: var(--white);
-        }
-
-        /* Form elements */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text-color);
-            transition: color var(--transition-speed);
-        }
-
-        select, textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--medium-gray);
-            border-radius: var(--border-radius);
-            font-size: 1em;
-            transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
-            background-color: var(--white);
-            color: var(--text-color);
-        }
-
-        select:focus, textarea:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary-color);
-        }
-
-        /* Uploader styles */
-        .drop-area {
-            border: 2px dashed var(--medium-gray);
-            border-radius: var(--border-radius);
-            padding: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color var(--transition-speed), border-color var(--transition-speed);
-            margin-bottom: 20px;
-            background-color: var(--light-gray);
-        }
-
-        .drop-area.highlight {
-            border-color: var(--primary-color);
-            background-color: #e6f2ff;
-        }
-        .dark-theme .drop-area.highlight {
-            background-color: #3f4756;
-        }
-
-        .drop-area p {
-            margin-top: 10px;
-            color: var(--secondary-color);
-        }
-
-        #image-previews {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .image-preview-item {
-            background-color: var(--white);
-            border: 1px solid var(--medium-gray);
-            border-radius: var(--border-radius);
-            padding: 10px;
-            text-align: center;
-            position: relative;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            transition: background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
-        }
-
-        .image-preview-item img {
-            max-width: 100%;
-            height: 120px;
-            object-fit: contain;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            background-color: #f0f0f0;
-            transition: background-color var(--transition-speed);
-        }
-        .dark-theme .image-preview-item img {
-            background-color: #2f343d;
-        }
-
-        .image-preview-item .image-info {
-            font-size: 0.85em;
-            color: var(--secondary-color);
-            margin-bottom: 10px;
-            word-break: break-all;
-            transition: color var(--transition-speed);
-        }
-
-        .image-preview-item .remove-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: var(--danger-color);
-            color: var(--white);
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            font-size: 0.9em;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color var(--transition-speed);
-        }
-
-        .image-preview-item .remove-btn:hover {
-            background-color: #c82333;
-        }
-
-        .ocr-settings {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-            align-items: flex-end;
-        }
-
-        .ocr-settings .form-group {
-            flex: 1;
-            min-width: 150px;
-            margin-bottom: 0;
-        }
-
-        .ocr-output-section {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        .ocr-result-item {
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius);
-            padding: 15px;
-            position: relative;
-            transition: background-color var(--transition-speed);
-        }
-
-        .ocr-result-item h4 {
-            font-size: 1.1em;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            word-break: break-all;
-        }
-
-        .ocr-result-item textarea {
-            min-height: 150px;
-            font-size: 0.95em;
-            resize: vertical;
-            font-family: 'Inter', monospace;
-        }
-
-        .ocr-result-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .progress-indicator {
-            background-color: var(--info-color);
-            color: var(--white);
-            padding: 10px 15px;
-            border-radius: var(--border-radius);
-            margin-top: 20px;
-            text-align: center;
-            font-weight: 500;
-            display: none; /* Hidden by default */
-            transition: background-color var(--transition-speed);
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            background-color: var(--medium-gray);
-            border-radius: var(--border-radius);
-            margin-top: 10px;
-            overflow: hidden;
-            height: 20px;
-            display: none;
-            transition: background-color var(--transition-speed);
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: var(--success-color);
-            border-radius: var(--border-radius);
-            text-align: center;
-            color: white;
-            line-height: 20px;
-            font-size: 0.85em;
-            transition: width 0.3s ease;
-        }
-
-        /* SEO Content */
-        .seo-section {
-            padding: 25px;
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-top: 30px;
-            transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-        }
-
-        .seo-section h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.8em;
-            border-bottom: 2px solid var(--light-gray);
-            padding-bottom: 10px;
-            transition: border-color var(--transition-speed), color var(--transition-speed);
-        }
-
-        .seo-section h3 {
-            color: var(--text-color);
-            margin-top: 25px;
-            margin-bottom: 15px;
-            font-size: 1.4em;
-            transition: color var(--transition-speed);
-        }
-
-        .seo-section p, .seo-section ul {
-            margin-bottom: 15px;
-            color: var(--secondary-color);
-            line-height: 1.7;
-            transition: color var(--transition-speed);
-        }
-
-        .seo-section ul {
-            list-style-type: disc;
-            margin-left: 20px;
-        }
-
-        .seo-section ul li {
-            margin-bottom: 8px;
-        }
-
-        .faq-item {
-            margin-bottom: 15px;
-            padding: 15px;
-            background-color: var(--light-gray);
-            border-radius: var(--border-radius);
-            transition: background-color var(--transition-speed);
-        }
-
-        .faq-question {
-            font-weight: 600;
-            color: var(--text-color);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: color var(--transition-speed);
-        }
-
-        .faq-question:hover {
-            color: var(--primary-color);
-        }
-
-        .faq-question .arrow {
-            font-size: 1.2em;
-            transition: transform var(--transition-speed);
-        }
-
-        .faq-question.active .arrow {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px dashed var(--medium-gray);
-            display: none;
-            color: var(--secondary-color);
-            transition: border-color var(--transition-speed), color var(--transition-speed);
-        }
-
-        .faq-answer.show {
-            display: block;
-        }
-
-        footer {
-            width: 100%;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            background-color: var(--dark-bg);
-            color: var(--light-gray);
-            border-top-left-radius: var(--border-radius);
-            border-top-right-radius: var(--border-radius);
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color var(--transition-speed), color var(--transition-speed);
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 0.9em;
-        }
-
-        /* Utility classes */
-        .text-center { text-align: center; }
-        .mt-20 { margin-top: 20px; }
-        .mb-20 { margin-bottom: 20px; }
-        .flex-row { display: flex; flex-direction: row; gap: 10px; flex-wrap: wrap;}
-        .flex-column { display: flex; flex-direction: column; gap: 10px;}
-        .flex-grow { flex-grow: 1; }
-        .hidden { display: none !important; }
-        .visible { display: block !important; }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            header h1 {
-                font-size: 1.8em;
-            }
-            header p {
-                font-size: 1em;
-            }
-            .card {
-                padding: 15px;
-            }
-            .card-header {
-                font-size: 1.2em;
-            }
-            #image-previews {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            }
-            .ocr-settings {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .ocr-settings .form-group {
-                min-width: unset;
-                width: 100%;
-            }
-            .theme-toggle-container {
-                top: 10px;
-                right: 10px;
-            }
-            .ocr-result-actions .btn {
-                width: 100%;
-            }
-            .seo-section h2 {
-                font-size: 1.5em;
-            }
-            .seo-section h3 {
-                font-size: 1.2em;
-            }
-        }
-        /* CSS INLINE END */
-    </style>
-
-    <!-- Tesseract.js CDN -->
-    <script src='https://unpkg.com/tesseract.js@5.0.0/dist/tesseract.min.js'></script>
-
-    <!-- jsPDF Library (Inlined - basic version for text only) -->
-    <script>
-        /* jsPDF INLINE START (MINIMAL TEXT-ONLY) */
-        // jsPDF version 2.5.1
-        // For full features, a larger library would be needed. This is a very minimal text-only stub.
-        var jsPDF = (function () {
-            'use strict';
-
-            function jsPDF(options) {
-                var doc = {
-                    internal: {
-                        pageSize: {
-                            width: 210, // A4 width in mm
-                            height: 297 // A4 height in mm
-                        }
-                    },
-                    text: function (text, x, y) {
-                        this._text_content.push({ text: text, x: x, y: y });
-                    },
-                    save: function (filename) {
-                        var output = [];
-                        output.push("%PDF-1.3");
-                        output.push("1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj");
-                        output.push("2 0 obj<</Type/Pages/Count 1/Kids[3 0 R]>>endobj");
-                        output.push("3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 " + doc.internal.pageSize.width + " " + doc.internal.pageSize.height + "]/Contents 4 0 R/Resources<</ProcSet[/PDF/Text]/Font<</F1 5 0 R>>>>>>endobj");
-                        output.push("4 0 obj<</Length " + (this._text_content.reduce((len, t) => len + t.text.length, 0) + 50) + ">>stream");
-                        output.push("BT"); // Begin Text
-                        output.push("/F1 12 Tf"); // Font and size
-                        output.push("1 0 0 1 72 720 Tm"); // Text matrix (start at top-leftish)
-                        this._text_content.forEach(function(item) {
-                            output.push((item.x || 72) + " " + (doc.internal.pageSize.height * 2.83 - (item.y || 720)) + " Td (" + item.text.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)') + ") Tj");
-                        });
-                        output.push("ET"); // End Text
-                        output.push("endstream");
-                        output.push("5 0 obj<</Type/Font/Subtype/Type1/Name/F1/BaseFont/Helvetica/Encoding/MacRomanEncoding>>endobj");
-                        output.push("xref");
-                        output.push("0 6");
-                        output.push("0000000000 65535 f");
-                        output.push("0000000009 00000 n");
-                        output.push("0000000074 00000 n");
-                        output.push("0000000125 00000 n");
-                        output.push("0000000305 00000 n");
-                        output.push("0000000400 00000 n"); // Adjust length
-                        output.push("trailer<</Size 6/Root 1 0 R>>startxref\n" + (output.join('\n').length - 2) + "\n%%EOF");
-
-                        var blob = new Blob([output.join('\n')], { type: "application/pdf" });
-                        var link = document.createElement('a');
-                        link.href = URL.createObjectURL(blob);
-                        link.download = filename || 'document.pdf';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        URL.revokeObjectURL(link.href);
-                    },
-                    _text_content: []
-                };
-
-                // Apply basic options like unit, format (for now, fixed to A4 mm)
-                if (options && options.unit === 'pt') { /* conversion would be needed */ }
-                return doc;
-            }
-
-            return jsPDF;
-
-        })();
-        /* jsPDF INLINE END */
-    </script>
-
-    <!-- Basic DOCX Generation Library (Inlined - extremely minimal) -->
-    <script>
-        /* DOCX GENERATION INLINE START (EXTREMELY MINIMAL) */
-        // This is a barebones implementation to create a downloadable .docx file.
-        // It's not a full-featured DOCX library, it just wraps text in basic Word XML.
-        var docxgen = (function() {
-            function generateDocx(filename, textContent) {
-                var content = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-                <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
-                    <w:body>
-                        <w:p>
-                            <w:r>
-                                <w:t>${textContent.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '</w:t></w:r></w:p><w:p><w:r><w:t>')}</w:t>
-                            </w:r>
-                        </w:p>
-                    </w:body>
-                </w:document>`;
-
-                var contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-                <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
-                    <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
-                    <Default Extension="xml" ContentType="application/xml"/>
-                    <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
-                </Types>`;
-
-                var rels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-                <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-                    <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
-                </Relationships>`;
-
-                var documentRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-                <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"/>`;
-
-
-                // Using JSZip to create the .docx structure
-                var zip = new JSZip();
-                zip.file("[Content_Types].xml", contentTypes);
-                zip.file("_rels/.rels", rels);
-                zip.folder("word").file("document.xml", content);
-                zip.folder("word/_rels").file("document.xml.rels", documentRels);
-
-                zip.generateAsync({ type: "blob" })
-                    .then(function(blob) {
-                        var link = document.createElement('a');
-                        link.href = URL.createObjectURL(blob);
-                        link.download = filename || 'document.docx';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        URL.revokeObjectURL(link.href);
-                    })
-                    .catch(function(err) {
-                        console.error("Error generating DOCX:", err);
-                        alert("Failed to generate DOCX file.");
-                    });
-            }
-
-            return { generateDocx: generateDocx };
-        })();
-        /* DOCX GENERATION INLINE END */
-    </script>
-
-
+  </style>
 </head>
-<body>
-    <div class="theme-toggle-container">
-        <div class="theme-toggle" id="theme-toggle"></div>
-    </div>
-
+<body data-theme="light">
+  <div class="wrap">
     <header>
-        <h1>Image to Text OCR Tool</h1>
-        <p>Extract Text from Images (JPG, PNG, GIF, WEBP) with High Accuracy – multiimagex.online</p>
+      <div class="brand">
+        <div class="logo">MX</div>
+        <div>
+          <h1>Image to Text Converter — multiimagex.online</h1>
+          <p class="lead">Extract editable text from images instantly. Supports Hindi, English & 100+ languages — offline in your browser.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="themeToggle" class="btn ghost small">Dark</button>
+        <a class="btn small" href="#usage">How to Use</a>
+      </div>
     </header>
 
-    <div class="container">
-        <div class="card">
-            <h2 class="card-header">Upload Images</h2>
-            <div class="drop-area" id="drop-area">
-                <input type="file" id="image-upload" accept="image/*" multiple hidden>
-                <p>Drag & drop images here or</p>
-                <button class="btn btn-primary" onclick="document.getElementById('image-upload').click()">Click to Select Images</button>
+    <div class="card">
+      <div class="grid">
+        <!-- LEFT: Uploader + Preview + Preprocessing -->
+        <div>
+          <div id="dropZone" class="uploader" aria-label="Drop images here">
+            <input id="fileInput" type="file" accept="image/*" multiple style="display:none">
+            <div style="max-width:560px">
+              <strong>Drag & Drop images here</strong>
+              <div style="margin-top:8px;color:var(--muted);font-size:13px">JPG, PNG, WEBP, BMP. Max 5 images. Screenshots, photos, scanned docs supported.</div>
+              <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
+                <button id="browseBtn" class="btn small">Browse</button>
+                <button id="clearBtn" class="btn ghost small">Clear</button>
+              </div>
             </div>
-            <div id="image-previews"></div>
-            <div class="flex-row mt-20">
-                <button class="btn btn-danger flex-grow" id="clear-all-images-btn" style="display: none;">Clear All Images</button>
+          </div>
+
+          <div class="card" style="margin-top:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-weight:600">Image Preview</div>
+              <div style="font-size:13px;color:var(--muted)">Rotate • Crop • Enhance</div>
             </div>
+
+            <div class="preview" style="margin-top:10px">
+              <div class="imgbox"><canvas id="canvas" width="640" height="360"></canvas></div>
+
+              <div class="controls">
+                <button class="btn small" id="rotateLeft">⟲ Rotate Left</button>
+                <button class="btn small" id="rotateRight">⟲ Rotate Right</button>
+                <button class="btn small" id="grayscale">Grayscale</button>
+                <button class="btn small" id="bw">B/W</button>
+                <button class="btn ghost small" id="autoEnhance">Auto Enhance</button>
+
+                <div style="flex:1"></div>
+
+                <label class="small" style="display:flex;align-items:center;gap:8px">Language
+                  <select id="langSelect" style="margin-left:8px;padding:6px;border-radius:8px">
+                    <option value="auto">Auto (eng+hin)</option>
+                    <option value="eng">English</option>
+                    <option value="hin">Hindi</option>
+                    <option value="eng+hin">English + Hindi</option>
+                    <option value="spa">Spanish</option>
+                    <option value="deu">German</option>
+                    <option value="fra">French</option>
+                    <option value="ita">Italian</option>
+                  </select>
+                </label>
+              </div>
+
+              <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+                <div style="flex:1">
+                  <label class="range">Brightness <input id="brightness" type="range" min="0.5" max="1.8" step="0.05" value="1"></label>
+                </div>
+                <div style="width:160px;display:flex;align-items:center;gap:8px">
+                  <label class="range">Contrast <input id="contrast" type="range" min="0.5" max="1.8" step="0.05" value="1"></label>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+                <button id="extractBtn" class="btn">Extract Text</button>
+                <button id="cancelBtn" class="btn ghost" disabled>Cancel</button>
+                <div style="flex:1"></div>
+                <div style="font-size:13px;color:var(--muted)">Progress: <span id="progressText">0%</span></div>
+              </div>
+
+              <progress id="progress" value="0" max="1" style="width:100%;height:8px;margin-top:8px;border-radius:6px"></progress>
+
+            </div>
+          </div>
         </div>
 
-        <div class="card" id="ocr-settings-card" style="display: none;">
-            <h2 class="card-header">OCR Settings & Processing</h2>
-            <div class="ocr-settings">
-                <div class="form-group">
-                    <label for="language-select">Select Language:</label>
-                    <select id="language-select">
-                        <option value="auto">Auto-detect Language</option>
-                        <option value="eng" selected>English</option>
-                        <option value="hin">Hindi</option>
-                        <option value="urd">Urdu</option>
-                        <option value="ben">Bengali</option>
-                        <!-- Add more languages as needed, remember to load their traineddata -->
-                    </select>
-                </div>
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="improve-contrast">
-                    <label for="improve-contrast">Improve Contrast</label>
-                </div>
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="grayscale">
-                    <label for="grayscale">Convert to Grayscale</label>
-                </div>
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="handwritten">
-                    <label for="handwritten">Handwritten Text (Experimental)</label>
-                </div>
-            </div>
-            <button class="btn btn-success" id="start-ocr-btn">Start OCR for All Images</button>
+        <!-- RIGHT: Results -->
+        <div class="result">
+          <div class="card" style="flex:1;display:flex;flex-direction:column">
+            <div class="toolbar">
+              <div style="display:flex;gap:8px;align-items:center">
+                <strong>Extracted Text</strong>
+                <div style="font-size:13px;color:var(--muted)">Editable output — copy or download</div>
+              </div>
 
-            <div id="progress-indicator" class="progress-indicator">
-                <p>Processing image <span id="current-image-name"></span>... (<span id="progress-status"></span>%)</p>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="progress-bar"></div>
-                </div>
-                <p>Time elapsed: <span id="time-elapsed">0s</span></p>
-                <p>OCR Accuracy: <span id="ocr-accuracy">N/A</span></p>
+              <div style="display:flex;gap:8px">
+                <button id="copyBtn" class="btn small">Copy</button>
+                <button id="downloadTxt" class="btn small ghost">Download .txt</button>
+                <button id="downloadJson" class="btn small ghost">Download .json</button>
+              </div>
             </div>
+
+            <textarea id="output" class="textarea" placeholder="Extracted text will appear here..." spellcheck="false"></textarea>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px">
+              <div style="color:var(--muted);font-size:13px">Detected Language: <span id="detectedLang">—</span></div>
+              <div style="display:flex;gap:8px">
+                <button id="copyImgText" class="btn ghost small">Copy Image+Text</button>
+                <button id="clearAll" class="btn ghost small">Reset All</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div style="margin-top:12px;font-size:13px;color:var(--muted);padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(15,23,42,0.02),transparent)">
+            <strong>Tips:</strong> For best results use high-contrast images, crop out unnecessary borders, and pick the proper language when known. Auto will try English + Hindi by default.
+          </div>
         </div>
+      </div>
 
-        <div class="card hidden" id="ocr-results-card">
-            <h2 class="card-header">Extracted Text Results</h2>
-            <div id="ocr-output-section" class="ocr-output-section">
-                <!-- OCR results will be dynamically added here -->
-            </div>
-            <p class="mt-20 text-center" style="color: var(--secondary-color);">All processing is client-side. Your data is private and secure.</p>
-        </div>
-
-        <!-- SEO Content Blocks -->
-        <div class="seo-section">
-            <h2>What is Image to Text OCR?</h2>
-            <p>In today's digital age, information comes in various forms. Often, we encounter text embedded within images – scanned documents, photos of whiteboards, screenshots, or even memes. Manually typing out this text is tedious, time-consuming, and prone to errors. This is where an **Image to Text OCR (Optical Character Recognition) tool** becomes indispensable. OCR technology is designed to recognize text characters within a digital image and convert them into machine-readable text data. Essentially, it acts as a digital transcriber, bridging the gap between static visuals and editable, searchable text. Imagine converting a printed book page into a Word document in seconds, or extracting an address from a photo without typing a single character. That's the power of OCR.</p>
-
-            <h3>How OCR Works in the Browser (Client-side)</h3>
-            <p>Traditional OCR solutions often rely on powerful backend servers to process images due to the computational intensity involved. However, with advancements in web technologies and JavaScript libraries like Tesseract.js, sophisticated OCR can now be performed entirely within your web browser. This is known as **client-side OCR**. When you upload an image to a client-side OCR tool like multiimagex.online, here's how it generally works:</p>
-            <ul>
-                <li><strong>Image Loading:</strong> Your image file is loaded into the browser's memory. It never leaves your device or touches an external server.</li>
-                <li><strong>Preprocessing (Optional but Recommended):</strong> The image might undergo enhancements like contrast adjustment, grayscale conversion, or noise reduction. These steps optimize the image quality for better text recognition.</li>
-                <li><strong>Text Recognition:</strong> The OCR engine (e.g., Tesseract.js) then analyzes the image pixel by pixel. It identifies patterns that resemble characters, words, and text blocks. This involves complex algorithms and machine learning models trained on vast amounts of text data.</li>
-                <li><strong>Language Models:</strong> For accurate recognition, the OCR engine uses specific 'trained data' or language models for each language (e.g., English, Hindi, Urdu, Bengali). These models help it distinguish between similar-looking characters across different scripts.</li>
-                <li><strong>Text Output:</strong> Once recognized, the characters are assembled into words and lines, and presented to you as editable digital text.</li>
-                <li><strong>No Backend Interaction:</strong> The entire process, from upload to extraction, occurs locally on your computer, making it incredibly fast and secure.</li>
-            </ul>
-
-            <h3>Why Use Our multiimagex.online Image to Text OCR Tool?</h3>
-            <p>The multiimagex.online Image to Text OCR tool stands out as the **best image to text solution** for a multitude of reasons:</p>
-            <ul>
-                <li><strong>Unmatched Privacy:</strong> 100% client-side processing means your sensitive images never leave your browser. We never upload, store, or see your data. Your privacy is our top priority.</li>
-                <li><strong>Completely Free:</strong> Access powerful, accurate OCR capabilities without any cost, subscriptions, or hidden fees.</li>
-                <li><strong>High Accuracy:</strong> Powered by Tesseract.js, a robust OCR engine, our tool delivers excellent recognition for printed text, minimizing errors and preserving original formatting.</li>
-                <li><strong>Multi-Language Support:</strong> Seamlessly extract text from images in English, Hindi, Urdu, and Bengali, with intelligent auto-detection.</li>
-                <li><strong>Bulk Processing:</strong> Save time by uploading and performing OCR on multiple images simultaneously. Ideal for processing batches of documents.</li>
-                <li><strong>Fast & Optimized:</strong> Designed for speed, our tool processes images efficiently, even high-definition ones, using techniques like in-RAM compression and Web Workers.</li>
-                <li><strong>User-Friendly Interface:</strong> A clean, modern, and intuitive light theme UI ensures a smooth experience for everyone, from beginners to professionals.</li>
-                <li><strong>Versatile Output Options:</strong> Download your extracted text as plain TXT, a formatted PDF, or a basic DOCX file for easy integration into your workflow.</li>
-                <li><strong>Mobile-Friendly:</strong> Access and use the tool effortlessly from any device – desktop, tablet, or smartphone.</li>
-            </ul>
-
-            <h3>Key Features</h3>
-            <p>Our **online image to text tool** is packed with features to enhance your text extraction experience:</p>
-            <ul>
-                <li><strong>Unlimited Image Upload:</strong> Upload as many images as you need, with support for drag & drop and multi-file selection.</li>
-                <li><strong>Image Previews:</strong> See a thumbnail of each uploaded image along with its details (name, size, type).</li>
-                <li><strong>Advanced OCR Settings:</strong> Options to improve contrast, convert to grayscale, and an experimental mode for handwritten text, all to boost accuracy.</li>
-                <li><strong>Auto Language Detection:</strong> Let the tool intelligently detect the language of the text in your image.</li>
-                <li><strong>Line-by-Line Extraction:</strong> Text is extracted maintaining its original line structure and spacing.</li>
-                <li><strong>Editable Output:</strong> Review and refine the extracted text directly within a dedicated editor.</li>
-                <li><strong>Batch Download:</strong> Download individual text files or all processed texts.</li>
-                <li><strong>Progress Indicators:</strong> Stay informed with real-time progress updates, processing time, and estimated accuracy.</li>
-                <li><strong>Theme Toggle:</strong> Switch between a light and dark theme for comfortable viewing.</li>
-                <li><strong>Robust File Support:</strong> Compatible with JPG, JPEG, PNG, GIF, and WEBP image formats.</li>
-            </ul>
-
-            <h3>Supported Languages</h3>
-            <p>Recognizing the diverse linguistic needs of our users, the multiimagex.online OCR tool offers robust support for several key languages:</p>
-            <ul>
-                <li><strong>English:</strong> The global standard, with highly optimized recognition.</li>
-                <li><strong>Hindi:</strong> Extensive support for Devanagari script, widely used in India.</li>
-                <li><strong>Urdu:</strong> Specialized recognition for the Nastaliq script, crucial for Urdu documents.</li>
-                <li><strong>Bengali:</strong> Accurate extraction for the Bengali script, essential for users in Bangladesh and parts of India.</li>
-                <li><strong>Auto-detect Language:</strong> Not sure of the language? Our tool can intelligently detect it for you, streamlining the process.</li>
-            </ul>
-            <p>We continuously work to expand our language support to make multiimagex.online a truly global **optical character recognition tool**.</p>
-
-            <h3>Supported Image Formats</h3>
-            <p>Our **photo to text extractor** is designed to be versatile, accepting a wide range of common image formats:</p>
-            <ul>
-                <li><strong>JPG/JPEG:</strong> The most common image format, ideal for photographs.</li>
-                <li><strong>PNG:</strong> Supports transparency and is excellent for screenshots and graphics.</li>
-                <li><strong>GIF:</strong> While primarily for animations, our tool can process static frames for text.</li>
-                <li><strong>WEBP:</strong> A modern image format offering superior compression and quality.</li>
-            </ul>
-            <p>Simply drag and drop or select your images, and our tool will handle the rest.</p>
-
-            <h3>How to Use the multiimagex.online Image to Text OCR Tool (Step-by-step Guide)</h3>
-            <ol>
-                <li><strong>Step 1: Upload Your Images.</strong> Drag and drop your image files (JPG, PNG, GIF, WEBP) into the designated "Drag & drop images here" area, or click the "Click to Select Images" button to browse your device. You can upload single or multiple images.</li>
-                <li><strong>Step 2: Review and Manage Images.</strong> All uploaded images will appear as thumbnails. You can review their details, remove individual images, or clear all of them.</li>
-                <li><strong>Step 3: Adjust OCR Settings.</strong> Before starting the OCR, select your desired language from the dropdown (or choose 'Auto-detect'). Optionally, check boxes for 'Improve Contrast' or 'Convert to Grayscale' to enhance image quality for better recognition, especially for low-quality scans. If you have handwritten text, you can try the 'Handwritten Text (Experimental)' option.</li>
-                <li><strong>Step 4: Start OCR Processing.</strong> Click the "Start OCR for All Images" button. The tool will begin processing your images one by one. A progress indicator will show you the current image being processed, the progress percentage, elapsed time, and even an estimated OCR accuracy.</li>
-                <li><strong>Step 5: Review and Edit Extracted Text.</strong> Once processing is complete, the extracted text for each image will appear in separate editable text areas. You can review, correct, or refine the text as needed.</li>
-                <li><strong>Step 6: Download Your Text.</strong> For each extracted text, you'll find buttons to "Copy Text," "Download as TXT," "Download as PDF," or "Download as DOCX." Click the desired button to save your digital text.</li>
-            </ol>
-            <p>It's that simple! Get precise text from your images in just a few clicks with our **free OCR tool**.</p>
-
-            <h3>No-Upload Privacy Advantages</h3>
-            <p>In an era where data privacy is paramount, the **no-upload privacy advantages** of multiimagex.online's OCR tool cannot be overstated. Unlike many online OCR services that require you to upload your images to their servers for processing, our tool operates entirely on your device. This fundamental design choice offers several critical benefits:</p>
-            <ul>
-                <li><strong>Absolute Data Security:</strong> Your images never traverse the internet to an external server. This eliminates any risk of interception, unauthorized access, or data breaches during transmission or storage on third-party systems.</li>
-                <li><strong>Complete Confidentiality:</strong> If you're working with sensitive documents, private notes, or confidential information, using our client-side OCR ensures that your content remains entirely under your control. No one, not even us, can access your images.</li>
-                <li><strong>GDPR, CCPA, and HIPAA Compliance Friendly:</strong> For professionals and organizations handling regulated data, a no-upload policy significantly simplifies compliance efforts, as sensitive information is never exposed to external servers.</li>
-                <li><strong>Offline Capability (Post-Load):</strong> Once the tool is loaded in your browser, you can even disconnect from the internet and continue processing images, as all operations are local.</li>
-                <li><strong>Reduced Digital Footprint:</strong> With no server-side storage, there are no lingering copies of your images on external systems, providing peace of mind about your digital footprint.</li>
-            </ul>
-            <p>Choose multiimagex.online for a truly private and secure **online image to text tool** experience.</p>
-
-            <h3>Why multiimagex.online Provides the Best OCR</h3>
-            <p>At multiimagex.online, we are committed to delivering the **best OCR online free** experience by combining cutting-edge technology with user-centric design and unwavering privacy. Here's what makes our platform stand out:</p>
-            <ul>
-                <li><strong>State-of-the-Art Technology:</strong> We leverage Tesseract.js, an open-source OCR engine developed by Google, known for its continuous improvement and high accuracy across a multitude of languages and document types.</li>
-                <li><strong>Client-Side Processing Paradigm:</strong> Our dedication to 100% client-side operation is a core differentiator, prioritizing your privacy and data security above all else. This design also contributes to faster results by eliminating network latency.</li>
-                <li><strong>Comprehensive Feature Set:</strong> From multi-language support and batch processing to advanced image pre-processing options and flexible download formats (TXT, PDF, DOCX), our tool offers everything you need in one place.</li>
-                <li><strong>Optimized Performance:</strong> We've engineered the tool for speed and efficiency, ensuring smooth operation even with large or numerous image files, thanks to intelligent resource management within the browser.</li>
-                <li><strong>Intuitive and Aesthetic UI:</strong> A clean, modern, and responsive interface makes the complex task of OCR simple and enjoyable, regardless of your technical expertise or device.</li>
-                <li><strong>Continuous Improvement:</strong> As a multi-tool platform, multiimagex.online is constantly being updated and refined based on user feedback and technological advancements, guaranteeing you access to the latest and most effective solutions.</li>
-            </ul>
-            <p>For individuals and businesses seeking a reliable, private, and efficient **extract text from image** solution, multiimagex.online is the definitive choice.</p>
-
-            <h3>FAQs for Google SEO</h3>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Can this tool convert scanned documents to editable text?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Yes, absolutely! Our multiimagex.online Image to Text OCR tool is specifically designed to convert scanned documents (images) into fully editable digital text documents.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: How do I ensure the highest accuracy for my OCR results?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: For the best results, ensure your image is clear, well-lit, and has good contrast between text and background. Using the 'Improve Contrast' and 'Convert to Grayscale' options can significantly boost accuracy, especially for lower-quality images.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Is there any size limit for the images I can upload?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: While there isn't a strict file size limit, very large images (e.g., extremely high resolution or huge file size) will take longer to process and might consume more browser memory. Our tool includes optimizations for HD images to manage this efficiently.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Can I use this OCR tool on my Mac or Linux computer?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Yes, since our tool is entirely browser-based, it works perfectly on any operating system (Windows, macOS, Linux, ChromeOS) as long as you have a modern web browser installed.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: What if the extracted text contains errors?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: While our OCR aims for high accuracy, occasional errors can occur, especially with complex fonts, poor image quality, or unusual layouts. You can easily edit and correct any errors directly within the text editor provided in the results section.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Does this tool support special characters and symbols?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Yes, our OCR engine is trained to recognize a wide range of special characters, symbols, and numbers accurately, provided they are clearly visible in the source image.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Can I use this tool for academic purposes, like extracting text from research papers?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Absolutely! Our tool is ideal for students, researchers, and academics who need to quickly extract text from scanned papers, book pages, or presentation slides for citation or further analysis.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: What is the best resolution for images to get accurate OCR results?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Generally, a resolution of 300 DPI (dots per inch) or higher for scanned documents yields the best OCR results. For photos, ensuring the text is in clear focus and well-lit is more crucial than absolute pixel count.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Can I use this tool to extract text from screenshots?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Yes, our **text recognition online** tool works great for screenshots! Just upload your screenshot, and it will attempt to extract any visible text.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Is there a dark theme option for better viewing at night?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Yes, we understand the importance of user comfort. You can toggle between the light theme and a dark theme using the switch located at the top right corner of the page.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: How quickly can I get the text from an image?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: The processing speed depends on your device's CPU, the image size, and the amount of text. For most standard images, you can expect results within seconds to a minute.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Can I process images from my phone's camera roll?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Yes, our tool is fully mobile-responsive. You can access it on your smartphone, select images directly from your camera roll, and perform OCR on the go.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Why is 'Auto-enhance text' important before OCR?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Auto-enhancing text by adjusting contrast or converting to grayscale helps standardize the image input for the OCR engine, often leading to more accurate and reliable text extraction by making characters clearer.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Does the tool require any browser extensions or software installations?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: No, our **free ocr tool** requires absolutely no browser extensions, plugins, or software installations. It runs directly in any modern web browser.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Can I use this tool to convert images containing tables into editable text?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Our tool will extract the text from tables. While it strives to maintain line order, preserving the exact table structure (columns, rows) in the output text is complex and might require manual reformatting after extraction.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Is there a way to give feedback or suggest new features?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: We always welcome user feedback! Please visit our multiimagex.online contact page (placeholder link) to share your thoughts, suggestions, or report any issues you encounter.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: How do I remove a single image from the upload list?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Each image preview card has a small 'X' (remove) button in its top-right corner. Clicking this button will remove that specific image from your processing queue.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Will the tool work if I lose internet connection during processing?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Once the web page and Tesseract.js library are fully loaded, the OCR processing itself can continue offline as it's client-side. However, if you load new language packs or refresh the page, an internet connection would be needed.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Can I use this tool for converting receipt images to text?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Yes, it's an excellent tool for converting receipts, invoices, business cards, or any other document where you need to quickly capture text from an image.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question"><span>Q: Is multiimagex.online a safe and trustworthy platform?</span> <span class="arrow">▼</span></div>
-                    <div class="faq-answer">A: Absolutely. multiimagex.online is committed to providing secure, private, and reliable tools. Our client-side processing model for OCR is a testament to our dedication to user privacy and trust.</div>
-                </div>
-            </div>
-        </div>
-
+      <footer id="usage" style="margin-top:14px">Made with ❤️ by multiimagex.online — Fast, accurate & private. Works offline in your browser.</footer>
     </div>
+  </div>
 
-    <footer>
-        <p>&copy; <span id="current-year"></span> multiimagex.online. Your ultimate Multi Tool Platform for image processing and text extraction.</p>
-    </footer>
+  <!-- Tesseract.js from CDN (will fetch language data when needed) -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 
-    <script>
-        // JavaScript INLINE START
-        document.addEventListener('DOMContentLoaded', () => {
-            const imageUpload = document.getElementById('image-upload');
-            const dropArea = document.getElementById('drop-area');
-            const imagePreviews = document.getElementById('image-previews');
-            const clearAllImagesBtn = document.getElementById('clear-all-images-btn');
-            const startOcrBtn = document.getElementById('start-ocr-btn');
-            const ocrResultsCard = document.getElementById('ocr-results-card');
-            const ocrOutputSection = document.getElementById('ocr-output-section');
-            const progressIndicator = document.getElementById('progress-indicator');
-            const currentImageNameSpan = document.getElementById('current-image-name');
-            const progressStatusSpan = document.getElementById('progress-status');
-            const progressBar = document.getElementById('progress-bar');
-            const timeElapsedSpan = document.getElementById('time-elapsed');
-            const ocrAccuracySpan = document.getElementById('ocr-accuracy');
-            const ocrSettingsCard = document.getElementById('ocr-settings-card');
+  <script>
+    // Basic DOM refs
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const browseBtn = document.getElementById('browseBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const rotateLeft = document.getElementById('rotateLeft');
+    const rotateRight = document.getElementById('rotateRight');
+    const grayscaleBtn = document.getElementById('grayscale');
+    const bwBtn = document.getElementById('bw');
+    const autoEnhanceBtn = document.getElementById('autoEnhance');
+    const brightness = document.getElementById('brightness');
+    const contrast = document.getElementById('contrast');
+    const extractBtn = document.getElementById('extractBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const progress = document.getElementById('progress');
+    const progressText = document.getElementById('progressText');
+    const output = document.getElementById('output');
+    const copyBtn = document.getElementById('copyBtn');
+    const downloadTxt = document.getElementById('downloadTxt');
+    const downloadJson = document.getElementById('downloadJson');
+    const langSelect = document.getElementById('langSelect');
+    const detectedLang = document.getElementById('detectedLang');
+    const cancelToken = {cancelled:false};
+    const themeToggle = document.getElementById('themeToggle');
+    const copyImgText = document.getElementById('copyImgText');
+    const clearAll = document.getElementById('clearAll');
 
-            const languageSelect = document.getElementById('language-select');
-            const improveContrastCheckbox = document.getElementById('improve-contrast');
-            const grayscaleCheckbox = document.getElementById('grayscale');
-            const handwrittenCheckbox = document.getElementById('handwritten');
+    // State
+    let currentImage = new Image();
+    let currentRotation = 0; // degrees
+    let currentScale = 1;
+    let imgBlob = null;
+    let worker = null;
 
-            const themeToggle = document.getElementById('theme-toggle');
+    // Limits
+    const MAX_IMAGES = 5;
+    const MAX_FILE_SIZE_MB = 10; // warn if >10MB
 
-            let uploadedFiles = [];
-            let worker = null; // Tesseract.js worker
-            let processingStartTime = null;
+    // Theme toggle
+    themeToggle.addEventListener('click', ()=>{
+      const body = document.body;
+      if(body.getAttribute('data-theme')==='dark'){body.setAttribute('data-theme','light');themeToggle.textContent='Dark'}
+      else{body.setAttribute('data-theme','dark');themeToggle.textContent='Light'}
+    });
 
-            // --- Theme Toggle ---
-            const currentTheme = localStorage.getItem('theme');
-            if (currentTheme) {
-                document.body.classList.add(currentTheme);
-            } else {
-                // Default to light theme
-                document.body.classList.add('light-theme');
-                localStorage.setItem('theme', 'light-theme');
-            }
+    // Drag & Drop
+    ['dragenter','dragover'].forEach(ev=>{
+      dropZone.addEventListener(ev,e=>{e.preventDefault();e.stopPropagation();dropZone.classList.add('dragover')});
+    });
+    ['dragleave','drop'].forEach(ev=>{
+      dropZone.addEventListener(ev,e=>{e.preventDefault();e.stopPropagation();dropZone.classList.remove('dragover')});
+    });
 
-            themeToggle.addEventListener('click', () => {
-                if (document.body.classList.contains('dark-theme')) {
-                    document.body.classList.remove('dark-theme');
-                    document.body.classList.add('light-theme');
-                    localStorage.setItem('theme', 'light-theme');
-                } else {
-                    document.body.classList.remove('light-theme');
-                    document.body.classList.add('dark-theme');
-                    localStorage.setItem('theme', 'dark-theme');
-                }
-            });
+    dropZone.addEventListener('drop', async (e)=>{
+      const files = Array.from(e.dataTransfer.files || []);
+      await handleFiles(files);
+    });
 
-            // --- Image Upload & Preview ---
-            const handleFiles = (files) => {
-                for (const file of files) {
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            const id = Date.now() + Math.random().toString(36).substring(2, 9); // Unique ID
-                            uploadedFiles.push({
-                                id: id,
-                                file: file,
-                                src: e.target.result,
-                                name: file.name,
-                                size: (file.size / 1024).toFixed(2) + ' KB',
-                                type: file.type
-                            });
-                            renderImagePreviews();
-                            updateActionButtonsVisibility();
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
-            };
+    browseBtn.addEventListener('click', ()=>fileInput.click());
+    fileInput.addEventListener('change', async (e)=>{await handleFiles(Array.from(e.target.files));});
 
-            const renderImagePreviews = () => {
-                imagePreviews.innerHTML = '';
-                uploadedFiles.forEach(item => {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'image-preview-item';
-                    previewItem.setAttribute('data-id', item.id);
-                    previewItem.innerHTML = `
-                        <img src="${item.src}" alt="${item.name}">
-                        <div class="image-info">
-                            <p>${item.name}</p>
-                            <p>${item.size} (${item.type.split('/')[1].toUpperCase()})</p>
-                        </div>
-                        <button class="remove-btn" data-id="${item.id}">&times;</button>
-                    `;
-                    imagePreviews.appendChild(previewItem);
-                });
+    clearBtn.addEventListener('click', resetCanvas);
+    clearAll.addEventListener('click', ()=>{resetCanvas();output.value='';detectedLang.textContent='—';});
 
-                document.querySelectorAll('.remove-btn').forEach(button => {
-                    button.onclick = (e) => {
-                        const idToRemove = e.target.dataset.id;
-                        uploadedFiles = uploadedFiles.filter(item => item.id !== idToRemove);
-                        renderImagePreviews();
-                        updateActionButtonsVisibility();
-                        removeOcrResult(idToRemove);
-                    };
-                });
-            };
+    async function handleFiles(files){
+      if(!files || files.length===0) return;
+      // limit count
+      if(files.length>MAX_IMAGES) files = files.slice(0,MAX_IMAGES);
+      const file = files[0];
+      if(file.size > MAX_FILE_SIZE_MB*1024*1024){
+        if(!confirm('File is large (>10MB). Continue?')) return;
+      }
+      if(!file.type.startsWith('image/')){alert('Please provide an image file.');return}
+      imgBlob = file;
+      const url = URL.createObjectURL(file);
+      currentImage = new Image();
+      currentRotation = 0; currentScale = 1;
+      currentImage.onload = ()=>{
+        fitCanvasToImage(currentImage);
+        drawImage();
+      };
+      currentImage.src = url;
+    }
 
-            const updateActionButtonsVisibility = () => {
-                if (uploadedFiles.length > 0) {
-                    clearAllImagesBtn.style.display = 'flex';
-                    ocrSettingsCard.style.display = 'block';
-                } else {
-                    clearAllImagesBtn.style.display = 'none';
-                    ocrSettingsCard.style.display = 'none';
-                    ocrResultsCard.classList.add('hidden');
-                    ocrOutputSection.innerHTML = '';
-                    progressIndicator.style.display = 'none';
-                    document.querySelector('.progress-bar-container').style.display = 'none';
-                }
-            };
+    function fitCanvasToImage(img){
+      const maxW = 900; // cap
+      const ratio = Math.min(maxW / img.width, 1);
+      canvas.width = Math.round(img.width * ratio);
+      canvas.height = Math.round(img.height * ratio);
+    }
 
-            imageUpload.addEventListener('change', (e) => {
-                handleFiles(e.target.files);
-                e.target.value = null; // Clear input for re-uploading same file
-            });
+    function drawImage(){
+      // clear
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.save();
+      // translate to center for rotation
+      ctx.translate(canvas.width/2, canvas.height/2);
+      ctx.rotate(currentRotation * Math.PI/180);
+      ctx.scale(currentScale, currentScale);
+      ctx.drawImage(currentImage, -canvas.width/2, -canvas.height/2, canvas.width, canvas.height);
+      ctx.restore();
+    }
 
-            dropArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropArea.classList.add('highlight');
-            });
+    // Rotate
+    rotateLeft.addEventListener('click', ()=>{ currentRotation -= 90; drawImage(); });
+    rotateRight.addEventListener('click', ()=>{ currentRotation += 90; drawImage(); });
 
-            dropArea.addEventListener('dragleave', () => {
-                dropArea.classList.remove('highlight');
-            });
+    // Filters
+    grayscaleBtn.addEventListener('click', ()=>{ applyFilter('grayscale'); });
+    bwBtn.addEventListener('click', ()=>{ applyFilter('bw'); });
+    autoEnhanceBtn.addEventListener('click', ()=>{ autoEnhance(); });
 
-            dropArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropArea.classList.remove('highlight');
-                handleFiles(e.dataTransfer.files);
-            });
+    brightness.addEventListener('input', ()=>{ applyBrightnessContrast(); });
+    contrast.addEventListener('input', ()=>{ applyBrightnessContrast(); });
 
-            clearAllImagesBtn.addEventListener('click', () => {
-                if (confirm('Are you sure you want to clear all uploaded images and OCR results?')) {
-                    uploadedFiles = [];
-                    renderImagePreviews();
-                    updateActionButtonsVisibility();
-                    ocrOutputSection.innerHTML = '';
-                    if (worker) {
-                        worker.terminate();
-                        worker = null;
-                        console.log('Tesseract worker terminated.');
-                    }
-                }
-            });
+    function applyBrightnessContrast(){
+      if(!currentImage || !currentImage.width) return;
+      // draw base then apply
+      ctx.drawImage(currentImage, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+      const data = imageData.data;
+      const b = parseFloat(brightness.value);
+      const c = parseFloat(contrast.value);
+      // apply
+      for(let i=0;i<data.length;i+=4){
+        for(let j=0;j<3;j++){
+          let val = data[i+j];
+          // brightness
+          val = val * b;
+          // contrast (simple)
+          val = ((val - 128) * c) + 128;
+          data[i+j] = Math.max(0, Math.min(255, val));
+        }
+      }
+      ctx.putImageData(imageData,0,0);
+    }
 
-            // --- OCR Processing ---
-            startOcrBtn.addEventListener('click', async () => {
-                if (uploadedFiles.length === 0) {
-                    alert('Please upload images first!');
-                    return;
-                }
+    function applyFilter(type){
+      if(!currentImage || !currentImage.width) return;
+      ctx.drawImage(currentImage,0,0,canvas.width,canvas.height);
+      const imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+      const data = imageData.data;
+      if(type==='grayscale'){
+        for(let i=0;i<data.length;i+=4){
+          const v = 0.3*data[i] + 0.59*data[i+1] + 0.11*data[i+2];
+          data[i]=data[i+1]=data[i+2]=v;
+        }
+      } else if(type==='bw'){
+        for(let i=0;i<data.length;i+=4){
+          const v = 0.3*data[i] + 0.59*data[i+1] + 0.11*data[i+2];
+          const bw = v>128?255:0;
+          data[i]=data[i+1]=data[i+2]=bw;
+        }
+      }
+      ctx.putImageData(imageData,0,0);
+    }
 
-                // Initialize Tesseract worker if not already
-                if (!worker) {
-                    worker = await Tesseract.createWorker({
-                        // Set logging to false to keep console clean, true for debug
-                        logger: m => {
-                            if (m.status === 'recognizing text') {
-                                const percentage = (m.progress * 100).toFixed(0);
-                                progressStatusSpan.textContent = percentage;
-                                progressBar.style.width = percentage + '%';
-                                ocrAccuracySpan.textContent = m.accuracy ? `${(m.accuracy * 100).toFixed(2)}%` : 'N/A';
-                            } else if (m.status === 'loading lang data') {
-                                progressStatusSpan.textContent = `Loading language data: ${(m.progress * 100).toFixed(0)}`;
-                            } else if (m.status === 'initializing api') {
-                                progressStatusSpan.textContent = `Initializing OCR engine: ${(m.progress * 100).toFixed(0)}`;
-                            } else {
-                                progressStatusSpan.textContent = m.status;
-                            }
-                            console.log(m); // For debugging: see all worker messages
-                        },
-                        // Specify the corePath if Tesseract.js is in a specific subfolder or inlined
-                        // corePath: 'tesseract-core.wasm.js', // example
-                        // If language data is also inlined, configure here.
-                        // langPath: 'data/', // Default path
-                    });
-                    console.log('Tesseract worker created.');
-                }
+    function autoEnhance(){
+      // simple auto contrast + sharpen-ish
+      applyFilter('grayscale');
+      // increase contrast
+      contrast.value = 1.2; brightness.value=1.05; applyBrightnessContrast();
+    }
 
-                ocrOutputSection.innerHTML = ''; // Clear previous results
-                ocrResultsCard.classList.remove('hidden');
-                progressIndicator.classList.add('visible');
-                document.querySelector('.progress-bar-container').classList.add('visible');
+    // Reset canvas
+    function resetCanvas(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      currentImage = new Image(); imgBlob=null; currentRotation=0; currentScale=1; detectedLang.textContent='—';
+    }
 
-                processingStartTime = Date.now();
-                let languages = languageSelect.value;
+    // Tesseract worker management
+    async function initWorker(lang){
+      if(worker) await worker.terminate();
+      worker = Tesseract.createWorker({
+        logger: m => {
+          if(m.status){
+            // progress m.progress
+            const p = m.progress || 0;
+            progress.value = p; progressText.textContent = Math.round(p*100) + '%';
+          }
+        }
+      });
+      await worker.load();
+      // If lang is composite like eng+hin, load each
+      const langs = lang.split('+');
+      for(const l of langs){
+        try{ await worker.loadLanguage(l); }catch(e){console.warn('lang load failed',l,e);} 
+      }
+      try{ await worker.initialize(lang); }catch(e){console.warn('init failed, trying eng',e); await worker.initialize('eng'); }
+    }
 
-                if (languages === 'auto') {
-                    // Tesseract.js auto-detection needs specific configuration or a list of languages to try
-                    // For simplicity, we'll try common ones if 'auto' is selected,
-                    // but true auto-detection usually requires a separate analysis step or combining languages.
-                    // For now, let's fall back to a common set.
-                    // Tesseract.js docs suggest loading multiple lang files for best auto-detection.
-                    // We'll set it to 'eng+hin' as an example for multi-language.
-                    languages = 'eng+hin+urd+ben';
-                }
+    // Recognize
+    async function recognizeImage(){
+      if(!imgBlob && !currentImage.src){ alert('Please upload an image first.'); return; }
+      extractBtn.disabled = true; cancelBtn.disabled = false; cancelToken.cancelled=false;
 
-                try {
-                    // Load selected languages
-                    await worker.loadLanguage(languages);
-                    await worker.initialize(languages);
+      // prepare image dataURL
+      const dataURL = canvas.toDataURL('image/png');
+      const selectedLang = langSelect.value;
+      const langForTess = selectedLang==='auto'? 'eng+hin' : selectedLang;
+      progress.value = 0; progressText.textContent='0%';
 
-                    if (handwrittenCheckbox.checked) {
-                        // Tesseract.js has different OCR engine modes.
-                        // 0: Original Tesseract only.
-                        // 1: Cube only.
-                        // 2: Tesseract + Cube.
-                        // 3: Default, based on what's available.
-                        // 4-9: Specific modes for various cases like sparse text, handwritten, etc.
-                        // PSM (Page Segmentation Mode) 6 is for assuming a single uniform block of text.
-                        // PSM 11 is for Sparse text with OSD. PSM 12 for raw line.
-                        // Setting for handwritten might involve PSM 1, 2, 3, or specific tessedit_char_blacklist,
-                        // and also using 'script/frak' or 'script/hand' traineddata if available.
-                        // For basic Tesseract.js, it's about providing the right language data.
-                        // Here we just set an example parameter, accuracy will depend on actual traineddata.
-                        await worker.setParameters({
-                            tessedit_pageseg_mode: Tesseract.PSM.SPARSE_TEXT, // Example for sparse or handwritten
-                        });
-                    } else {
-                        await worker.setParameters({
-                            tessedit_pageseg_mode: Tesseract.PSM.AUTO, // Default for printed text
-                        });
-                    }
+      try{
+        await initWorker(langForTess);
+        // optional: detect script/language simple approach
+        // run recognition
+        const {data} = await worker.recognize(dataURL);
+        if(cancelToken.cancelled){ output.value=''; return; }
+        output.value = data.text || '';
+        // detect best language if worker provides
+        if(data && data.lines && data.lines.length>0){
+          detectedLang.textContent = (data.script || langForTess) || 'unknown';
+        } else detectedLang.textContent = langForTess;
+      }catch(err){
+        console.error(err); alert('OCR error: ' + (err.message||err));
+      }finally{
+        extractBtn.disabled = false; cancelBtn.disabled = true;
+        try{ await worker.terminate(); worker=null; }catch(e){}
+        progress.value = 1; progressText.textContent='Done';
+      }
+    }
 
-                    for (const fileItem of uploadedFiles) {
-                        currentImageNameSpan.textContent = fileItem.name;
-                        processingStartTime = Date.now(); // Reset time for each image
+    extractBtn.addEventListener('click', recognizeImage);
+    cancelBtn.addEventListener('click', ()=>{ cancelToken.cancelled=true; if(worker){worker.terminate();worker=null;} cancelBtn.disabled=true; extractBtn.disabled=false; progressText.textContent='Cancelled'; });
 
-                        // Pre-process image for better OCR if options are checked
-                        let imageToProcess = fileItem.src;
-                        if (improveContrastCheckbox.checked || grayscaleCheckbox.checked) {
-                            imageToProcess = await preprocessImage(fileItem.src, improveContrastCheckbox.checked, grayscaleCheckbox.checked);
-                        }
+    // Copy & Download
+    copyBtn.addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(output.value); alert('Copied to clipboard'); }catch(e){ alert('Copy failed'); }
+    });
 
-                        // Resize large images in RAM before OCR for performance
-                        // Tesseract.js can handle large images, but downscaling can improve speed and memory
-                        // A good balance is often around 1600-2400px on the longest side for OCR.
-                        imageToProcess = await resizeImageForOCR(imageToProcess);
+    copyImgText.addEventListener('click', async ()=>{
+      const blob = await (await fetch(canvas.toDataURL('image/png'))).blob();
+      const parts = [new ClipboardItem({'image/png': blob, 'text/plain': new Blob([output.value], {type:'text/plain'})})];
+      try{ await navigator.clipboard.write(parts); alert('Image + Text copied (if supported)'); }catch(e){ alert('Copy image+text not supported'); }
+    });
 
-                        const { data: { text, confidence } } = await worker.recognize(imageToProcess);
-                        const endTime = Date.now();
-                        const timeTaken = ((endTime - processingStartTime) / 1000).toFixed(2);
+    downloadTxt.addEventListener('click', ()=>{
+      const blob = new Blob([output.value], {type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='ocr-text.txt'; a.click(); URL.revokeObjectURL(url);
+    });
 
-                        timeElapsedSpan.textContent = `${timeTaken}s`;
-                        ocrAccuracySpan.textContent = `${confidence.toFixed(2)}%`;
+    downloadJson.addEventListener('click', ()=>{
+      const payload = {text: output.value, detectedLanguage: detectedLang.textContent, source: 'multiimagex.online'};
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='ocr-output.json'; a.click(); URL.revokeObjectURL(url);
+    });
 
-                        addOcrResult(fileItem.id, fileItem.name, text, confidence, timeTaken);
-                    }
-                } catch (error) {
-                    console.error('OCR error:', error);
-                    alert('An error occurred during OCR processing. Please check console for details.');
-                    currentImageNameSpan.textContent = 'Error';
-                    progressStatusSpan.textContent = 'Failed';
-                    progressBar.style.width = '0%';
-                } finally {
-                    // No need to terminate worker if doing batch, can reuse.
-                    // progressIndicator.classList.remove('visible');
-                    // document.querySelector('.progress-bar-container').classList.remove('visible');
-                    // Scroll to results
-                    ocrResultsCard.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
+    // Reset all when user presses clear
+    document.getElementById('clearBtn').addEventListener('click', ()=>{ output.value=''; detectedLang.textContent='—'; resetCanvas(); });
 
-            const preprocessImage = (imageSrc, applyContrast, applyGrayscale) => {
-                return new Promise((resolve) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        ctx.drawImage(img, 0, 0);
+    // Accessibility: keyboard drop
+    dropZone.addEventListener('keydown', (e)=>{ if(e.key==='Enter') fileInput.click(); });
 
-                        if (applyGrayscale) {
-                            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                            const data = imageData.data;
-                            for (let i = 0; i < data.length; i += 4) {
-                                const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-                                data[i] = avg;     // red
-                                data[i + 1] = avg; // green
-                                data[i + 2] = avg; // blue
-                            }
-                            ctx.putImageData(imageData, 0, 0);
-                        }
+    // Small UX: draw placeholder
+    (function drawPlaceholder(){ ctx.fillStyle='#f3f6fb'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle='#889'; ctx.font='16px sans-serif'; ctx.fillText('Upload an image to preview',20,40); })();
 
-                        if (applyContrast) {
-                            // Simple contrast adjustment - can be improved
-                            // A value between -100 to 100
-                            const contrast = 30; // Example contrast boost
-                            ctx.filter = `contrast(${100 + contrast}%)`;
-                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height); // Re-draw with filter
-                            ctx.filter = 'none'; // Reset filter
-                        }
+    // Warn before leaving while OCR running
+    window.addEventListener('beforeunload', (e)=>{
+      if(!extractBtn.disabled){return}
+      e.preventDefault(); e.returnValue='OCR in progress. Are you sure you want to leave?';
+    });
 
-                        resolve(canvas.toDataURL('image/png')); // Convert to PNG for Tesseract input
-                    };
-                    img.src = imageSrc;
-                });
-            };
-
-            const resizeImageForOCR = (imageSrc) => {
-                return new Promise((resolve) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const maxWidth = 2000; // Max width for OCR processing (adjust as needed)
-                        const maxHeight = 2000; // Max height for OCR processing (adjust as needed)
-
-                        let width = img.width;
-                        let height = img.height;
-
-                        // Calculate new dimensions
-                        if (width > height) {
-                            if (width > maxWidth) {
-                                height *= maxWidth / width;
-                                width = maxWidth;
-                            }
-                        } else {
-                            if (height > maxHeight) {
-                                width *= maxHeight / height;
-                                height = maxHeight;
-                            }
-                        }
-
-                        // Only resize if needed
-                        if (width < img.width || height < img.height) {
-                            const canvas = document.createElement('canvas');
-                            const ctx = canvas.getContext('2d');
-                            canvas.width = width;
-                            canvas.height = height;
-                            ctx.drawImage(img, 0, 0, width, height);
-                            resolve(canvas.toDataURL('image/png')); // Output as PNG
-                        } else {
-                            resolve(imageSrc); // No resizing needed
-                        }
-                    };
-                    img.src = imageSrc;
-                });
-            };
-
-
-            const addOcrResult = (id, fileName, text, confidence, time) => {
-                const resultItem = document.createElement('div');
-                resultItem.className = 'ocr-result-item';
-                resultItem.setAttribute('data-id', id);
-                resultItem.innerHTML = `
-                    <h4>${fileName} (Accuracy: ${confidence.toFixed(2)}%, Time: ${time}s)</h4>
-                    <textarea id="ocr-text-${id}" readonly>${text}</textarea>
-                    <div class="ocr-result-actions">
-                        <button class="btn btn-primary copy-text-btn" data-target="ocr-text-${id}">Copy Text</button>
-                        <button class="btn btn-info download-txt-btn" data-id="${id}" data-filename="${fileName}">Download TXT</button>
-                        <button class="btn btn-secondary download-pdf-btn" data-id="${id}" data-filename="${fileName}">Download PDF</button>
-                        <button class="btn btn-success download-docx-btn" data-id="${id}" data-filename="${fileName}">Download DOCX</button>
-                    </div>
-                `;
-                ocrOutputSection.appendChild(resultItem);
-
-                // Add event listeners for new buttons
-                document.querySelector(`.ocr-result-item[data-id="${id}"] .copy-text-btn`).addEventListener('click', (e) => {
-                    const targetId = e.target.dataset.target;
-                    const textarea = document.getElementById(targetId);
-                    textarea.select();
-                    textarea.setSelectionRange(0, 99999); /* For mobile devices */
-                    document.execCommand('copy');
-                    e.target.textContent = 'Copied!';
-                    setTimeout(() => e.target.textContent = 'Copy Text', 2000);
-                });
-
-                document.querySelector(`.ocr-result-item[data-id="${id}"] .download-txt-btn`).addEventListener('click', (e) => {
-                    const textToSave = document.getElementById(`ocr-text-${id}`).value;
-                    const filename = `${e.target.dataset.filename.split('.').slice(0, -1).join('.')}_ocr.txt`;
-                    downloadTextAsFile(textToSave, filename, 'text/plain');
-                });
-
-                document.querySelector(`.ocr-result-item[data-id="${id}"] .download-pdf-btn`).addEventListener('click', (e) => {
-                    const textToSave = document.getElementById(`ocr-text-${id}`).value;
-                    const filename = `${e.target.dataset.filename.split('.').slice(0, -1).join('.')}_ocr.pdf`;
-                    downloadTextAsPdf(textToSave, filename);
-                });
-
-                document.querySelector(`.ocr-result-item[data-id="${id}"] .download-docx-btn`).addEventListener('click', (e) => {
-                    const textToSave = document.getElementById(`ocr-text-${id}`).value;
-                    const filename = `${e.target.dataset.filename.split('.').slice(0, -1).join('.')}_ocr.docx`;
-                    docxgen.generateDocx(filename, textToSave);
-                });
-            };
-
-            const removeOcrResult = (idToRemove) => {
-                const resultItem = document.querySelector(`.ocr-result-item[data-id="${idToRemove}"]`);
-                if (resultItem) {
-                    resultItem.remove();
-                }
-            };
-
-            const downloadTextAsFile = (text, filename, mimeType) => {
-                const blob = new Blob([text], { type: mimeType });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = filename;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(link.href);
-            };
-
-            const downloadTextAsPdf = (text, filename) => {
-                const doc = new jsPDF();
-                const lines = doc.splitTextToSize(text, doc.internal.pageSize.width - 20); // -20 for padding
-                doc.text(lines, 10, 10);
-                doc.save(filename);
-            };
-
-            // --- FAQ Accordion ---
-            document.querySelectorAll('.faq-question').forEach(question => {
-                question.addEventListener('click', () => {
-                    const answer = question.nextElementSibling;
-                    question.classList.toggle('active');
-                    if (answer.classList.contains('show')) {
-                        answer.classList.remove('show');
-                        answer.style.maxHeight = null;
-                    } else {
-                        answer.classList.add('show');
-                        answer.style.maxHeight = answer.scrollHeight + 'px'; // Animate height
-                    }
-                });
-            });
-
-            // Set current year in footer
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-
-            // Initial check for action button visibility
-            updateActionButtonsVisibility();
-        });
-        // JavaScript INLINE END
-    </script>
+    // Basic progressive enhancement: if no Tesseract available
+    if(typeof Tesseract==='undefined'){
+      alert('Tesseract.js failed to load. Please check your connection.');
+    }
+  </script>
 </body>
 </html>
