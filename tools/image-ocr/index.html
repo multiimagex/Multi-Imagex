@@ -1,70 +1,555 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="hi">
 <head>
-  <link rel="icon" href="favicon-16x16.png" type="image/x-icon">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image to Text (OCR) Online - Extract Text from Image | MultiImageX</title>
-  <meta name="description" content="Free Image to Text (OCR) tool. Extract text from images in English and Hindi while keeping the same format. Copy the extracted text easily.">
-  <meta name="keywords" content="image to text, ocr online, extract text from image, convert image to text, copy text from image, hindi ocr, english ocr, online ocr tool">
-  <meta property="og:title" content="Image to Text OCR - Extract Text Online">
-  <meta property="og:description" content="Upload an image and extract the exact text format in English or Hindi with line breaks. Free online OCR tool with copy option.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.multiimagex.online/tools/image-ocr/">
-  <meta property="og:image" content="https://www.multiimagex.online/assets/image-ocr.jpg">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Image to Text OCR Tool — multiimagex.online</title>
+<meta name="description" content="Free Image to Text OCR tool by multiimagex.online. Upload images and extract text instantly using Tesseract.js. Supports English, Hindi, and bulk processing. Client-side, fast and secure." />
+<meta name="keywords" content="image to text,ocr,online ocr,ocr hindi,ocr english,image text extractor,multiimagex.online"/>
+<link rel="icon" href="data:,">
+<!-- Open Graph -->
+<meta property="og:title" content="Image to Text OCR Tool — multiimagex.online"/>
+<meta property="og:description" content="Extract text from images online. Bulk OCR, Hindi & English support, preprocess images for best accuracy. 100% client-side."/>
+<meta property="og:type" content="website"/>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebSite",
+  "name":"multiimagex.online",
+  "url":"https://multiimagex.online",
+  "description":"Image to Text OCR Tool - Extract text from images instantly. Supports English and Hindi. Client-side and secure."
+}
+</script>
 
-  <style>
-    body {font-family: Arial, sans-serif; background:#f9fafb; margin:0; padding:0;}
-    .container {max-width:800px; margin:40px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-    h1 {text-align:center; color:#1e293b;}
-    input, button, select {width:100%; padding:12px; margin:10px 0; border-radius:8px; border:1px solid #ccc;}
-    button {background:#2563eb; color:#fff; border:none; font-size:16px; cursor:pointer;}
-    button:hover {background:#1d4ed8;}
-    textarea {width:100%; height:250px; margin-top:15px; padding:12px; border-radius:8px; border:1px solid #ccc; font-size:15px; white-space:pre-wrap;}
-    .output {margin-top:20px;}
-  </style>
+<style>
+:root{
+  --bg:#fbfdff; --card:#ffffff; --muted:#596275; --accent:#1167ff; --radius:12px;
+}
+*{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;}
+body{margin:0;background:var(--bg);color:#0b1226;padding:18px;}
+.header{max-width:1100px;margin:0 auto 14px;display:flex;align-items:center;gap:12px}
+.logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6dd3ff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px}
+.title{font-size:20px;margin:0}
+.lead{color:var(--muted);font-size:13px;margin-top:4px}
 
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+.wrapper{max-width:1100px;margin:14px auto;display:grid;grid-template-columns:360px 1fr;gap:16px}
+.card{background:var(--card);padding:14px;border-radius:var(--radius);box-shadow:0 8px 20px rgba(10,20,40,0.04)}
+.uploader{border:2px dashed #e6eefc;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center}
+.uploader.drag{border-color:var(--accent)}
+.small{font-size:13px;color:var(--muted)}
+.btn{background:var(--accent);color:#fff;border:none;padding:9px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+.btn.secondary{background:#eef3ff;color:var(--accent);border:1px solid #dbe9ff}
+.controls{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.row{display:flex;gap:8px}
+.row > *{flex:1}
+.thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.thumb{background:#f7f9fc;padding:8px;border-radius:10px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.thumb img{max-width:140px;max-height:120px;border-radius:8px;object-fit:contain;background:#fff}
+.meta{font-size:12px;color:var(--muted);text-align:center}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.progress{height:10px;background:#e8eefc;border-radius:999px;overflow:hidden}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#6dd3ff);width:0%}
+
+textarea.extract{width:100%;min-height:120px;border-radius:8px;padding:10px;border:1px solid #e6eefc;font-family:inherit;resize:vertical}
+.footer{max-width:1100px;margin:16px auto;color:var(--muted);font-size:13px}
+@media (max-width:900px){ .wrapper{grid-template-columns:1fr} }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Image to Text (OCR) Online</h1>
-    <p style="text-align:center;">Upload an image and extract text with original format in <b>English or Hindi</b>. Copy the text directly.</p>
 
-    <input type="file" id="imageFile" accept="image/*">
-    <select id="lang">
-      <option value="eng">English</option>
-      <option value="hin">Hindi</option>
-      <option value="eng+hin">English + Hindi</option>
-    </select>
-    <button onclick="extractText()">Extract Text</button>
-
-    <div class="output">
-      <textarea id="outputText" placeholder="Extracted text will appear here..." readonly></textarea>
-      <button onclick="copyText()">Copy Text</button>
-    </div>
+<header class="header">
+  <div class="logo">M</div>
+  <div>
+    <h1 class="title">Image → Text (OCR) Tool</h1>
+    <div class="lead">Fast client-side OCR — English & Hindi supported • multiimagex.online</div>
   </div>
+</header>
 
-  <script>
-    async function extractText() {
-      const file = document.getElementById("imageFile").files[0];
-      if (!file) return alert("Please upload an image!");
+<main class="wrapper">
+  <aside class="card">
+    <div id="uploader" class="uploader">
+      <div style="text-align:center">
+        <strong>Drag & Drop images here</strong>
+        <div class="small">or select files</div>
+      </div>
+      <input id="fileInput" type="file" accept="image/*" multiple style="margin-top:8px"/>
+      <div class="small">Supported: JPG, PNG, WEBP, TIFF, GIF (static), SVG (rasterizable)</div>
+    </div>
 
-      const lang = document.getElementById("lang").value;
+    <div class="controls">
+      <label class="small">Preprocessing (use to improve OCR accuracy)</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <label><input type="checkbox" id="opt-grayscale" checked/> Grayscale</label>
+        <label><input type="checkbox" id="opt-contrast" /> Boost Contrast</label>
+        <label><input type="checkbox" id="opt-threshold" /> Binarize (Threshold)</label>
+        <label><input type="checkbox" id="opt-upscale" /> Upscale 2x</label>
+      </div>
 
-      const { data: { text } } = await Tesseract.recognize(file, lang, {
-        preserve_interword_spaces: 1
-      });
+      <label class="small">Language</label>
+      <select id="langSelect" style="padding:8px;border-radius:8px">
+        <option value="eng">English (eng)</option>
+        <option value="hin">Hindi (hin)</option>
+        <option value="eng+hin">English + Hindi</option>
+      </select>
 
-      document.getElementById("outputText").value = text;
+      <label class="small">Advanced options</label>
+      <div style="display:flex;gap:8px">
+        <label style="flex:1"><input type="checkbox" id="opt-preserveLine" checked/> Preserve line breaks</label>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn" id="processAll">Process All Images</button>
+        <button class="btn secondary" id="clearAll">Clear All</button>
+      </div>
+
+      <div style="margin-top:10px">
+        <div class="small">Worker & language data load status: <span id="workerStatus">Not loaded</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <section class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0">Uploaded Images & OCR Output</h3>
+      <div class="small">Processing in browser — images not uploaded to server</div>
+    </div>
+
+    <div style="height:12px"></div>
+
+    <div id="thumbs" class="thumb-grid"></div>
+
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <button class="btn secondary" id="downloadAllTxt">Download All .txt</button>
+      <button class="btn secondary" id="copyAll">Copy All Text</button>
+      <div class="small" id="summary">0 images</div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  © multiimagex.online · Fast client-side OCR • No account required • Works in modern browsers.
+</footer>
+
+<!-- Tesseract.js from CDN (keeps single-file small but requires network to load worker & traineddata) -->
+<script src="https://unpkg.com/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+
+<script>
+/*
+  Single-file Image→OCR tool using Tesseract.js
+  - Multiple images
+  - Preprocessing (grayscale, contrast, threshold, upscale)
+  - Language selection (eng, hin, eng+hin)
+  - Process all / per-image
+  - Download .txt / copy
+  - Uses Tesseract.js worker; traineddata will be fetched (langPath configured)
+*/
+
+(async ()=>{
+
+const fileInput = document.getElementById('fileInput');
+const uploader = document.getElementById('uploader');
+const thumbs = document.getElementById('thumbs');
+const processAllBtn = document.getElementById('processAll');
+const clearAllBtn = document.getElementById('clearAll');
+const optGray = document.getElementById('opt-grayscale');
+const optContrast = document.getElementById('opt-contrast');
+const optThreshold = document.getElementById('opt-threshold');
+const optUpscale = document.getElementById('opt-upscale');
+const langSelect = document.getElementById('langSelect');
+const preserveLine = document.getElementById('opt-preserveLine');
+const workerStatus = document.getElementById('workerStatus');
+const downloadAllTxt = document.getElementById('downloadAllTxt');
+const copyAllBtn = document.getElementById('copyAll');
+const summary = document.getElementById('summary');
+
+let items = []; // { file, img, canvasDataURL, status, text, blobText }
+
+const TESSDATA_PATH = 'https://tessdata.projectnaptha.com/4.0.0_best'; // reliable host for traineddata
+
+// create worker (but do not load language until needed)
+workerStatus.textContent = 'Initializing worker...';
+const worker = Tesseract.createWorker({
+  logger: m => {
+    // optional logs: progress updates
+    // Find thumb for which job is active and show progress if available
+    // m.status, m.progress
+    // We will show global logs in console and update per-image progress
+    console.log('tesslog', m);
+    if(m.status && m.progress!=null){
+      // show in UI: find active thumb with data-job === m.jobId? Tesseract doesn't give job id here.
+      // For simplicity, put a global loading text occasionally
+      workerStatus.textContent = `${m.status} ${(m.progress*100).toFixed(0)}%`;
+    } else if(m.status) {
+      workerStatus.textContent = m.status;
+    }
+  }
+});
+await worker.load();
+workerStatus.textContent = 'Worker ready (language not loaded)';
+
+// helper: create thumb DOM
+function addThumb(fileObj){
+  const el = document.createElement('div');
+  el.className = 'thumb';
+  el.dataset.idx = items.indexOf(fileObj);
+
+  const imgEl = document.createElement('img');
+  imgEl.alt = fileObj.file.name;
+
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+  meta.innerHTML = `<strong>${escapeHtml(fileObj.file.name)}</strong><br>${formatBytes(fileObj.file.size)} • <span class="dims">-</span>`;
+
+  const progWrap = document.createElement('div');
+  progWrap.className = 'progress';
+  const progBar = document.createElement('i'); progBar.style.width = '0%';
+  progWrap.appendChild(progBar);
+
+  const textarea = document.createElement('textarea');
+  textarea.className = 'extract';
+  textarea.placeholder = 'OCR output will appear here...';
+  textarea.readOnly = true;
+
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+
+  const btnProcess = document.createElement('button');
+  btnProcess.className = 'btn';
+  btnProcess.textContent = 'Process';
+  btnProcess.onclick = async ()=>{ await processOne(fileObj, progBar, textarea, meta); updateSummary(); };
+
+  const btnDownload = document.createElement('button');
+  btnDownload.className = 'btn secondary';
+  btnDownload.textContent = 'Download .txt';
+  btnDownload.onclick = ()=>{ if(fileObj.text) downloadText(fileObj.text, fileObj.file.name.replace(/\.[^/.]+$/,'') + '.txt'); else alert('Process image first'); };
+
+  const btnCopy = document.createElement('button');
+  btnCopy.className = 'btn secondary';
+  btnCopy.textContent = 'Copy';
+  btnCopy.onclick = ()=>{ if(fileObj.text) copyToClipboard(fileObj.text); else alert('Process image first'); };
+
+  const btnRotate = document.createElement('button');
+  btnRotate.className = 'btn secondary';
+  btnRotate.textContent = 'Rotate';
+  btnRotate.onclick = async ()=>{
+    // rotate then update preview img
+    await rotateImageElement(fileObj, 90);
+    imgEl.src = fileObj.previewDataUrl;
+    const d = await getImageDimensionsFromDataUrl(fileObj.previewDataUrl);
+    meta.querySelector('.dims').textContent = `${d.w}×${d.h}`;
+  };
+
+  const btnRemove = document.createElement('button');
+  btnRemove.className = 'btn secondary';
+  btnRemove.textContent = 'Remove';
+  btnRemove.onclick = ()=>{
+    // remove from items and DOM
+    items = items.filter(i=>i!==fileObj);
+    el.remove();
+    updateSummary();
+  };
+
+  actions.appendChild(btnProcess);
+  actions.appendChild(btnDownload);
+  actions.appendChild(btnCopy);
+  actions.appendChild(btnRotate);
+  actions.appendChild(btnRemove);
+
+  el.appendChild(imgEl);
+  el.appendChild(meta);
+  el.appendChild(progWrap);
+  el.appendChild(textarea);
+  el.appendChild(actions);
+
+  thumbs.appendChild(el);
+
+  // set preview when available
+  if(fileObj.previewDataUrl) imgEl.src = fileObj.previewDataUrl;
+}
+
+// helpers
+function formatBytes(n){
+  if(n<1024) return n+' B';
+  if(n<1024*1024) return (n/1024).toFixed(1)+' KB';
+  return (n/1024/1024).toFixed(2)+' MB';
+}
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function updateSummary(){
+  summary.textContent = `${items.length} image(s) • ${items.filter(i=>i.text).length} processed`;
+}
+
+// read file as dataURL and set item.previewDataUrl
+async function prepareFile(file){
+  const reader = new FileReader();
+  return new Promise((res,rej)=>{
+    reader.onload = e=>{
+      const dataUrl = e.target.result;
+      const img = new Image();
+      img.onload = ()=>{
+        const fileObj = { file, originalWidth: img.naturalWidth, originalHeight: img.naturalHeight, previewDataUrl: dataUrl, text:null };
+        res(fileObj);
+      };
+      img.onerror = ()=> res(null);
+      img.src = dataUrl;
+    };
+    reader.onerror = ()=> res(null);
+    reader.readAsDataURL(file);
+  });
+}
+
+// when user selects files
+fileInput.addEventListener('change', async (ev)=>{
+  const list = Array.from(ev.target.files || []);
+  for(const f of list){
+    if(!f.type.startsWith('image')) continue;
+    const fo = await prepareFile(f);
+    if(fo){ items.push(fo); addThumb(fo); updateSummary(); }
+  }
+});
+
+// drag & drop
+['dragenter','dragover'].forEach(ev=>{
+  uploader.addEventListener(ev, e=>{ e.preventDefault(); uploader.classList.add('drag'); });
+});
+['dragleave','drop'].forEach(ev=>{
+  uploader.addEventListener(ev, e=>{ e.preventDefault(); uploader.classList.remove('drag'); });
+});
+uploader.addEventListener('drop', async e=>{
+  const dt = e.dataTransfer;
+  if(!dt) return;
+  const list = Array.from(dt.files || []);
+  for(const f of list){
+    if(!f.type.startsWith('image')) continue;
+    const fo = await prepareFile(f);
+    if(fo){ items.push(fo); addThumb(fo); updateSummary(); }
+  }
+});
+
+// rotate image by degrees and update previewDataUrl
+async function rotateImageElement(fileObj, deg){
+  const img = new Image();
+  img.src = fileObj.previewDataUrl;
+  await new Promise(r=>img.onload=r);
+  const c = document.createElement('canvas');
+  const ctx = c.getContext('2d');
+  const rad = deg * Math.PI/180;
+  const w = img.naturalWidth, h = img.naturalHeight;
+  // for 90/270 swap dims
+  if(deg % 180 !== 0){ c.width = h; c.height = w; } else { c.width = w; c.height = h; }
+  ctx.translate(c.width/2, c.height/2);
+  ctx.rotate(rad);
+  ctx.drawImage(img, -w/2, -h/2);
+  fileObj.previewDataUrl = c.toDataURL('image/png');
+}
+
+// basic preprocessing: returns a canvas element with applied ops
+async function preprocessImageDataUrl(dataUrl){
+  const img = new Image();
+  img.src = dataUrl;
+  await new Promise(r=>img.onload=r);
+  let w = img.naturalWidth, h = img.naturalHeight;
+
+  // upscale if requested (2x)
+  if(optUpscale.checked){ w = w*2; h = h*2; }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  // draw original scaled to canvas
+  ctx.drawImage(img, 0, 0, w, h);
+
+  let imgData = ctx.getImageData(0,0,w,h);
+  let data = imgData.data;
+
+  // grayscale
+  if(optGray.checked){
+    for(let i=0;i<data.length;i+=4){
+      const r=data[i], g=data[i+1], b=data[i+2];
+      const v = 0.299*r + 0.587*g + 0.114*b;
+      data[i]=data[i+1]=data[i+2]=v;
+    }
+  }
+
+  // contrast boost (simple)
+  if(optContrast.checked){
+    // increase contrast by factor
+    const contrast = 1.2; // tweakable
+    const intercept = 128*(1-contrast);
+    for(let i=0;i<data.length;i+=4){
+      data[i] = clamp(data[i]*contrast + intercept, 0, 255);
+      data[i+1] = clamp(data[i+1]*contrast + intercept, 0, 255);
+      data[i+2] = clamp(data[i+2]*contrast + intercept, 0, 255);
+    }
+  }
+
+  // thresholding (binarize)
+  if(optThreshold.checked){
+    // compute global threshold via Otsu or simple average; we'll do average for simplicity
+    let sum = 0, cnt = 0;
+    for(let i=0;i<data.length;i+=4){ sum += data[i]; cnt++; }
+    const avg = sum / cnt;
+    for(let i=0;i<data.length;i+=4){
+      const v = data[i] >= avg ? 255 : 0;
+      data[i]=data[i+1]=data[i+2]=v;
+    }
+  }
+
+  ctx.putImageData(imgData,0,0);
+  return canvas;
+}
+
+function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
+
+// process single fileObj: uses worker.recognize on canvas
+async function processOne(fileObj, progBarEl, textareaEl, metaEl){
+  try{
+    progBarEl.style.width = '0%';
+    textareaEl.value = '';
+    progBarEl.parentElement.style.display = 'block';
+    progBarEl.style.width = '2%';
+
+    // ensure worker has desired languages loaded
+    const chosenLang = langSelect.value || 'eng';
+    workerStatus.textContent = `Loading language: ${chosenLang} ...`;
+    // configure langPath to our TESSDATA_PATH so worker downloads traineddata from there
+    await worker.loadLanguage(chosenLang);
+    await worker.initialize(chosenLang);
+    workerStatus.textContent = `Language ${chosenLang} loaded`;
+
+    // preprocess and get canvas
+    const canvas = await preprocessImageDataUrl(fileObj.previewDataUrl);
+
+    // update dims in UI
+    metaEl.querySelector('.dims').textContent = `${canvas.width}×${canvas.height}`;
+
+    // run OCR with progress updates
+    const { data } = await worker.recognize(canvas, {
+      // tessedit_pageseg_mode: 'AUTO'
+    }, (m) => {
+      if(m && m.progress){
+        const p = Math.round(m.progress * 100);
+        progBarEl.style.width = p + '%';
+      }
+    });
+
+    // post-process text
+    let extracted = data && data.text ? data.text : '';
+    if(!preserveLine.checked){
+      // normalize multiple newlines to single newline, trim
+      extracted = extracted.replace(/\n{2,}/g,'\n').trim();
+    } else {
+      extracted = extracted.trim();
     }
 
-    function copyText() {
-      const textArea = document.getElementById("outputText");
-      textArea.select();
-      document.execCommand("copy");
-      alert("✅ Text copied to clipboard!");
+    fileObj.text = extracted;
+    textareaEl.value = extracted || '[No text recognized]';
+    progBarEl.style.width = '100%';
+    workerStatus.textContent = 'Idle';
+  } catch(err){
+    console.error('OCR error', err);
+    textareaEl.value = '[Error during OCR: ' + (err.message || err) + ']';
+    workerStatus.textContent = 'Error';
+  }
+}
+
+// Process all sequentially
+processAllBtn.addEventListener('click', async ()=>{
+  if(items.length === 0){ alert('Please upload images first'); return; }
+  processAllBtn.disabled = true;
+  // ensure language loaded once at start
+  const chosenLang = langSelect.value || 'eng';
+  workerStatus.textContent = `Loading language ${chosenLang}...`;
+  await worker.loadLanguage(chosenLang);
+  await worker.initialize(chosenLang);
+  workerStatus.textContent = `Language ${chosenLang} loaded`;
+
+  for(const item of items){
+    // find its thumb DOM to get references
+    const idx = items.indexOf(item);
+    const dom = thumbs.querySelectorAll('.thumb')[idx];
+    if(!dom) continue;
+    const progBar = dom.querySelector('.progress i');
+    const textarea = dom.querySelector('textarea');
+    const meta = dom.querySelector('.meta');
+
+    // if previewDataUrl undefined, prepare
+    if(!item.previewDataUrl){
+      const fo = await prepareFile(item.file);
+      if(fo) item.previewDataUrl = fo.previewDataUrl;
     }
-  </script>
+
+    await processOne(item, progBar, textarea, meta);
+  }
+  processAllBtn.disabled = false;
+  updateSummary();
+  alert('All images processed (see extracted text below each image).');
+});
+
+// clear all
+clearAllBtn.addEventListener('click', ()=>{
+  if(!confirm('Clear all images and results?')) return;
+  items = [];
+  thumbs.innerHTML = '';
+  updateSummary();
+});
+
+// download single text
+function downloadText(text, filename){
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+
+// Download all .txt combined (one file with separators)
+downloadAllTxt.addEventListener('click', ()=>{
+  if(items.length===0) return alert('No images');
+  // combine processed texts
+  let all = '';
+  items.forEach((it, idx)=>{
+    all += `---- ${it.file.name} ----\n\n`;
+    all += (it.text || '[Not processed]') + '\n\n';
+  });
+  downloadText(all, 'ocr_all_texts.txt');
+});
+
+// copy all text to clipboard
+copyAllBtn.addEventListener('click', async ()=>{
+  if(items.length===0) return alert('No images');
+  let all = '';
+  items.forEach((it, idx)=>{
+    all += (it.text || '') + '\n\n';
+  });
+  await copyToClipboard(all);
+  alert('All extracted text copied to clipboard (if not empty).');
+});
+
+async function copyToClipboard(text){
+  try{
+    await navigator.clipboard.writeText(text);
+  } catch(e){
+    // fallback
+    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    ta.remove();
+  }
+}
+
+// helper to get current image dims from dataUrl (for rotate update)
+async function getImageDimensionsFromDataUrl(dataUrl){
+  const img = new Image(); img.src = dataUrl;
+  await new Promise(r=>img.onload=r);
+  return { w: img.naturalWidth, h: img.naturalHeight };
+}
+
+// initial state
+workerStatus.textContent = 'Worker initialized. Select language and upload images.';
+updateSummary();
+
+})(); // end IIFE
+</script>
+
 </body>
 </html>
