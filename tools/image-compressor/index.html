@@ -1,240 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="favicon-16x16.png" type="image/x-icon">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Online Image Compressor | Fast JPG, PNG, WebP Compression Tool</title>
-  <meta name="description" content="Best free online image compressor tool to compress JPG, PNG, and WebP images from 10KB to 20MB. Reduce image size without losing quality. Fast, secure, SEO-optimized, and mobile-friendly image compression." />
-  <meta name="keywords" content="image compressor, compress image online, jpg compressor, png compressor, reduce image size, free image compression, photo compressor, webp compressor, optimize images, compress images without losing quality" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://www.multiimagex.online/tools/image-compressor/" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Best Online Image Compressor Tool | Fast Bulk Image Compression | multiimagex.online</title>
 
-  <!-- Open Graph for social SEO -->
-  <meta property="og:title" content="Free Online Image Compressor | MultiImageX" />
-  <meta property="og:description" content="Compress JPG, PNG, WebP images fast (10KB to 20MB). Free, secure, high-quality online image compressor tool." />
-  <meta property="og:url" content="https://www.multiimagex.online/tools/image-compressor/" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://www.multiimagex.online/assets/logo.png" />
+<meta name="description" content="Fastest Online Image Compressor Tool by multiimagex.online | Compress JPG, PNG, WEBP, JPEG images without losing quality. Bulk image compression, quality slider, preview, ZIP download — all in one single-page tool. 100% free, no upload required.">
+<meta name="keywords" content="image compressor, online image compressor, bulk image compression tool, compress jpg, compress png, reduce image size, free image compressor, multiimagex.online tool">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9fafb;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-    }
-    header {
-      background: #2563eb;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-    }
-    main {
-      max-width: 800px;
-      margin: 20px auto;
-      background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .upload-box {
-      border: 2px dashed #2563eb;
-      padding: 30px;
-      text-align: center;
-      cursor: pointer;
-      margin-bottom: 20px;
-      border-radius: 10px;
-    }
-    .upload-box:hover {
-      background: #f0f4ff;
-    }
-    #preview {
-      max-width: 100%;
-      margin: 15px 0;
-      display: none;
-    }
-    label {
-      font-weight: bold;
-    }
-    input[type="range"], input[type="number"] {
-      width: 100%;
-      margin: 10px 0;
-    }
-    button {
-      background: #2563eb;
-      color: #fff;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover {
-      background: #1e4bb8;
-    }
-    .result {
-      margin-top: 20px;
-      display: none;
-    }
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 14px;
-      color: #666;
-    }
-    h2 {
-      color: #2563eb;
-      margin-top: 25px;
-    }
-    .faq {
-      margin-top: 20px;
-    }
-    .faq h3 {
-      margin: 10px 0;
-      color: #333;
-    }
-  </style>
+<!-- Open Graph SEO -->
+<meta property="og:title" content="Best Online Image Compressor Tool — multiimagex.online">
+<meta property="og:description" content="Compress unlimited images instantly with bulk compression, quality slider, fast download, ZIP export and 100% privacy — No server upload.">
+<meta property="og:type" content="website">
+
+<!-- JSON-LD SCHEMA for Google Ranking -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "WebApplication",
+  "name": "Online Image Compressor Tool",
+  "url": "https://multiimagex.online",
+  "description": "Fast & free online image compressor by multiimagex.online. Compress JPG, PNG, WEBP, JPEG images with quality slider. Bulk compression supported.",
+  "applicationCategory": "Utility",
+  "operatingSystem": "All"
+}
+</script>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f9fc;
+  margin: 0;
+  padding: 0;
+  color: #222;
+}
+
+header {
+  background: #ffffff;
+  padding: 20px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.container {
+  max-width: 900px;
+  margin: 35px auto;
+  background: #fff;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  border: 2px dashed #888;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+#quality-value {
+  font-weight: bold;
+}
+
+.image-list {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px,1fr));
+  gap: 15px;
+}
+
+.image-card {
+  background: #f4f6f9;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #0066ff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #004bcc;
+}
+</style>
 </head>
+
 <body>
-  <header>
-    <h1>Free Online Image Compressor Tool</h1>
-    <p>Compress JPG, PNG, WebP images (10KB to 20MB) without losing quality</p>
-  </header>
 
-  <main>
-    <div class="upload-box" onclick="document.getElementById('upload').click()">
-      <p>📂 Click to Upload Image (JPG, PNG, WebP)</p>
-      <input type="file" id="upload" accept="image/*" hidden onchange="loadImage(event)" />
-    </div>
-    
-    <img id="preview" alt="Preview of uploaded image for compression" />
-    
-    <label for="targetSize">Select target size (KB):</label>
-    <input type="number" id="targetSize" min="10" max="20000" value="500" />
-    <input type="range" id="sizeRange" min="10" max="20000" value="500" oninput="syncInput()" />
+<header>🔻 Online Image Compressor Tool — multiimagex.online</header>
 
-    <button onclick="compressImage()">Compress Image</button>
+<div class="container">
 
-    <div class="result" id="resultBox">
-      <h2>Compressed Image</h2>
-      <p><strong>Original Size:</strong> <span id="originalSize"></span> KB</p>
-      <p><strong>Compressed Size:</strong> <span id="compressedSize"></span> KB</p>
-      <img id="compressedPreview" alt="Compressed image preview" style="max-width:100%;margin:10px 0;" />
-      <br>
-      <a id="downloadLink" download="compressed-image.jpg">
-        <button>Download Compressed Image</button>
-      </a>
-    </div>
+<h2>Upload Images</h2>
+<input type="file" id="upload" multiple accept="image/*">
 
-    <!-- SEO Content -->
-    <section>
-      <h2>Why Use Our Free Image Compressor?</h2>
-      <p>Our <strong>online image compressor</strong> helps you reduce image size from <strong>10KB to 20MB</strong> quickly without losing quality. Whether you want to <em>compress JPG</em>, <em>compress PNG</em>, or <em>compress WebP</em>, this tool is the fastest and most reliable option.</p>
-      
-      <h2>How to Compress Images Online?</h2>
-      <ol>
-        <li>Upload your image (JPG, PNG, or WebP).</li>
-        <li>Select target size between <strong>10KB and 20MB</strong>.</li>
-        <li>Click on <strong>Compress</strong> button.</li>
-        <li>Preview and download your compressed image instantly.</li>
-      </ol>
+<h3>Quality: <span id="quality-value">80</span>%</h3>
+<input type="range" id="quality" min="1" max="100" value="80">
 
-      <h2>Frequently Asked Questions (FAQ)</h2>
-      <div class="faq">
-        <h3>1. Is this image compressor free?</h3>
-        <p>✅ Yes, our tool is 100% free with no hidden charges.</p>
-        <h3>2. Does this tool reduce image quality?</h3>
-        <p>❌ No, it compresses without noticeable quality loss.</p>
-        <h3>3. Which formats are supported?</h3>
-        <p>✔️ JPG, PNG, and WebP formats are fully supported.</p>
-        <h3>4. Can I compress large images?</h3>
-        <p>✔️ Yes, you can compress up to 20MB images easily.</p>
-      </div>
-    </section>
-  </main>
+<div class="image-list" id="image-list"></div>
 
-  <footer>
-    <p>© 2025 MultiImageX - Free Online Image Compressor Tool</p>
-  </footer>
+<button id="compress-btn">Compress All Images</button>
+<button id="download-zip" style="display:none; background:#00aa55">Download ZIP</button>
 
-  <script>
-    let uploadedImage;
-    function loadImage(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      uploadedImage = file;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById("preview").src = e.target.result;
-        document.getElementById("preview").style.display = "block";
-      };
-      reader.readAsDataURL(file);
-    }
+</div>
 
-    function syncInput() {
-      document.getElementById("targetSize").value = document.getElementById("sizeRange").value;
-    }
+<!-- JSZip for Bulk ZIP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 
-    async function compressImage() {
-      if (!uploadedImage) {
-        alert("Please upload an image first!");
-        return;
-      }
-      const targetKB = parseInt(document.getElementById("targetSize").value, 10);
-      const reader = new FileReader();
-      reader.readAsDataURL(uploadedImage);
-      reader.onload = function(e) {
-        const img = new Image();
-        img.src = e.target.result;
-        img.onload = function() {
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
+<script>
+let files = [];
+const upload = document.getElementById("upload");
+const qualityRange = document.getElementById("quality");
+const qualityValue = document.getElementById("quality-value");
+const imageList = document.getElementById("image-list");
+const compressBtn = document.getElementById("compress-btn");
+const downloadZipBtn = document.getElementById("download-zip");
 
-          let quality = 0.92;
-          let compressedDataUrl;
-          let compressedBlob;
+qualityRange.addEventListener("input", () => {
+  qualityValue.textContent = qualityRange.value;
+});
 
-          function attemptCompression() {
-            compressedDataUrl = canvas.toDataURL("image/jpeg", quality);
-            compressedBlob = dataURLtoBlob(compressedDataUrl);
-            const compressedSizeKB = compressedBlob.size / 1024;
+upload.addEventListener("change", (e) => {
+  files = [...e.target.files];
+  imageList.innerHTML = "";
 
-            if (compressedSizeKB > targetKB && quality > 0.1) {
-              quality -= 0.05;
-              attemptCompression();
-            } else {
-              document.getElementById("resultBox").style.display = "block";
-              document.getElementById("compressedPreview").src = compressedDataUrl;
-              document.getElementById("originalSize").innerText = (uploadedImage.size / 1024).toFixed(2);
-              document.getElementById("compressedSize").innerText = compressedSizeKB.toFixed(2);
-              document.getElementById("downloadLink").href = compressedDataUrl;
-            }
-          }
-          attemptCompression();
-        };
-      };
-    }
+  files.forEach((file, i) => {
+    const card = document.createElement("div");
+    card.className = "image-card";
+    card.innerHTML = `
+      <p>${file.name}</p>
+      <p>Size: ${(file.size / 1024).toFixed(1)} KB</p>
+      <div id="after-${i}"></div>
+    `;
+    imageList.appendChild(card);
+  });
+});
 
-    function dataURLtoBlob(dataurl) {
-      const arr = dataurl.split(',');
-      const mime = arr[0].match(/:(.*?);/)[1];
-      const bstr = atob(arr[1]);
-      let n = bstr.length;
-      const u8arr = new Uint8Array(n);
-      while(n--){
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new Blob([u8arr], {type:mime});
-    }
-  </script>
+compressBtn.addEventListener("click", async () => {
+  if (!files.length) return alert("Please upload images first!");
+
+  const zip = new JSZip();
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const img = await loadImage(file);
+    const compressedBlob = await compressImage(img, qualityRange.value / 100);
+
+    const after = document.getElementById("after-" + i);
+    after.innerHTML = `Compressed: ${(compressedBlob.size / 1024).toFixed(1)} KB`;
+
+    zip.file(file.name.split(".")[0] + "_compressed.jpg", compressedBlob);
+  }
+
+  const zipBlob = await zip.generateAsync({ type: "blob" });
+  const url = URL.createObjectURL(zipBlob);
+
+  downloadZipBtn.style.display = "inline-block";
+  downloadZipBtn.onclick = () => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "compressed_images.zip";
+    a.click();
+  };
+
+  alert("Compression Complete! Download ZIP now.");
+});
+
+function loadImage(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function compressImage(img, quality) {
+  return new Promise(resolve => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    ctx.drawImage(img, 0, 0);
+
+    canvas.toBlob(
+      blob => resolve(blob),
+      "image/jpeg",
+      quality
+    );
+  });
+}
+</script>
+
 </body>
 </html>
