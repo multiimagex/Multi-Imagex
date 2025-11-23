@@ -1,213 +1,432 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Best Online Image Compressor Tool | Fast Bulk Image Compression | multiimagex.online</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Online Image Compressor — multiimagex.online</title>
+<meta name="description" content="Multiimagex.online — Fast client-side image compressor. Compress images by target file size (10KB → 100MB) in 5KB steps. Bulk compress, preview, and download images (no upload)." />
+<meta name="keywords" content="image compressor,compress image online,best image compressor,bulk image compression,compress to KB,compress to MB,multiimagex.online" />
+<link rel="icon" href="data:,">
 
-<meta name="description" content="Fastest Online Image Compressor Tool by multiimagex.online | Compress JPG, PNG, WEBP, JPEG images without losing quality. Bulk image compression, quality slider, preview, ZIP download — all in one single-page tool. 100% free, no upload required.">
-<meta name="keywords" content="image compressor, online image compressor, bulk image compression tool, compress jpg, compress png, reduce image size, free image compressor, multiimagex.online tool">
-
-<!-- Open Graph SEO -->
-<meta property="og:title" content="Best Online Image Compressor Tool — multiimagex.online">
-<meta property="og:description" content="Compress unlimited images instantly with bulk compression, quality slider, fast download, ZIP export and 100% privacy — No server upload.">
-<meta property="og:type" content="website">
-
-<!-- JSON-LD SCHEMA for Google Ranking -->
+<!-- JSON-LD (basic) -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org/",
-  "@type": "WebApplication",
-  "name": "Online Image Compressor Tool",
-  "url": "https://multiimagex.online",
-  "description": "Fast & free online image compressor by multiimagex.online. Compress JPG, PNG, WEBP, JPEG images with quality slider. Bulk compression supported.",
-  "applicationCategory": "Utility",
-  "operatingSystem": "All"
+  "@context":"https://schema.org",
+  "@type":"WebPage",
+  "name":"Online Image Compressor Tool",
+  "url":"https://multiimagex.online",
+  "description":"Compress images client-side by target file size (10KB to 100MB). Bulk compression, format conversion, preview and download. No uploads."
 }
 </script>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f7f9fc;
-  margin: 0;
-  padding: 0;
-  color: #222;
+:root{
+  --bg:#fbfdff; --card:#ffffff; --muted:#5b6b7a; --accent:#0b76ff; --success:#128a3a;
+  --radius:12px;
 }
-
-header {
-  background: #ffffff;
-  padding: 20px;
-  text-align: center;
-  font-size: 26px;
-  font-weight: bold;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.container {
-  max-width: 900px;
-  margin: 35px auto;
-  background: #fff;
-  padding: 28px;
-  border-radius: 12px;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.08);
-}
-
-input[type="file"] {
-  width: 100%;
-  padding: 12px;
-  border: 2px dashed #888;
-  border-radius: 12px;
-  background: #fafafa;
-}
-
-#quality-value {
-  font-weight: bold;
-}
-
-.image-list {
-  margin-top: 25px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px,1fr));
-  gap: 15px;
-}
-
-.image-card {
-  background: #f4f6f9;
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 14px;
-}
-
-button {
-  margin-top: 20px;
-  padding: 12px 20px;
-  background: #0066ff;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background: #004bcc;
-}
+*{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;}
+body{margin:0;background:var(--bg);color:#12202b;padding:20px;}
+.header{max-width:1100px;margin:0 auto 18px;display:flex;gap:12px;align-items:center}
+.logo{width:54px;height:54px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6dd3ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px}
+.title{font-size:20px;margin:0}
+.subtitle{margin:0;color:var(--muted);font-size:13px}
+.container{max-width:1100px;margin:18px auto;display:grid;grid-template-columns:360px 1fr;gap:18px}
+.card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 8px 30px rgba(12,20,30,0.04)}
+.uploader{border:2px dashed #e7f0ff;border-radius:10px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:10px;background:linear-gradient(180deg, rgba(255,255,255,0.6), transparent)}
+.btn{background:var(--accent);color:white;border:none;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+.btn.secondary{background:#eef6ff;color:var(--accent);border:1px solid #dbeefe}
+.small{font-size:13px;color:var(--muted)}
+.settings label{display:block;margin-top:8px;font-weight:600;font-size:13px}
+.row{display:flex;gap:8px}
+.input{padding:8px;border-radius:8px;border:1px solid #e6eefc;flex:1}
+.select{padding:8px;border-radius:8px;border:1px solid #e6eefc}
+.image-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:12px}
+.card-thumb{background:#f7fbff;padding:10px;border-radius:10px;text-align:center}
+.card-thumb img{max-width:140px;max-height:110px;border-radius:8px;object-fit:contain;background:white}
+.meta{font-size:12px;color:var(--muted);margin-top:6px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.progress{width:100%;height:10px;background:#eef6ff;border-radius:6px;overflow:hidden}
+.progress > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#77c1ff);width:0%}
+.footer{max-width:1100px;margin:14px auto;color:var(--muted);font-size:13px;text-align:center}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+@media (max-width:900px){.container{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
 
-<header>🔻 Online Image Compressor Tool — multiimagex.online</header>
-
-<div class="container">
-
-<h2>Upload Images</h2>
-<input type="file" id="upload" multiple accept="image/*">
-
-<h3>Quality: <span id="quality-value">80</span>%</h3>
-<input type="range" id="quality" min="1" max="100" value="80">
-
-<div class="image-list" id="image-list"></div>
-
-<button id="compress-btn">Compress All Images</button>
-<button id="download-zip" style="display:none; background:#00aa55">Download ZIP</button>
-
+<div class="header">
+  <div class="logo">M</div>
+  <div>
+    <h1 class="title">Online Image Compressor</h1>
+    <div class="subtitle">multiimagex.online — Client-side bulk compression by target file size (10KB → 100MB)</div>
+  </div>
 </div>
 
-<!-- JSZip for Bulk ZIP -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<main class="container">
+  <!-- Left panel: controls -->
+  <aside class="card">
+    <div class="uploader" id="dropzone">
+      <div style="text-align:center">
+        <strong>Drag & Drop images here</strong>
+        <div class="small">or</div>
+      </div>
+      <input id="fileInput" type="file" accept="image/*" multiple style="display:none">
+      <button class="btn" id="selectBtn">Select Images</button>
+      <div class="small">Supported: JPG, PNG, WEBP, GIF, SVG</div>
+    </div>
+
+    <div class="settings">
+      <label>Output Format</label>
+      <select id="outFormat" class="select">
+        <option value="image/jpeg">JPG (recommended)</option>
+        <option value="image/webp">WEBP (best compression)</option>
+        <option value="image/png">PNG (lossless/transparent)</option>
+      </select>
+
+      <label>Target file size (choose unit and value). Step = 5 KB</label>
+      <div class="row" style="align-items:center;margin-top:6px">
+        <select id="unit" class="select" style="width:120px">
+          <option value="KB">KB</option>
+          <option value="MB">MB</option>
+        </select>
+        <input id="sizeValue" class="input" type="number" min="10" step="5" value="100" />
+      </div>
+      <div class="small">Note: enter value in <strong>KB</strong> or <strong>MB</strong> depending on unit. Values allowed: 10KB, 15KB, 20KB ... up to 100MB. For MB unit enter integers (1,2,...100)</div>
+
+      <label style="margin-top:10px">Extra Options</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <label><input type="checkbox" id="stripMeta" checked /> Strip EXIF metadata</label>
+      </div>
+
+      <label style="margin-top:10px">Processing</label>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button class="btn" id="processAll">Compress All</button>
+        <button class="btn secondary" id="downloadAll">Download All</button>
+      </div>
+
+      <div class="note">Important: Some formats (PNG) are inherently less compressible. If target is not achievable, try converting to JPG or WEBP for better size reduction.</div>
+    </div>
+  </aside>
+
+  <!-- Right panel: thumbnails and progress -->
+  <section class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0">Uploaded Images</h3>
+      <div class="small" id="summary">0 images</div>
+    </div>
+
+    <div class="image-grid" id="grid"></div>
+
+    <div style="margin-top:12px">
+      <div class="progress" aria-hidden="true"><span id="globalProgress" style="width:0%"></span></div>
+      <div class="small" id="progressText" style="margin-top:6px">Idle</div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  © multiimagex.online · All images processed in your browser — never uploaded.
+</footer>
 
 <script>
-let files = [];
-const upload = document.getElementById("upload");
-const qualityRange = document.getElementById("quality");
-const qualityValue = document.getElementById("quality-value");
-const imageList = document.getElementById("image-list");
-const compressBtn = document.getElementById("compress-btn");
-const downloadZipBtn = document.getElementById("download-zip");
+/* Single-file Image Compressor
+   - Target size control (KB/MB) with 5KB step
+   - Bulk processing
+   - Uses canvas.toBlob and binary-search on quality to approach target size
+   - Downloads processed images individually (no ZIP)
+   - Removes metadata by re-drawing image (stripping EXIF)
+*/
 
-qualityRange.addEventListener("input", () => {
-  qualityValue.textContent = qualityRange.value;
-});
+const fileInput = document.getElementById('fileInput');
+const selectBtn = document.getElementById('selectBtn');
+const dropzone = document.getElementById('dropzone');
+const grid = document.getElementById('grid');
+const summary = document.getElementById('summary');
 
-upload.addEventListener("change", (e) => {
-  files = [...e.target.files];
-  imageList.innerHTML = "";
+const outFormat = document.getElementById('outFormat');
+const unit = document.getElementById('unit');
+const sizeValue = document.getElementById('sizeValue');
+const stripMeta = document.getElementById('stripMeta');
+const processAllBtn = document.getElementById('processAll');
+const downloadAllBtn = document.getElementById('downloadAll');
 
-  files.forEach((file, i) => {
-    const card = document.createElement("div");
-    card.className = "image-card";
-    card.innerHTML = `
-      <p>${file.name}</p>
-      <p>Size: ${(file.size / 1024).toFixed(1)} KB</p>
-      <div id="after-${i}"></div>
-    `;
-    imageList.appendChild(card);
+const globalProgress = document.getElementById('globalProgress');
+const progressText = document.getElementById('progressText');
+
+let items = []; // {file, img, previewUrl, processedBlob, outputName, status}
+
+selectBtn.addEventListener('click', ()=>fileInput.click());
+fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+['dragenter','dragover'].forEach(ev=> dropzone.addEventListener(ev, e=>{ e.preventDefault(); dropzone.style.boxShadow='0 8px 30px rgba(11,118,255,0.12)'; }));
+['dragleave','drop'].forEach(ev=> dropzone.addEventListener(ev, e=>{ e.preventDefault(); dropzone.style.boxShadow='none'; }));
+dropzone.addEventListener('drop', e => { const dt = e.dataTransfer; if(dt && dt.files) handleFiles(dt.files); });
+
+function handleFiles(fileList){
+  const arr = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+  if(arr.length===0) return alert('Please select image files.');
+  arr.forEach(f => {
+    const item = { file: f, img: null, previewUrl: null, processedBlob: null, outputName: null, status: 'pending' };
+    items.push(item);
+    renderItem(item);
+    loadImageForItem(item);
   });
-});
+  updateSummary();
+}
 
-compressBtn.addEventListener("click", async () => {
-  if (!files.length) return alert("Please upload images first!");
+function updateSummary(){ summary.textContent = `${items.length} images • processed: ${items.filter(i=>i.processedBlob).length}`; }
 
-  const zip = new JSZip();
+function renderItem(item){
+  const el = document.createElement('div');
+  el.className = 'card-thumb';
+  el.innerHTML = `
+    <div class="thumb-img"><img src="" alt=""></div>
+    <div class="meta name">${escapeHtml(item.file.name)}</div>
+    <div class="meta size">Orig: ${formatBytes(item.file.size)}</div>
+    <div class="meta result" id="result-${items.indexOf(item)}"></div>
+    <div class="actions">
+      <button class="btn secondary btn-preview">Preview</button>
+      <button class="btn btn-process">Process</button>
+      <button class="btn secondary btn-download" style="display:none">Download</button>
+      <button class="btn secondary btn-remove">Remove</button>
+    </div>
+  `;
+  grid.appendChild(el);
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    const img = await loadImage(file);
-    const compressedBlob = await compressImage(img, qualityRange.value / 100);
+  // wire actions
+  const idx = items.indexOf(item);
+  el.querySelector('.btn-preview').addEventListener('click', ()=>{ if(item.previewUrl) window.open(item.previewUrl,'_blank'); else alert('Preview not ready'); });
+  el.querySelector('.btn-process').addEventListener('click', async ()=>{ await processSingle(item); });
+  el.querySelector('.btn-download').addEventListener('click', ()=>{ if(item.processedBlob) downloadBlob(item.processedBlob, item.outputName); else alert('Process first'); });
+  el.querySelector('.btn-remove').addEventListener('click', ()=>{ grid.removeChild(el); items = items.filter(x=>x!==item); updateSummary(); });
 
-    const after = document.getElementById("after-" + i);
-    after.innerHTML = `Compressed: ${(compressedBlob.size / 1024).toFixed(1)} KB`;
+  item._el = el;
+}
 
-    zip.file(file.name.split(".")[0] + "_compressed.jpg", compressedBlob);
-  }
-
-  const zipBlob = await zip.generateAsync({ type: "blob" });
-  const url = URL.createObjectURL(zipBlob);
-
-  downloadZipBtn.style.display = "inline-block";
-  downloadZipBtn.onclick = () => {
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "compressed_images.zip";
-    a.click();
-  };
-
-  alert("Compression Complete! Download ZIP now.");
-});
-
-function loadImage(file) {
-  return new Promise(resolve => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.src = e.target.result;
+function loadImageForItem(item){
+  const reader = new FileReader();
+  reader.onload = e => {
+    item.previewUrl = e.target.result;
+    const img = new Image();
+    img.onload = () => { item.img = img; // set preview img src
+      const imgEl = item._el.querySelector('img');
+      imgEl.src = item.previewUrl;
     };
-    reader.readAsDataURL(file);
+    img.src = item.previewUrl;
+  };
+  reader.readAsDataURL(item.file);
+}
+
+function formatBytes(bytes){
+  if(bytes < 1024) return bytes + ' B';
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(1)+' KB';
+  return (bytes/1024/1024).toFixed(2)+' MB';
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+
+function getTargetBytes(){
+  const val = Number(sizeValue.value);
+  if(isNaN(val) || val <= 0) return null;
+  if(unit.value === 'KB'){
+    // value is in KB, steps of 5
+    const kb = val;
+    if(kb < 10) return null;
+    // allow up to 102400 KB (100 MB)
+    if(kb > 102400) return 102400*1024;
+    return Math.round(kb*1024);
+  } else {
+    // MB unit (integer MB)
+    const mb = val;
+    if(mb < 1) return null;
+    if(mb > 100) return 100*1024*1024;
+    return Math.round(mb*1024*1024);
+  }
+}
+
+// Binary-search quality to reach target size (approx).
+async function compressToTarget(img, mime, targetBytes, stripMetaFlag){
+  // starting bounds for quality
+  // note: for PNG quality param ignored in many browsers - conversion to jpeg/webp recommended
+  let low = 0.02, high = 0.98;
+  let bestBlob = null;
+  let bestDiff = Infinity;
+  const maxIter = 12; // limits number of toBlob calls per image
+  for(let i=0;i<maxIter;i++){
+    const q = (low + high)/2;
+    const blob = await drawAndBlob(img, mime, q, stripMetaFlag);
+    if(!blob) break;
+    const size = blob.size;
+    const diff = size - targetBytes;
+    // track closest <= target if available, else closest overall
+    if(Math.abs(diff) < Math.abs(bestDiff) ){
+      bestBlob = blob;
+      bestDiff = diff;
+    }
+    // if within 2% of target or within 2KB, accept
+    if(Math.abs(diff) <= Math.max(2048, targetBytes*0.02)) {
+      // good enough
+      return {blob, achieved:true, size};
+    }
+    // if size > target, reduce quality
+    if(size > targetBytes){
+      high = q;
+    } else {
+      // size < target -> increase quality to get closer
+      low = q;
+    }
+  }
+  // after iterations, return best found and indicate not exact
+  if(bestBlob) return {blob: bestBlob, achieved: bestDiff <= 0, size: bestBlob.size};
+  return {blob:null, achieved:false, size:0};
+}
+
+function drawAndBlob(img, mime, quality, stripMetaFlag){
+  return new Promise(resolve=>{
+    // compute target canvas size: use original dimensions (we are not resizing)
+    // draw at natural size (we could also allow resizing but requirement focuses on file size)
+    const w = img.naturalWidth || img.width;
+    const h = img.naturalHeight || img.height;
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+
+    // if PNG output but stripMeta requested, drawing to canvas inherently strips EXIF.
+    // For JPEG we may want white background for images with transparency
+    if(mime === 'image/jpeg'){
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0,0,w,h);
+    } else {
+      ctx.clearRect(0,0,w,h);
+    }
+
+    ctx.drawImage(img, 0, 0, w, h);
+
+    // toBlob may reject quality for PNG in some browsers; quality param ignored
+    canvas.toBlob(blob => resolve(blob), mime, quality);
   });
 }
 
-function compressImage(img, quality) {
-  return new Promise(resolve => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+async function processSingle(item){
+  if(!item.img) { alert('Image not yet loaded'); return; }
+  const targetBytes = getTargetBytes();
+  if(!targetBytes){ alert('Please enter valid target size (min 10KB, max 100MB).'); return; }
 
-    canvas.width = img.width;
-    canvas.height = img.height;
+  // limit: don't try unrealistic tiny sizes for very large images if format is PNG; warn user
+  const selectedMime = outFormat.value;
+  item.status = 'processing';
+  updateItemStatus(item, 'Processing...');
 
-    ctx.drawImage(img, 0, 0);
+  // attempt compression
+  try{
+    // For PNG output, toBlob quality param usually ignored; so if PNG selected and target is small, recommend converting
+    if(selectedMime === 'image/png' && targetBytes < (100*1024)){
+      // small suggestion, but we'll still try
+    }
 
-    canvas.toBlob(
-      blob => resolve(blob),
-      "image/jpeg",
-      quality
-    );
-  });
+    const res = await compressToTarget(item.img, selectedMime, targetBytes, stripMeta.checked);
+    if(res.blob){
+      item.processedBlob = res.blob;
+      const base = item.file.name.replace(/\.[^/.]+$/,'');
+      // set extension based on selected mime
+      const ext = selectedMime === 'image/png' ? 'png' : (selectedMime === 'image/webp' ? 'webp' : 'jpg');
+      item.outputName = `${base}_compressed.${ext}`;
+      item.status = res.achieved ? 'done' : 'done-approx';
+      updateItemResult(item, res.size, res.achieved);
+      updateSummary();
+    } else {
+      item.status = 'failed';
+      updateItemStatus(item, 'Failed to compress');
+    }
+  } catch(err){
+    console.error('compress error', err);
+    item.status = 'error';
+    updateItemStatus(item, 'Error during compression');
+  }
 }
+
+function updateItemStatus(item, text){
+  const idx = items.indexOf(item);
+  const el = item._el;
+  if(!el) return;
+  el.querySelector('.result').innerHTML = `<span class="small">${text}</span>`;
+}
+
+function updateItemResult(item, outSize, achieved){
+  const el = item._el;
+  if(!el) return;
+  const idx = items.indexOf(item);
+  el.querySelector('.result').innerHTML = `
+    <div class="small">Out: ${formatBytes(outSize)} • ${achieved ? '<span style="color:var(--success)">Target met</span>' : '<span style="color:#c47">Approx</span>'}</div>
+  `;
+  // show download button
+  const dl = el.querySelector('.btn-download');
+  dl.style.display = 'inline-block';
+}
+
+async function processAll(){
+  if(items.length===0){ alert('Please upload images first'); return; }
+  const total = items.length;
+  let done = 0;
+  globalProgress.style.width = '0%';
+  progressText.textContent = 'Processing...';
+  processAllBtn.disabled = true;
+  for(const it of items){
+    await processSingle(it);
+    done++;
+    const p = Math.round((done/total)*100);
+    globalProgress.style.width = p + '%';
+    progressText.textContent = `${done} / ${total} processed`;
+    await new Promise(r => setTimeout(r,100)); // small pause to keep UI responsive
+  }
+  processAllBtn.disabled = false;
+  progressText.textContent = 'All done';
+}
+
+processAllBtn.addEventListener('click', ()=>processAll());
+
+downloadAllBtn.addEventListener('click', async ()=>{
+  const processed = items.filter(i=>i.processedBlob);
+  if(processed.length === 0){
+    const ok = confirm('No processed images yet. Process all now?');
+    if(ok) await processAll();
+  }
+  // sequential downloads
+  for(const it of items.filter(i=>i.processedBlob)){
+    downloadBlob(it.processedBlob, it.outputName);
+    await new Promise(r=>setTimeout(r,250)); // gap so browser doesn't block
+  }
+});
+
+// simple blob download
+function downloadBlob(blob, name){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+}
+
+/* Utilities */
+function formatBytes(bytes){
+  if(bytes < 1024) return bytes + ' B';
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(1)+' KB';
+  return (bytes/1024/1024).toFixed(2)+' MB';
+}
+
+/* Attach loaded item._el reference when rendering finished */
+/* Because items are pushed and renderItem runs immediately, ensure index mapping stable:
+   We rely on items.indexOf(item) to get position; _el already stored in renderItem */
+function renderAfterLoadChecks(){
+  // placeholder if needed
+}
+
+/* Expose for console debug */
+window.multiimagex = { items, processAll };
+
 </script>
-
 </body>
 </html>
